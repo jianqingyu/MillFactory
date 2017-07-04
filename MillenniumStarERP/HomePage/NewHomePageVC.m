@@ -1,0 +1,149 @@
+//
+//  NewHomePageVC.m
+//  MillenniumStarERP
+//
+//  Created by yjq on 17/6/20.
+//  Copyright © 2017年 com.millenniumStar. All rights reserved.
+//
+
+#import "NewHomePageVC.h"
+#import "NewHomeShopInfo.h"
+#import "HomeSeriesDetailVC.h"
+#import "NewHomePageCollCell.h"
+#import "NewHomePageHeaderView.h"
+@interface NewHomePageVC ()<UINavigationControllerDelegate,UICollectionViewDataSource,UICollectionViewDelegate>
+@property(nonatomic,strong) NSArray *photos;
+@property(nonatomic,strong) NSArray *list;
+@property(strong,nonatomic) UICollectionView *homeCollection;
+@property (nonatomic,strong)NewHomePageHeaderView *headerView;
+@end
+
+@implementation NewHomePageVC
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    [self setCollectionView];
+    [self loadNewHomeData];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(orientChange:) name:UIApplicationDidChangeStatusBarOrientationNotification object:nil];
+}
+
+- (void)orientChange:(NSNotification *)notification{
+    [self.homeCollection reloadData];
+}
+
+- (void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    self.navigationController.delegate = self;
+}
+
+- (void)navigationController:(UINavigationController *)navigationController willShowViewController:(UIViewController *)viewController animated:(BOOL)animated {
+    BOOL isShowHomePage = [viewController isKindOfClass:[self class]];
+    [self.navigationController setNavigationBarHidden:isShowHomePage animated:YES];
+}
+
+- (void)loadNewHomeData{
+    NSString *url = [NSString stringWithFormat:@"%@IndexPage",baseUrl];
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    [BaseApi getGeneralData:^(BaseResponse *response, NSError *error) {
+        if ([response.error intValue]==0) {
+            if ([YQObjectBool boolForObject:response.data]) {
+                self.photos = [NewHomeShopInfo objectArrayWithKeyValuesArray:response.data[@"scrollAd"]];
+                NSArray *arr = [NewHomeShopInfo objectArrayWithKeyValuesArray:response.data[@"classAd_1"]];
+                NSArray *arr1 = [NewHomeShopInfo objectArrayWithKeyValuesArray:response.data[@"classAd_2"]];
+                self.list = @[arr,arr1];
+                [self.homeCollection reloadData];
+            }
+        }
+    } requestURL:url params:params];
+}
+
+- (void)setCollectionView{
+    UICollectionViewFlowLayout *flowLayout = [[UICollectionViewFlowLayout alloc]init];
+    flowLayout.minimumInteritemSpacing = 10.0f;//左右间隔
+    flowLayout.minimumLineSpacing = 10.0f;//上下间隔
+    flowLayout.sectionInset = UIEdgeInsetsMake(10,10,0,10);//边距距
+    self.homeCollection = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:flowLayout];
+    self.homeCollection.backgroundColor = DefaultColor; 
+    self.homeCollection.delegate = self;
+    self.homeCollection.dataSource = self;
+    [self.view addSubview:_homeCollection];
+    [_homeCollection mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.view).offset(0);
+        make.left.equalTo(self.view).offset(0);
+        make.right.equalTo(self.view).offset(0);
+        make.bottom.equalTo(self.view).offset(0);
+    }];
+    //设置当数据小于一屏幕时也能滚动
+    self.homeCollection.alwaysBounceVertical = YES;
+    UINib *nib = [UINib nibWithNibName:@"NewHomePageCollCell" bundle:nil];
+    [self.homeCollection registerNib:nib
+           forCellWithReuseIdentifier:@"NewHomePageCollCell"];
+    
+    [self.homeCollection registerClass:[NewHomePageHeaderView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"Header"];             //注册头视图
+}
+
+#pragma mark--CollectionView-------
+- (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
+{
+    return self.list.count;
+}
+
+- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
+{
+    NSArray *arr = self.list[section];
+    return arr.count;
+}
+
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath{
+    int width = (SDevWidth-10*3)*0.5;
+    if (indexPath.section%2==1) {
+        width = SDevWidth-2*10;
+    }
+    return CGSizeMake(width, width*0.6);
+}
+
+- (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath {
+    UICollectionReusableView *reusableView = nil;
+    if (kind == UICollectionElementKindSectionHeader) {       //头视图
+        _headerView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"Header" forIndexPath:indexPath];
+        _headerView.infoArr = self.photos;
+        reusableView = _headerView;
+    }
+    return reusableView;
+}
+
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section {
+    if (section==0) {
+        return CGSizeMake(SDevWidth, (int)(MAX(SDevHeight, SDevWidth))/3);
+    }
+    return CGSizeZero;
+}
+
+//- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout referenceSizeForFooterInSection:(NSInteger)section {
+//    return CGSizeMake(SDevWidth, SDevHeight/3);
+
+//}
+
+- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    NewHomePageCollCell *collcell = [collectionView dequeueReusableCellWithReuseIdentifier:@"NewHomePageCollCell" forIndexPath:indexPath];
+    [collcell setLayerWithW:0.1 andColor:BordColor andBackW:0.1];
+    NSArray *arr = self.list[indexPath.section];
+    NewHomeShopInfo *info = arr[indexPath.row];
+    [collcell.itemImage sd_setImageWithURL:[NSURL URLWithString:info.pic] placeholderImage:DefaultImage];
+    return collcell;
+}
+
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
+    NSArray *arr = self.list[indexPath.section];
+    NewHomeShopInfo *info = arr[indexPath.row];
+    HomeSeriesDetailVC *detailVc = [HomeSeriesDetailVC new];
+    detailVc.seaKey = info.key;
+    [self.navigationController pushViewController:detailVc animated:YES];
+}
+
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+@end
