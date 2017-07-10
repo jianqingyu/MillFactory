@@ -7,7 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "MasterCountInfo.h"
 @interface EditUserInfoCell : UITableViewCell
 + (id)cellWithTableView:(UITableView *)tableView;
+@property (nonatomic,strong)MasterCountInfo *mInfo;
+@property (weak, nonatomic) IBOutlet UITextField *shopFie;
+@property (weak, nonatomic) IBOutlet UITextField *driFie;
 @end

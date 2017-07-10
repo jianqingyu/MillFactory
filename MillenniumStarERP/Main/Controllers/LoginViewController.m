@@ -27,15 +27,14 @@
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         NSString *token = [AccountTool account].tokenKey;
-        if (token.length>0) {
+        if (token.length>0&&!_noLogin) {
             //指纹验证
             [self authenticateUser];
         }
     });
 }
 
-- (void)authenticateUser
-{
+- (void)authenticateUser{
     //初始化上下文对象
     LAContext* context = [[LAContext alloc] init];
     //错误对象
@@ -44,7 +43,8 @@
     //首先使用canEvaluatePolicy 判断设备支持状态
     if ([context canEvaluatePolicy:LAPolicyDeviceOwnerAuthenticationWithBiometrics error:&error]) {
         //支持指纹验证
-        [context evaluatePolicy:LAPolicyDeviceOwnerAuthenticationWithBiometrics localizedReason:result reply:^(BOOL success, NSError *error) {
+        [context evaluatePolicy:LAPolicyDeviceOwnerAuthenticationWithBiometrics localizedReason:result
+                          reply:^(BOOL success, NSError *error) {
             if (success) {
                 //验证成功，主线程处理UI
                 [[NSOperationQueue mainQueue] addOperationWithBlock:^{
@@ -74,6 +74,10 @@
     [self.view addSubview:loginV];
     loginV.btnBack = ^(int staue){
         if (staue==1) {
+            if (_noLogin) {
+                [self dismissViewControllerAnimated:YES completion:nil];
+                return;
+            }
             UIWindow *window = [UIApplication sharedApplication].keyWindow;
             window.rootViewController = [[MainTabViewController alloc]init];
         }else if (staue==2){

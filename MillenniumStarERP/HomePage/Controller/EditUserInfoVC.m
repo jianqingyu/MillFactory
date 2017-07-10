@@ -7,14 +7,15 @@
 //
 
 #import "EditUserInfoVC.h"
-#import "PassWordViewController.h"
-#import "EditAddressVC.h"
 #import "AccountTool.h"
+#import "EditAddressVC.h"
 #import "EditPhoneNumVc.h"
-#import "LoginViewController.h"
 #import "CommonUsedTool.h"
+#import "MasterCountInfo.h"
 #import "EditUserInfoCell.h"
 #import <ShareSDK/ShareSDK.h>
+#import "LoginViewController.h"
+#import "PassWordViewController.h"
 #import <ShareSDKUI/ShareSDK+SSUI.h>
 #import <ShareSDKConnector/ShareSDKConnector.h>
 @interface EditUserInfoVC ()<UITableViewDelegate,UITableViewDataSource,
@@ -25,6 +26,8 @@
 @property (nonatomic,  copy)NSArray *textArr;
 @property (nonatomic,  copy)NSString *url;
 @property (nonatomic,strong)NSMutableDictionary *mutDic;
+@property (nonatomic,  weak)EditUserInfoCell *editCell;
+@property (nonatomic,strong)MasterCountInfo *masterInfo;
 @end
 
 @implementation EditUserInfoVC
@@ -33,7 +36,6 @@
     [super viewDidLoad];
     self.mutDic = [NSMutableDictionary new];
     [self setBaseViewData];
-    [self loadUserInfoData];
 }
 
 - (void)setBaseViewData{
@@ -49,6 +51,10 @@
         make.right.equalTo(self.view).offset(0);
         make.bottom.equalTo(self.view).offset(0);
     }];
+    // 9.0以上才有这个属性，针对ipad
+    if ([[UIDevice currentDevice].systemVersion floatValue] >= 9.0){
+        self.tableView.cellLayoutMarginsFollowReadableWidth = NO;
+    }
     
     UIView *footView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, SDevWidth, 80)];
     UIButton *cancelBtn = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -65,6 +71,11 @@
     self.tableView.tableFooterView = footView;
 }
 
+- (void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    [self loadUserInfoData];
+}
+
 - (void)loadUserInfoData{
     [SVProgressHUD show];
     NSString *regiUrl = [NSString stringWithFormat:@"%@userModifyPage",baseUrl];
@@ -74,7 +85,9 @@
         if ([response.error intValue]==0) {
             if ([YQObjectBool boolForObject:response.data]) {
                 self.isShow = [response.data[@"isShowPrice"]intValue];
-                if (self.isShow) {
+                int master = [response.data[@"isMasterAccount"]intValue];
+                self.masterInfo = [MasterCountInfo objectWithKeyValues:response.data];
+                if (master) {
                     self.textArr = @[@[@"用户名",@"修改头像",@"是否申请升级为定制用户",@"是否显示价格",@"是否显示价格"],
                                      @[@"修改密码",@"修改手机号码",@"管理地址",@"清理缓存",@"分享该应用"]];
                 }
@@ -91,6 +104,35 @@
                     self.mutDic[@"管理地址"] = response.data[@"address"];
                 }
                 [self.tableView reloadData];
+            }
+        }
+        [SVProgressHUD dismiss];
+    } requestURL:regiUrl params:params];
+}
+
+- (void)viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:animated];
+    NSString *driUrl = [NSString stringWithFormat:@"%@modifyUserModelAddtionDo",baseUrl];
+    NSMutableDictionary *driparams = [NSMutableDictionary dictionary];
+    driparams[@"tokenKey"] = [AccountTool account].tokenKey;
+    driparams[@"value"] = self.editCell.shopFie.text;
+    [BaseApi getGeneralData:^(BaseResponse *response, NSError *error) {
+        if ([response.error intValue]==0) {
+            if ([YQObjectBool boolForObject:response.data]) {
+                
+            }
+        }
+        [SVProgressHUD dismiss];
+    } requestURL:driUrl params:driparams];
+    
+    NSString *regiUrl = [NSString stringWithFormat:@"%@modifyUserStoneAddtionDo",baseUrl];
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    params[@"tokenKey"] = [AccountTool account].tokenKey;
+    params[@"value"] = self.editCell.driFie.text;
+    [BaseApi getGeneralData:^(BaseResponse *response, NSError *error) {
+        if ([response.error intValue]==0) {
+            if ([YQObjectBool boolForObject:response.data]) {
+                
             }
         }
         [SVProgressHUD dismiss];
@@ -130,10 +172,10 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    UITableViewCell *tableCell = [tableView dequeueReusableCellWithIdentifier:@"myCell"];
+    UITableViewCell *tableCell =  [tableView cellForRowAtIndexPath:indexPath];
     if (tableCell == nil){
-        tableCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"myCell"];
-        tableCell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        tableCell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleValue1
+                                           reuseIdentifier:@"myCell"];
         tableCell.textLabel.font = [UIFont systemFontOfSize:15];
         tableCell.detailTextLabel.font = [UIFont systemFontOfSize:12];
         tableCell.detailTextLabel.numberOfLines = 2;
@@ -142,28 +184,34 @@
     NSString *key = arr[indexPath.row];
     tableCell.textLabel.text = key;
     NSString *detailStr = self.mutDic[key];
-    if (indexPath.section==0) {
-        if (indexPath.row==0) {
-            tableCell.accessoryType = UITableViewCellAccessoryNone;
-        }else if(indexPath.row==1){
-            if ([key isEqualToString:@"修改头像"]) {
+    switch (indexPath.section) {
+        case 0:{
+            if (indexPath.row==0) {
+                tableCell.accessoryType = UITableViewCellAccessoryNone;
+            }else if(indexPath.row==1){
                 UIImageView *imageView = [self creatImageView];
                 tableCell.accessoryView = imageView;
+            }else if(indexPath.row==2){
+                UISwitch *switchBtn = [[UISwitch alloc]initWithFrame:CGRectMake(0, 0, 50, 20)];
+                tableCell.accessoryView = switchBtn;
+                [switchBtn addTarget:self action:@selector(changeClick:)
+                    forControlEvents:UIControlEventTouchUpInside];
+            }else if(indexPath.row==3){
+                UISwitch *switchBtn = [[UISwitch alloc]initWithFrame:CGRectMake(0, 0, 50, 20)];
+                [switchBtn setOn:self.isShow];
+                tableCell.accessoryView = switchBtn;
+                [switchBtn addTarget:self action:@selector(showPriceClick:)
+                    forControlEvents:UIControlEventTouchUpInside];
+            }else{
+                tableCell = [EditUserInfoCell cellWithTableView:tableView];
+                [tableCell setValue:self.masterInfo forKey:@"mInfo"];
+                self.editCell = (EditUserInfoCell *)tableCell;
             }
-        }else if(indexPath.row==2){
-            UISwitch *switchBtn = [[UISwitch alloc]initWithFrame:CGRectMake(0, 0, 50, 20)];
-            tableCell.accessoryView = switchBtn;
-            [switchBtn addTarget:self action:@selector(changeClick:)
-                forControlEvents:UIControlEventTouchUpInside];
-        }else if(indexPath.row==3){
-            UISwitch *switchBtn = [[UISwitch alloc]initWithFrame:CGRectMake(0, 0, 50, 20)];
-            [switchBtn setOn:self.isShow];
-            tableCell.accessoryView = switchBtn;
-            [switchBtn addTarget:self action:@selector(showPriceClick:)
-                forControlEvents:UIControlEventTouchUpInside];
-        }else{
-            tableCell = [EditUserInfoCell cellWithTableView:tableView];
         }
+            break;
+            default:
+            tableCell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+            break;
     }
     tableCell.detailTextLabel.text = detailStr;
     return tableCell;
@@ -188,9 +236,9 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     switch (indexPath.section) {
         case 0:{
-            UITableViewCell *cell = [self tableView:tableView
-                                               cellForRowAtIndexPath:indexPath];
             if (indexPath.row==1) {
+                UITableViewCell *cell = [self tableView:tableView
+                                  cellForRowAtIndexPath:indexPath];
                 [self creatUIAlertView:cell];
             }
         }
