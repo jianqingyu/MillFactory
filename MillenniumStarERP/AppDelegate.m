@@ -39,7 +39,7 @@
     hostReach = [Reachability reachabilityWithHostName:@"www.google.com"];
     [hostReach startNotifier];
     
-    UIImage *backImg = [CommonUtils createImageWithColor:CUSTOM_COLOR(245, 245, 247)];
+    UIImage *backImg = [CommonUtils createImageWithColor:BarColor];
     [[UINavigationBar appearance] setBackgroundImage:backImg forBarMetrics:UIBarMetricsDefault];
     [[UINavigationBar appearance] setTintColor:CUSTOM_COLOR(50, 50, 50)];
     NSDictionary *attbutes = @{NSForegroundColorAttributeName:CUSTOM_COLOR(50, 50, 50)};

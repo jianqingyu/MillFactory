@@ -19,7 +19,6 @@
     [super viewDidLoad];
     self.interactivePopGestureRecognizer.delegate = self;
 }
-
 //实现代理方法:return YES :手势有效, NO :手势无效
 - (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer{
     //当导航控制器的子控制器个数 大于1 手势才有效

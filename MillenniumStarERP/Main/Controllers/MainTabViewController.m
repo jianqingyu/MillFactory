@@ -45,7 +45,8 @@
     EditUserInfoVC *userVC = [[EditUserInfoVC alloc]init];
     [self addChildVcWithVC:userVC Title:@"我的" imageName:@"icon_bz_s"
                selectImage:@"icon_bz"];
-    [self.tabBar setBarTintColor:CUSTOM_COLOR(245, 245, 247)];
+     UIImage *backImg = [CommonUtils createImageWithColor:BarColor];
+     [self.tabBar setBackgroundImage:backImg];
 }
 
 - (void)addChildVcWithVC:(UIViewController *)vc Title:(NSString *)title
@@ -56,7 +57,7 @@
     vc.tabBarItem.selectedImage = [[UIImage imageNamed:selectImage]imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
     
     NSMutableDictionary *selectDict = [NSMutableDictionary dictionary];
-    selectDict[NSForegroundColorAttributeName] = CUSTOM_COLOR(246, 55, 43);
+    selectDict[NSForegroundColorAttributeName] = MAIN_COLOR;
     selectDict[NSFontAttributeName] = [UIFont boldSystemFontOfSize:12];
     [vc.tabBarItem setTitleTextAttributes:selectDict forState:UIControlStateSelected];
     

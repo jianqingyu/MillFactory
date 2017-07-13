@@ -42,7 +42,7 @@
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gNC-5M-fPA">
                                 <rect key="frame" x="0.0" y="30" width="320" height="40"/>
-                                <color key="backgroundColor" red="0.92941176469999998" green="0.91764705879999997" blue="0.95294117649999999" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="backgroundColor" red="0.92941176470588238" green="0.92156862745098034" blue="0.94901960784313721" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="40" id="sa9-3c-Vpp"/>
                                 </constraints>
@@ -125,7 +125,7 @@
                 <outlet property="btn" destination="U8R-UR-gGc" id="wrI-7s-aXv"/>
                 <outlet property="textView" destination="oKn-Fp-iDO" id="T4X-WP-w4T"/>
             </connections>
-            <point key="canvasLocation" x="524" y="431"/>
+            <point key="canvasLocation" x="479" y="341"/>
         </tableViewCell>
     </objects>
     <resources>
