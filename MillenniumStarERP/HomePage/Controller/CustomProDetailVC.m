@@ -25,10 +25,11 @@
 #import "CommonUtils.h"
 #import "CustomJewelInfo.h"
 #import "CustomPickView.h"
+#import "HYBLoopScrollView.h"
 #import "NakedDriSeaListInfo.h"
 #import "NakedDriLibViewController.h"
 @interface CustomProDetailVC ()<UINavigationControllerDelegate,UITableViewDelegate,
-                   UITableViewDataSource,MWPhotoBrowserDelegate,imageTapDelegate>
+                   UITableViewDataSource,MWPhotoBrowserDelegate>
 @property (nonatomic,  weak) UITableView *tableView;
 @property (nonatomic,  weak) IBOutlet UIButton *lookBtn;
 @property (nonatomic,  weak) IBOutlet UIButton *addBtn;
@@ -57,7 +58,6 @@
 @property (nonatomic,  strong)DetailModel *modelInfo;
 @property (nonatomic,  strong)CustomPickView *pickView;
 @property (nonatomic,  strong)DetailTextCustomView *textCView;
-@property (nonatomic,    weak) ETFoursquareImages *foursquareImages;
 @property (nonatomic,  strong)UIView *hView;
 @property (weak, nonatomic) IBOutlet UILabel *priceLab;
 @end
@@ -68,8 +68,14 @@
     [super viewDidLoad];
     self.title = @"定制信息";
     self.view.backgroundColor = DefaultColor;
-    self.numLab.layer.cornerRadius = 8;
-    self.numLab.layer.masksToBounds = YES;
+    [self loadBaseCustomView];
+}
+
+- (void)loadBaseCustomView{
+    [self.numLab setLayerWithW:8 andColor:BordColor andBackW:0.001];
+    [self.lookBtn setLayerWithW:5 andColor:BordColor andBackW:0.001];
+    [self.addBtn setLayerWithW:5 andColor:BordColor andBackW:0.001];
+    [self.priceLab setAdjustsFontSizeToFitWidth:YES];
     [self.numLab setAdjustsFontSizeToFitWidth:YES];
     if (self.isEdit) {
         [self.lookBtn setTitle:@"取消" forState:UIControlStateNormal];
@@ -90,7 +96,8 @@
     }];
     [self setHandSize];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(orientChange:) name:UIApplicationDidChangeStatusBarOrientationNotification object:nil];
-    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(changeAddressText:) name:NotificationDriName object:nil];
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(changeAddressText:)
+                                           name:NotificationDriName object:nil];
 }
 //显示地址
 - (void)changeAddressText:(NSNotification *)notification{
@@ -148,7 +155,7 @@
     }else{
         self.tableView.tableHeaderView = [[UIView alloc]initWithFrame:CGRectZero];
         [self.tableView mas_updateConstraints:^(MASConstraintMaker *make) {
-            make.left.equalTo(self.view).offset(SDevWidth/2);
+            make.left.equalTo(self.view).offset(SDevWidth*0.5);
         }];
         [self setupHeadView:self.headImg and:NO];
     }
@@ -169,7 +176,6 @@
     }
     [table mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.view).offset(height);
-        make.top.equalTo(self.view).offset(0);
         make.left.equalTo(self.view).offset(0);
         make.right.equalTo(self.view).offset(0);
         make.bottom.equalTo(self.view).offset(-50);
@@ -397,12 +403,14 @@
     CGFloat wid = headView.width;
     CGFloat height = headView.height;
     CGRect frame = CGRectMake(0, 0, wid, height);
-    ETFoursquareImages *Images = [[ETFoursquareImages alloc]initWithFrame:frame];
-    [Images setImagesHeight:height];
-    Images.delegate = self;
-    [Images setImages:headArr];
-    [headView addSubview:Images];
-    self.foursquareImages = Images;
+    HYBLoopScrollView *loop = [HYBLoopScrollView loopScrollViewWithFrame:
+                               frame imageUrls:headArr];
+    loop.timeInterval = 6.0;
+    loop.didSelectItemBlock = ^(NSInteger atIndex,HYBLoadImageView  *sender){
+        [self didImageWithIndex:atIndex];
+    };
+    loop.alignment = kPageControlAlignRight;
+    [headView addSubview:loop];
     self.hView = headView;
     if (isHead) {
         self.tableView.tableHeaderView = self.hView;
@@ -412,8 +420,7 @@
     }
 }
 
-#pragma mark - imageTapDelegate
-- (void)imageTapGestureWithIndex:(int)index{
+- (void)didImageWithIndex:(NSInteger)index{
     //网络图片展示
     if (self.IDarray.count==0) {
         [MBProgressHUD showError:@"暂无图片"];
@@ -621,7 +628,6 @@
 
 - (void)gotoNakedDriLib{
     NakedDriLibViewController *libVc = [NakedDriLibViewController new];
-    
     libVc.isSel = YES;
     [self.navigationController pushViewController:libVc animated:YES];
 }
@@ -709,6 +715,10 @@
 }
 
 - (void)openRemark:(id)sender{
+    if (self.remakeArr.count==0) {
+        [MBProgressHUD showError:@"没有备注可选"];
+        return;
+    }
     self.pickView.typeList = self.remakeArr;
     self.pickView.section = [NSIndexPath indexPathForRow:0 inSection:0];
     self.pickView.titleStr = @"备注";
