@@ -8,7 +8,7 @@
 
 #import "BaseApi.h"
 #import "RequestClient.h"
-#import "LoginViewController.h"
+#import "CusTomLoginView.h"
 #import "ShowLoginViewTool.h"
 @implementation BaseApi
 
@@ -59,11 +59,13 @@
         result.data = responseObject[@"data"];
         result.message = responseObject[@"message"];
         if ([result.error intValue]==2) {
-            UIViewController *vc = [ShowLoginViewTool getCurrentVC];
-            LoginViewController *login = [LoginViewController new];
-            login.noLogin = YES;
-            [vc presentViewController:login animated:YES completion:nil];
-            [SVProgressHUD dismiss];
+            ShowLoginViewTool *login = [ShowLoginViewTool creatTool];
+            login.url = requestURL;
+            login.dict = params;
+            login.toBack = ^(id res){
+                callback(res,nil);
+            };
+            [login showLoginView:YES];
             return ;
         }
         callback(result,nil);

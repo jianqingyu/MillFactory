@@ -51,16 +51,16 @@
 #define CUSTOM_COLOR_ALPHA(a,b,c,d) [UIColor colorWithRed:a/255.0f green:b/255.0f blue:c/255.0f alpha:d]
 #define DefaultColor [UIColor colorWithRed:240/255.0f green:239/255.0f blue:245/255.0f alpha:1]
 #define BordColor [UIColor colorWithRed:200/255.0f green:200/255.0f blue:200/255.0f alpha:1]
-//基础接口
-#define baseNet @"http://appapi2.fanerweb.com/api/"
 //网络接口
-#define baseUrl [NSString stringWithFormat:@"%@aproxy/",baseNet]
+//#define baseUrl @"http://appapi2.fanerweb.com/api/aproxy/"
+//测试接口
+#define baseUrl @"http://appapi0.fanerweb.com/api/aproxy/"
 //支付宝支付网址
-#define ZFBStonePay [NSString stringWithFormat:@"%@Payment/GetAilpayStoneOrderPayStr",baseNet]
-#define ZFBPay [NSString stringWithFormat:@"%@Payment/GetAilpayModelOrderPayStr",baseNet]
+#define ZFBStonePay @"http://appapi2.fanerweb.com/api/Payment/GetAilpayStoneOrderPayStr"
+#define ZFBPay @"http://appapi2.fanerweb.com/api/Payment/GetAilpayModelOrderPayStr"
 //微信支付网址
-#define WXStonePay [NSString stringWithFormat:@"%@Payment/GetWxpayStoneParameter",baseNet]
-#define WXPay [NSString stringWithFormat:@"%@Payment/GetWxpayModelParameter",baseNet]
+#define WXStonePay @"http://appapi2.fanerweb.com/api/Payment/GetWxpayStoneParameter"
+#define WXPay @"http://appapi2.fanerweb.com/api/Payment/GetWxpayModelParameter"
 /**选择地址通知名字*/
 #define NotificationName @"NotificationChangeCity"
 #define UserInfoName @"userinfoCityName"

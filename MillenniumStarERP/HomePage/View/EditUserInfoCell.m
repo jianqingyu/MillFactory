@@ -9,7 +9,8 @@
 #import "EditUserInfoCell.h"
 @interface EditUserInfoCell()
 @property (weak, nonatomic) IBOutlet UISwitch *showBtn;
-
+@property (weak, nonatomic) IBOutlet UITextField *shopFie;
+@property (weak, nonatomic) IBOutlet UITextField *driFie;
 @end
 @implementation EditUserInfoCell
 
@@ -32,50 +33,38 @@
     return self;
 }
 
-- (void)setMInfo:(MasterCountInfo *)mInfo{
-    if (mInfo) {
-        _mInfo = mInfo;
-        [self.showBtn setOn:_mInfo.isShowOriginalPrice];
-        self.shopFie.text = [NSString stringWithFormat:@"%.2f",_mInfo.modelAddtion];
-        self.driFie.text = [NSString stringWithFormat:@"%.2f",_mInfo.stoneAddtion];
-    }
-}
-
-- (IBAction)showPriceClick:(UISwitch *)btn {
-    NSString *url = [NSString stringWithFormat:@"%@modifyUserIsShowOriginalPriceDo",baseUrl];
-    NSMutableDictionary *params = [NSMutableDictionary dictionary];
-    params[@"isShow"] = @(btn.on);
-    params[@"tokenKey"] = [AccountTool account].tokenKey;
-    _mInfo.isShowOriginalPrice = btn.on;
-    [BaseApi getGeneralData:^(BaseResponse *response, NSError *error) {
-        if ([response.error intValue]==0) {
-            [MBProgressHUD showSuccess:@"更新成功"];
-        }
-    } requestURL:url params:params];
+- (IBAction)showPriceClick:(id)sender {
+    
 }
 
 - (IBAction)shopAccClick:(id)sender {
-    double str = [self.shopFie.text doubleValue];
-    str = str-1;
-    self.shopFie.text = [NSString stringWithFormat:@"%0.2f",str];
+    int str = [self.shopFie.text intValue];
+    if (str==0) {
+        return;
+    }
+    str--;
+    self.shopFie.text = [NSString stringWithFormat:@"%d",str];
 }
 
 - (IBAction)shopAddClick:(id)sender {
-    double str = [self.shopFie.text doubleValue];
-    str = str+1;
-    self.shopFie.text = [NSString stringWithFormat:@"%0.2f",str];
+    int str = [self.shopFie.text intValue];
+    str++;
+    self.shopFie.text = [NSString stringWithFormat:@"%d",str];
 }
 
 - (IBAction)driAccClick:(id)sender {
-    double str = [self.driFie.text doubleValue];
-    str = str-1;
-    self.driFie.text = [NSString stringWithFormat:@"%0.2f",str];
+    int str = [self.driFie.text intValue];
+    if (str==0) {
+        return;
+    }
+    str--;
+    self.driFie.text = [NSString stringWithFormat:@"%d",str];
 }
 
 - (IBAction)driAddClick:(id)sender {
-    double str = [self.driFie.text doubleValue];
-    str = str+1;
-    self.driFie.text = [NSString stringWithFormat:@"%0.2f",str];
+    int str = [self.driFie.text intValue];
+    str++;
+    self.driFie.text = [NSString stringWithFormat:@"%d",str];
 }
 
 @end

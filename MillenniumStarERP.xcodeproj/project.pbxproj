@@ -214,7 +214,6 @@
 		794F28A71EDEF8DF003EC54D /* NakedDriLibListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 794F28A61EDEF8DF003EC54D /* NakedDriLibListCell.m */; };
 		794F28AA1EDEF903003EC54D /* NakedDriLibBLabCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 794F28A91EDEF903003EC54D /* NakedDriLibBLabCell.m */; };
 		794F28AD1EDEF914003EC54D /* NakedDriLibSLabCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 794F28AC1EDEF914003EC54D /* NakedDriLibSLabCell.m */; };
-		7952CECD1F0C96210002679A /* MasterCountInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 7952CECC1F0C96210002679A /* MasterCountInfo.m */; };
 		7953E17B1F04D25900FF7AE7 /* CustomJewelInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 7953E17A1F04D25900FF7AE7 /* CustomJewelInfo.m */; };
 		795515961D9BAF7800A458AE /* AddEditAddressVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 795515941D9BAF7800A458AE /* AddEditAddressVC.m */; };
 		795515971D9BAF7800A458AE /* AddEditAddressVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 795515951D9BAF7800A458AE /* AddEditAddressVC.xib */; };
@@ -818,8 +817,6 @@
 		794F28A91EDEF903003EC54D /* NakedDriLibBLabCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NakedDriLibBLabCell.m; sourceTree = "<group>"; };
 		794F28AB1EDEF914003EC54D /* NakedDriLibSLabCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NakedDriLibSLabCell.h; sourceTree = "<group>"; };
 		794F28AC1EDEF914003EC54D /* NakedDriLibSLabCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NakedDriLibSLabCell.m; sourceTree = "<group>"; };
-		7952CECB1F0C96210002679A /* MasterCountInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MasterCountInfo.h; sourceTree = "<group>"; };
-		7952CECC1F0C96210002679A /* MasterCountInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MasterCountInfo.m; sourceTree = "<group>"; };
 		7953E1791F04D25800FF7AE7 /* CustomJewelInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomJewelInfo.h; sourceTree = "<group>"; };
 		7953E17A1F04D25900FF7AE7 /* CustomJewelInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomJewelInfo.m; sourceTree = "<group>"; };
 		795515931D9BAF7800A458AE /* AddEditAddressVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddEditAddressVC.h; sourceTree = "<group>"; };
@@ -2030,8 +2027,6 @@
 				79B4B8261DA895A600B97070 /* ScreenDetailInfo.m */,
 				795515981D9BB81800A458AE /* AddressInfo.h */,
 				795515991D9BB81800A458AE /* AddressInfo.m */,
-				7952CECB1F0C96210002679A /* MasterCountInfo.h */,
-				7952CECC1F0C96210002679A /* MasterCountInfo.m */,
 				7933D9261D9CA942006C0356 /* Citys.h */,
 				7933D9271D9CA942006C0356 /* Citys.m */,
 				79F1C7CB1D9D06CF00C58335 /* ProductInfo.h */,
@@ -2868,7 +2863,6 @@
 				795E25491DF11E9000DC0A88 /* YQCustomBtn.m in Sources */,
 				796BFF8B1DE28F60008D78A4 /* ProduceHeadView.m in Sources */,
 				7944C19B1DDECCF400F6C15F /* OrderSatueInfo.m in Sources */,
-				7952CECD1F0C96210002679A /* MasterCountInfo.m in Sources */,
 				796965801EDFAD6C00F6B027 /* NakedDriLibImgInfo.m in Sources */,
 				7959A8E21D815088009CAA02 /* ProductPopView.m in Sources */,
 				794BA67F1F149F1C00ECCAA3 /* ClassListController.m in Sources */,

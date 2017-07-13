@@ -39,6 +39,17 @@
     [self addSubview:loop];
 }
 
+- (void)setScrollView{
+    [UIView animateWithDuration:0.1 animations:^{
+        [self.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
+    }];
+    ETFoursquareImages *Images = [[ETFoursquareImages alloc]initWithFrame:CGRectMake(0, 0, self.width, self.height)];
+    [Images setImagesHeight:self.height];
+    [self addSubview:Images];
+    self.foursquareImages = Images;
+    [self.foursquareImages setImages:_arr];
+}
+
 - (void)setInfoArr:(NSArray *)infoArr{
     if (infoArr) {
         _infoArr = infoArr;
@@ -48,6 +59,11 @@
         }
         [self setLoopScrollView:mutA];
     }
+}
+
+#pragma mark - imageTapDelegate
+- (void)imageTapGestureWithIndex:(int)index{
+    
 }
 
 @end
