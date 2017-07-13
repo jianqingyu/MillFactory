@@ -10,6 +10,5 @@
 #import "DelSListInfo.h"
 @interface SettlementListCell : UITableViewCell
 + (id)cellWithTableView:(UITableView *)tableView;
-@property (nonatomic,assign)int isMaster;
 @property (nonatomic,strong)DelSListInfo *listInfo;
 @end

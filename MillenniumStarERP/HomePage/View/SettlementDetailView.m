@@ -85,7 +85,6 @@
     }];
     NSArray *arr = self.dict[@"orderList"];
     OrderSetmentInfo *list = arr[section];
-    headView.isMaster = [self.dict[@"isMasterAccount"]intValue];
     headView.headInfo = list;
     headView.clickBack = ^(BOOL isClick){
         [self loadSettlementVC:section];
@@ -95,7 +94,6 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     SettlementListCell *listCell = [SettlementListCell cellWithTableView:tableView];
-    listCell.isMaster = [self.dict[@"isMasterAccount"]intValue];
     NSArray *arr = self.dict[@"orderList"];
     OrderSetmentInfo *list = arr[indexPath.section];
     listCell.listInfo = list.moList[indexPath.row];
@@ -107,10 +105,6 @@
 }
 //出货单
 - (void)loadDeliveryWithIndex:(NSIndexPath *)indexPath{
-    int master = [self.dict[@"isMasterAccount"]intValue];
-    if (master!=1) {
-        return;
-    }
     NSArray *arr = self.dict[@"orderList"];
     OrderSetmentInfo *list = arr[indexPath.section];
     DelSListInfo *sInfo = list.moList[indexPath.row];
@@ -121,10 +115,6 @@
 }
 //结算单
 - (void)loadSettlementVC:(NSInteger)section{
-    int master = [self.dict[@"isMasterAccount"]intValue];
-    if (master!=1) {
-        return;
-    }
     NSArray *arr = self.dict[@"orderList"];
     OrderSetmentInfo *list = arr[section];
     SettlementOrderVC *orderVc = [SettlementOrderVC new];

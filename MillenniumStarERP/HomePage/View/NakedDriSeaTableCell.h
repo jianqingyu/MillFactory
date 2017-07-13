@@ -8,9 +8,11 @@
 
 #import <UIKit/UIKit.h>
 #import "NakedDriSeaListInfo.h"
-typedef void (^NakedDriSeaBack)(BOOL isYes);
+typedef void (^NakedDriSeaBack)(BOOL isSel,NSString *sort);
 @interface NakedDriSeaTableCell : UITableViewCell
 + (id)cellWithTableView:(UITableView *)tableView;
 @property (nonatomic,strong)NakedDriSeaListInfo *seaInfo;
+@property (nonatomic,strong)NSArray *topArr;
 @property (nonatomic,  copy)NakedDriSeaBack back;
+@property (nonatomic,  copy)NSString *string;
 @end

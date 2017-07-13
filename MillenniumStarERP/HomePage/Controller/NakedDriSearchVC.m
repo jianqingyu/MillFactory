@@ -12,7 +12,6 @@
 #import "NakedDriPriceVC.h"
 #import "NakedDriConfirmOrderVc.h"
 #import "StrWithIntTool.h"
-#import "NakedDriSeaHeadView.h"
 @interface NakedDriSearchVC ()<UITableViewDelegate,UITableViewDataSource>{
     int curPage;
     int pageCount;
@@ -117,7 +116,7 @@
     MJRefreshAutoNormalFooter*footer = [MJRefreshAutoNormalFooter footerWithRefreshingBlock:^{
         [self footerRereshing];
     }];
-    [footer setTitle:@"加载更多" forState:MJRefreshStateIdle];
+    [footer setTitle:@"上拉有惊喜" forState:MJRefreshStateIdle];
     [footer setTitle:@"好了，可以放松一下手指" forState:MJRefreshStatePulling];
     [footer setTitle:@"努力加载中，请稍候" forState:MJRefreshStateRefreshing];
     self.tableView.footer = footer;
@@ -163,7 +162,6 @@
             if ([YQObjectBool boolForObject:response.data]){
                 [self setupDataWithData:response.data];
                 [self setupListDataWithDict:response.data];
-                [self resetHeadView];
                 [self.tableView reloadData];
             }
             [SVProgressHUD dismiss];
@@ -202,25 +200,13 @@
         self.tableView.footer.state = MJRefreshStateNoMoreData;
     }
 }
-//刷新头视图
-- (void)resetHeadView{
-    NakedDriSeaHeadView *head = [[NakedDriSeaHeadView alloc]initWithFrame:
-                                 CGRectMake(0, 0, SDevWidth, 30)];
-    head.back = ^(NSString *sort){
-        _sortStr = sort;
-        [self.tableView.header beginRefreshing];
-    };
-    head.string = self.sortStr;
-    head.topArr = self.hedArr;
-    self.tableView.tableHeaderView = head;
-}
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return self.dataArray.count;
+    return self.dataArray.count+1;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -229,22 +215,32 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     NakedDriSeaTableCell *cell = [NakedDriSeaTableCell cellWithTableView:tableView];
-    cell.back = ^(BOOL isSel){
-        [self cellBackWithIndex:indexPath.row];
+    cell.back = ^(BOOL isSel,NSString *mess){
+        [self cellBackWith:isSel and:mess and:indexPath.row-1];
     };
-    NakedDriSeaListInfo *listInfo;
-    if (indexPath.row<self.dataArray.count) {
-        listInfo = self.dataArray[indexPath.row];
+    if (indexPath.row==0) {
+        cell.string = _sortStr;
+        cell.topArr = self.hedArr;
+    }else{
+        NakedDriSeaListInfo *listInfo;
+        if (indexPath.row<self.dataArray.count) {
+            listInfo = self.dataArray[indexPath.row-1];
+        }
+        cell.seaInfo = listInfo;
     }
-    cell.seaInfo = listInfo;
     return cell;
 }
 
-- (void)cellBackWithIndex:(NSInteger)index{
-    NakedDriSeaListInfo *listInfo = self.dataArray[index];
-    NakedDriPriceVC *nakedVc = [NakedDriPriceVC new];
-    nakedVc.orderId = listInfo.id;
-    [self.navigationController pushViewController:nakedVc animated:YES];
+- (void)cellBackWith:(BOOL)isSel and:(NSString *)str and:(NSInteger)index{
+    if (isSel) {
+        _sortStr = str;
+        [self.tableView.header beginRefreshing];
+    }else{
+        NakedDriSeaListInfo *listInfo = self.dataArray[index];
+        NakedDriPriceVC *nakedVc = [NakedDriPriceVC new];
+        nakedVc.orderId = listInfo.id;
+        [self.navigationController pushViewController:nakedVc animated:YES];
+    }
 }
 
 - (IBAction)resetClik:(id)sender {
