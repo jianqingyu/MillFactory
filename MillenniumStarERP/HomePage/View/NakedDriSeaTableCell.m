@@ -116,7 +116,6 @@
     btn.titleLabel.font = [UIFont systemFontOfSize:12.0];
     [btn.titleLabel setAdjustsFontSizeToFitWidth:YES];
     [btn setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
-//    [btn setLayerWithW:0.001 andColor:BordColor andBackW:0.5];
     [self.contentView addSubview:btn];
     return btn;
 }

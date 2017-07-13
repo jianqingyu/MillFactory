@@ -36,8 +36,8 @@
     if (mInfo) {
         _mInfo = mInfo;
         [self.showBtn setOn:_mInfo.isShowOriginalPrice];
-        self.shopFie.text = [NSString stringWithFormat:@"%.2f",_mInfo.modelAddtion];
-        self.driFie.text = [NSString stringWithFormat:@"%.2f",_mInfo.stoneAddtion];
+        self.shopFie.text = [NSString stringWithFormat:@"%0.0f",_mInfo.modelAddtion];
+        self.driFie.text = [NSString stringWithFormat:@"%0.0f",_mInfo.stoneAddtion];
     }
 }
 
@@ -57,25 +57,25 @@
 - (IBAction)shopAccClick:(id)sender {
     double str = [self.shopFie.text doubleValue];
     str = str-1;
-    self.shopFie.text = [NSString stringWithFormat:@"%0.2f",str];
+    self.shopFie.text = [NSString stringWithFormat:@"%0.0f",str];
 }
 
 - (IBAction)shopAddClick:(id)sender {
     double str = [self.shopFie.text doubleValue];
     str = str+1;
-    self.shopFie.text = [NSString stringWithFormat:@"%0.2f",str];
+    self.shopFie.text = [NSString stringWithFormat:@"%0.0f",str];
 }
 
 - (IBAction)driAccClick:(id)sender {
     double str = [self.driFie.text doubleValue];
     str = str-1;
-    self.driFie.text = [NSString stringWithFormat:@"%0.2f",str];
+    self.driFie.text = [NSString stringWithFormat:@"%0.0f",str];
 }
 
 - (IBAction)driAddClick:(id)sender {
     double str = [self.driFie.text doubleValue];
     str = str+1;
-    self.driFie.text = [NSString stringWithFormat:@"%0.2f",str];
+    self.driFie.text = [NSString stringWithFormat:@"%0.0f",str];
 }
 
 @end
