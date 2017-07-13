@@ -11,4 +11,5 @@
 @interface SettlementListCell : UITableViewCell
 + (id)cellWithTableView:(UITableView *)tableView;
 @property (nonatomic,strong)DelSListInfo *listInfo;
+@property (nonatomic,assign)int isMaster;
 @end

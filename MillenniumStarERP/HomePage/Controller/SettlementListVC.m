@@ -48,6 +48,7 @@
                 NSArray *arr = [OrderSetmentInfo objectArrayWithKeyValuesArray:
                                    response.data[@"recList"]];
                 dict[@"orderList"] = arr;
+                dict[@"isMasterAccount"] = response.data[@"isMasterAccount"];
                 self.setView.dict = dict.copy;
             }
         }

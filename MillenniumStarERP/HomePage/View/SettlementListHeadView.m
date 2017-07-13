@@ -31,6 +31,11 @@
     return [[NSBundle mainBundle]loadNibNamed:@"SettlementListHeadView" owner:nil options:nil][0];
 }
 
+- (void)setIsMaster:(int)isMaster{
+    self.toLab.hidden = !isMaster;
+    self.priceLab.hidden = !isMaster;
+}
+
 - (void)setHeadInfo:(OrderSetmentInfo *)headInfo{
     if (headInfo) {
         _headInfo = headInfo;

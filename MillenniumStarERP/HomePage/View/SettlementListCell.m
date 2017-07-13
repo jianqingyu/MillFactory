@@ -31,12 +31,15 @@
     if (self) {
         self = [[NSBundle mainBundle]loadNibNamed:@"SettlementListCell" owner:nil options:nil][0];
         self.backView.backgroundColor = CUSTOM_COLOR(245, 245, 247);
-        self.backView.layer.cornerRadius = 5;;
-        self.backView.layer.borderWidth = 1;
-        self.backView.layer.borderColor = DefaultColor.CGColor;
-        self.backView.layer.masksToBounds = YES;
+        [self.backView setLayerWithW:5 andColor:DefaultColor andBackW:1];
     }
     return self;
+}
+
+- (void)setIsMaster:(int)isMaster{
+    if (isMaster==0) {
+        self.priceLab.text = @"";
+    }
 }
 
 - (void)setListInfo:(DelSListInfo *)listInfo{

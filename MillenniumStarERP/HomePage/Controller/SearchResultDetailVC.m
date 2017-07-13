@@ -83,7 +83,8 @@
             mutDic[@"orderList"] = arr;
         }
         mutDic[@"orderNum"] = self.orderNum;
-        mutDic [@"isSearch"] = @1;
+        mutDic[@"isSearch"] = @1;
+        mutDic[@"isMasterAccount"] = dict[@"isMasterAccount"];
         [titleArray addObject:@{@"title":@"已发货"}];
         [strArr addObject:@"SettlementDetailView"];
         [dataArr addObject:mutDic];
@@ -144,4 +145,5 @@
 - (void)dealloc{
     [[NSNotificationCenter defaultCenter]removeObserver:self];
 }
+
 @end

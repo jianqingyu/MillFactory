@@ -12,5 +12,6 @@ typedef void (^SetlistHeadBack)(BOOL isSel);
 @interface SettlementListHeadView : UIView
 @property (nonatomic,copy)SetlistHeadBack clickBack;
 @property (nonatomic,strong)OrderSetmentInfo *headInfo;
+@property (nonatomic,assign)int isMaster;
 + (id)createHeadView;
 @end

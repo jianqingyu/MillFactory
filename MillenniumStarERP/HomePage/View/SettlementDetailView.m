@@ -84,6 +84,7 @@
         make.right.equalTo(headV).offset(0);
     }];
     NSArray *arr = self.dict[@"orderList"];
+    headView.isMaster = [self.dict[@"isMasterAccount"]intValue];
     OrderSetmentInfo *list = arr[section];
     headView.headInfo = list;
     headView.clickBack = ^(BOOL isClick){
@@ -97,6 +98,7 @@
     NSArray *arr = self.dict[@"orderList"];
     OrderSetmentInfo *list = arr[indexPath.section];
     listCell.listInfo = list.moList[indexPath.row];
+    listCell.isMaster = [self.dict[@"isMasterAccount"]intValue];
     return listCell;
 }
 
@@ -105,6 +107,10 @@
 }
 //出货单
 - (void)loadDeliveryWithIndex:(NSIndexPath *)indexPath{
+    int isMaster = [self.dict[@"isMasterAccount"]intValue];
+    if (isMaster==0) {
+        return;
+    }
     NSArray *arr = self.dict[@"orderList"];
     OrderSetmentInfo *list = arr[indexPath.section];
     DelSListInfo *sInfo = list.moList[indexPath.row];
@@ -115,6 +121,10 @@
 }
 //结算单
 - (void)loadSettlementVC:(NSInteger)section{
+    int isMaster = [self.dict[@"isMasterAccount"]intValue];
+    if (isMaster==0) {
+        return;
+    }
     NSArray *arr = self.dict[@"orderList"];
     OrderSetmentInfo *list = arr[section];
     SettlementOrderVC *orderVc = [SettlementOrderVC new];

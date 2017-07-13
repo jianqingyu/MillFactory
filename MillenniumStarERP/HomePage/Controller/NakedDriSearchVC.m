@@ -12,20 +12,21 @@
 #import "NakedDriPriceVC.h"
 #import "NakedDriConfirmOrderVc.h"
 #import "StrWithIntTool.h"
+#import "NakedDriSeaHeadV.h"
 @interface NakedDriSearchVC ()<UITableViewDelegate,UITableViewDataSource>{
     int curPage;
     int pageCount;
     int totalCount;//商品总数量
 }
-@property (nonatomic,   copy)NSArray *hedArr;
-@property (nonatomic,   copy)NSString *sortStr;
-@property (nonatomic, strong)UITableView *tableView;
-@property (nonatomic, strong)NSMutableArray *dataArray;
-@property (weak,   nonatomic) IBOutlet UILabel *headLab;
-@property (weak,   nonatomic) IBOutlet UIScrollView *backScr;
-@property (strong, nonatomic) IBOutletCollection(UIButton) NSArray *bottomBtns;
-@property (weak, nonatomic) IBOutlet UIView *bottomV;
-@property (weak, nonatomic) IBOutlet UIButton *sureBtn;
+@property (nonatomic,  copy)NSString *sortStr;
+@property (nonatomic,assign)BOOL isFir;
+@property (nonatomic,strong)UITableView *tableView;
+@property (nonatomic,strong)NSMutableArray *dataArray;
+@property (weak,  nonatomic) IBOutlet UIView *bottomV;
+@property (weak,  nonatomic) IBOutlet UIButton *sureBtn;
+@property (weak,  nonatomic) IBOutlet UILabel *headLab;
+@property (weak,  nonatomic) IBOutlet UIScrollView *backScr;
+@property (strong,nonatomic) IBOutletCollection(UIButton) NSArray *bottomBtns;
 @end
 
 @implementation NakedDriSearchVC
@@ -170,17 +171,33 @@
 }
 //初始化数据
 - (void)setupDataWithData:(NSDictionary *)data{
+    if (self.isFir) {
+        return;
+    }
     if([YQObjectBool boolForObject:data[@"stone"][@"searchKey"]]){
         self.headLab.text = data[@"stone"][@"searchKey"];
     }
     if([YQObjectBool boolForObject:data[@"stone"][@"headline"]]){
-        self.hedArr = data[@"stone"][@"headline"];
+        NSArray *topArr = data[@"stone"][@"headline"];
+        [self setTableViewHeadView:topArr];
         [self.tableView mas_updateConstraints:^(MASConstraintMaker *make) {
-            make.width.mas_equalTo((self.hedArr.count*60+100));
+            make.width.mas_equalTo((topArr.count*60+100));
         }];
-        self.backScr.contentSize = CGSizeMake((self.hedArr.count*60+100), 0);
+        self.backScr.contentSize = CGSizeMake((topArr.count*60+100), 0);
     }
+    self.isFir = YES;
 }
+
+- (void)setTableViewHeadView:(NSArray *)arr{
+    NakedDriSeaHeadV *head = [[NakedDriSeaHeadV alloc]initWithFrame:CGRectMake(0, 0, SDevWidth, 30)];
+    head.back = ^(NSString *mess){
+        _sortStr = mess;
+        [self.tableView.header beginRefreshing];
+    };
+    head.topArr = arr;
+    self.tableView.tableHeaderView = head;
+}
+
 //初始化列表数据
 - (void)setupListDataWithDict:(NSDictionary *)data{
     if([YQObjectBool boolForObject:data[@"stone"][@"list"]]){
@@ -206,7 +223,7 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return self.dataArray.count+1;
+    return self.dataArray.count;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -215,32 +232,22 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     NakedDriSeaTableCell *cell = [NakedDriSeaTableCell cellWithTableView:tableView];
-    cell.back = ^(BOOL isSel,NSString *mess){
-        [self cellBackWith:isSel and:mess and:indexPath.row-1];
+    cell.back = ^(BOOL isSel){
+        [self cellBackWithIndex:indexPath.row];
     };
-    if (indexPath.row==0) {
-        cell.string = _sortStr;
-        cell.topArr = self.hedArr;
-    }else{
-        NakedDriSeaListInfo *listInfo;
-        if (indexPath.row<self.dataArray.count) {
-            listInfo = self.dataArray[indexPath.row-1];
-        }
-        cell.seaInfo = listInfo;
+    NakedDriSeaListInfo *listInfo;
+    if (indexPath.row<self.dataArray.count) {
+        listInfo = self.dataArray[indexPath.row];
     }
+    cell.seaInfo = listInfo;
     return cell;
 }
 
-- (void)cellBackWith:(BOOL)isSel and:(NSString *)str and:(NSInteger)index{
-    if (isSel) {
-        _sortStr = str;
-        [self.tableView.header beginRefreshing];
-    }else{
-        NakedDriSeaListInfo *listInfo = self.dataArray[index];
-        NakedDriPriceVC *nakedVc = [NakedDriPriceVC new];
-        nakedVc.orderId = listInfo.id;
-        [self.navigationController pushViewController:nakedVc animated:YES];
-    }
+- (void)cellBackWithIndex:(NSInteger)index{
+    NakedDriSeaListInfo *listInfo = self.dataArray[index];
+    NakedDriPriceVC *nakedVc = [NakedDriPriceVC new];
+    nakedVc.orderId = listInfo.id;
+    [self.navigationController pushViewController:nakedVc animated:YES];
 }
 
 - (IBAction)resetClik:(id)sender {
@@ -265,7 +272,8 @@
         [MBProgressHUD showError:@"没有证书不能选择"];
         return;
     }
-    [[NSNotificationCenter defaultCenter]postNotificationName:NotificationDriName object:nil userInfo:@{UserInfoDriName:listInfo}];
+    [[NSNotificationCenter defaultCenter]postNotificationName:NotificationDriName
+                               object:nil userInfo:@{UserInfoDriName:listInfo}];
     NSInteger count = self.navigationController.viewControllers.count;
     BaseViewController *baseVc = self.navigationController.viewControllers[count-3];
     [self.navigationController popToViewController:baseVc animated:YES];
