@@ -31,10 +31,7 @@
     if (self) {
         self = [[NSBundle mainBundle]loadNibNamed:@"SettlementListCell" owner:nil options:nil][0];
         self.backView.backgroundColor = CUSTOM_COLOR(245, 245, 247);
-        self.backView.layer.cornerRadius = 5;;
-        self.backView.layer.borderWidth = 1;
-        self.backView.layer.borderColor = DefaultColor.CGColor;
-        self.backView.layer.masksToBounds = YES;
+        [self.backView setLayerWithW:5 andColor:DefaultColor andBackW:1];
     }
     return self;
 }
@@ -46,8 +43,9 @@
         string = [string substringToIndex:10];//截取掉下标10之后的字符串
         self.delNum.text = [NSString stringWithFormat:@"出库单号 %@",_listInfo.moNum];
         self.setDate.text = [NSString stringWithFormat:@"出货日期 : %@",string];
-        self.priceLab.text = [NSString stringWithFormat:@"价格 : ￥%0.2f",_listInfo.totalPrice];
-        self.numLab.text = [NSString stringWithFormat:@"数量 : %@件",_listInfo.number];
+        NSString *str = self.isMaster?[NSString stringWithFormat:@"￥%0.2f",_listInfo.totalPrice]:@"***";
+        self.priceLab.text = [NSString stringWithFormat:@"价格:%@",str];
+        self.numLab.text = [NSString stringWithFormat:@"数量：%@件",_listInfo.number];
     }
 }
 

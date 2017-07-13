@@ -45,7 +45,8 @@
         self.orderDateLab.text = [NSString stringWithFormat:@"下单日期 : %@",string1];
         self.purLab.text = [NSString stringWithFormat:@"成色 : %@",_headInfo.purityName];
         self.numLab.text = [NSString stringWithFormat:@"数量 : %@件",_headInfo.number];
-        self.priceLab.text = [NSString stringWithFormat:@"￥%0.2f",_headInfo.totalPrice];
+        NSString *str = self.isMaster?[NSString stringWithFormat:@"￥%0.2f",_headInfo.totalPrice]:@"***";
+        self.priceLab.text = str;
     }
 }
 

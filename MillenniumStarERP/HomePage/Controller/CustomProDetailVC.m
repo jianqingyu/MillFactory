@@ -170,14 +170,18 @@
     table.rowHeight = UITableViewAutomaticDimension;
     table.estimatedRowHeight = 125;
     [self.view addSubview:table];
+    CGFloat height = 20;
+    if (IsPhone) {
+        height = 0;
+    }
     [table mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.view).offset(20);
+        make.top.equalTo(self.view).offset(height);
         make.left.equalTo(self.view).offset(0);
         make.right.equalTo(self.view).offset(0);
         make.bottom.equalTo(self.view).offset(-50);
     }];
     self.tableView = table;
-    self.tableView.tableFooterView = [[UIView alloc]initWithFrame:CGRectZero];
+    self.tableView.tableFooterView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, SDevWidth, 10)];
 }
 
 - (void)setHandSize{
@@ -389,6 +393,9 @@
 
 - (void)setupHeadView:(NSArray *)headArr and:(BOOL)isHead{
     CGRect headF = CGRectMake(0, 0, SDevWidth*0.5, SDevHeight-60);
+    if (!IsPhone) {
+        headF = CGRectMake(0, 20, SDevWidth*0.5, SDevHeight-80);
+    }
     if (isHead) {
         headF = CGRectMake(0, 0, SDevWidth, SDevWidth);
     }
