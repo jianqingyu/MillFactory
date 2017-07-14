@@ -855,7 +855,7 @@
     if (self.driPrice.length>0) {
        price = price + [self.driPrice floatValue];
     }
-    self.priceLab.text = [NSString stringWithFormat:@"￥%0.2f",price];
+    self.priceLab.text = [NSString stringWithFormat:@"￥%0.0f",price];
 }
 
 @end

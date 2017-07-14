@@ -10,6 +10,7 @@
 
 @interface NakedDriLiblistInfo : NSObject
 @property (nonatomic,copy) NSString *title;
+@property (nonatomic,copy) NSString *changeValues;
 @property (nonatomic,copy) NSString *keyword;
 @property (nonatomic,copy) NSArray *values;
 @end

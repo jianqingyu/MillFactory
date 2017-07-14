@@ -11,4 +11,5 @@
 @interface NakedDriLibBLabCell : UITableViewCell
 + (id)cellWithTableView:(UITableView *)tableView;
 @property (nonatomic,strong)NakedDriLiblistInfo*textInfo;
+@property (nonatomic,  weak)UILabel *topLab;
 @end
