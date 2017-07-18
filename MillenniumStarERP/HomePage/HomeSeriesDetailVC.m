@@ -12,12 +12,13 @@
 #import "HomeSeriesHeadView.h"
 #import "CustomProDetailVC.h"
 #import "ProductCollectionCell.h"
+#import "NewCustomProDetailVC.h"
 @interface HomeSeriesDetailVC ()<UINavigationControllerDelegate,UICollectionViewDataSource,UICollectionViewDelegate>
 @property(nonatomic,   copy) NSString *photos;
 @property (nonatomic,assign)BOOL isShowPrice;
+@property (nonatomic,strong)NSString *picUrl;
 @property (nonatomic,strong)NSMutableArray *dataArray;
 @property (strong,nonatomic)UICollectionView *homeCollection;
-@property (nonatomic,strong)NSString *picUrl;
 @end
 
 @implementation HomeSeriesDetailVC
@@ -153,9 +154,15 @@
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
     ProductInfo *info = self.dataArray[indexPath.row];
-    CustomProDetailVC *customDeVC = [CustomProDetailVC new];
-    customDeVC.proId = info.id;
-    [self.navigationController pushViewController:customDeVC animated:YES];
+    if ([[AccountTool account].isSel intValue]==0) {
+        NewCustomProDetailVC *newVc = [NewCustomProDetailVC new];
+        newVc.proId = info.id;
+        [self.navigationController pushViewController:newVc animated:YES];
+    }else{
+        CustomProDetailVC *customDeVC = [CustomProDetailVC new];
+        customDeVC.proId = info.id;
+        [self.navigationController pushViewController:customDeVC animated:YES];
+    }
 }
 
 - (void)dealloc {

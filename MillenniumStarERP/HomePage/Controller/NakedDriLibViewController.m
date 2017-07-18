@@ -18,7 +18,7 @@
 #import "StrWithIntTool.h"
 #import "NakedDriSearchVC.h"
 @interface NakedDriLibViewController ()<UITableViewDelegate,UITableViewDataSource>
-@property (nonatomic, strong)NSArray *headArr;
+@property (nonatomic, strong)NSArray *dataArray;
 @property (nonatomic, strong)NSDictionary *dict;
 @property (nonatomic, strong)UITableView *tableView;
 @property (nonatomic, strong)NSMutableArray *NakedArr;
@@ -49,12 +49,18 @@
         make.bottom.equalTo(self.view).offset(-40);
     }];
     self.tableView.tableFooterView = [[UIView alloc]initWithFrame:CGRectZero];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(orientChange:) name:UIApplicationDidChangeStatusBarOrientationNotification object:nil];
+}
+
+- (void)orientChange:(NSNotification *)notification{
+    [self.tableView reloadData];
 }
 
 - (void)setNakedHeadView{
-    UIView *headView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, SDevWidth, 220)];
+    UIView *headView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, SDevWidth, 250)];
     headView.backgroundColor = DefaultColor;
-    NakedDriLibHeadView *headV = [[NakedDriLibHeadView alloc]initWithFrame:CGRectMake(0, 0, SDevWidth, 220)];
+    NakedDriLibHeadView *headV = [[NakedDriLibHeadView alloc]initWithFrame:
+                                              CGRectMake(0, 0, SDevWidth, 250)];
     headV.back = ^(id mess){
         self.dict = mess;
     };
@@ -80,8 +86,7 @@
             if ([YQObjectBool boolForObject:response.data[@"price"]]) {
                 [mutH addObject:response.data[@"price"]];
             }
-            self.headArr = mutH.copy;
-            self.headView.dicArr = mutH.copy;
+            self.headView.topArr = mutH.copy;
             NSMutableArray *mut = [NSMutableArray new];
             if ([YQObjectBool boolForObject:response.data[@"shape"]]) {
                 NakedDriLiblistInfo *info = [NakedDriLiblistInfo objectWithKeyValues:response.data[@"shape"]];
@@ -256,10 +261,13 @@
             }
         }
     }
-    self.headView.dicArr = self.headArr;
-    self.headView.info = _hedInfo;
+    [self.headView setAllNoChoose];
     self.dict = @{};
     [self.tableView reloadData];
+}
+
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 @end

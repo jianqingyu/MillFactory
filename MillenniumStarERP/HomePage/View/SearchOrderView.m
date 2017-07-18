@@ -25,11 +25,12 @@
     }
 }
 
-- (void)creatBaseView:(NSArray *)arr{;
+- (void)creatBaseView:(NSArray *)arr{
     CGFloat space = 10;
     CGFloat height = 30;
     CGFloat curX = 0;
     CGFloat width = 0;
+    CGFloat vW = 0;
     for (int i=0; i<arr.count; i++) {
         SearchDateInfo *info = arr[i];
         UIButton *btn = [self creatBtn];
@@ -45,7 +46,9 @@
         rect = [btn.titleLabel textRectForBounds:rect limitedToNumberOfLines:0];
         width = rect.size.width+10;
         btn.frame = CGRectMake(curX, 15, width, height);
+        vW = CGRectGetMaxX(btn.frame)+15;
     }
+    self.viewWid = vW;
 }
 
 - (UIButton *)creatBtn{

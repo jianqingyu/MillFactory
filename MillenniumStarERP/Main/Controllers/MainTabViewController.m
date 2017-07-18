@@ -31,20 +31,20 @@
             selectImage:@"icon_index"];
     
     ProductListVC *listVc = [[ProductListVC alloc]init];
-    [self addChildVcWithVC:listVc Title:@"产品"imageName:@"icon_bz_s"
-               selectImage:@"icon_bz"];
+    [self addChildVcWithVC:listVc Title:@"产品"imageName:@"icon_cps1"
+               selectImage:@"icon_cps_2"];
     
     NakedDriLibViewController *libVc = [[NakedDriLibViewController alloc]init];
-    [self addChildVcWithVC:libVc Title:@"裸石库" imageName:@"iocn_lsel2"
-               selectImage:@"iocn_lsel"];
+    [self addChildVcWithVC:libVc Title:@"裸石库" imageName:@"icon_dm"
+               selectImage:@"icon_dm_2"];
     
     HelpMenuVC *helpVc = [[HelpMenuVC alloc]init];
     [self addChildVcWithVC:helpVc Title:@"设计师" imageName:@"icon_emill_s"
                selectImage:@"icon_emill"];
     
     EditUserInfoVC *userVC = [[EditUserInfoVC alloc]init];
-    [self addChildVcWithVC:userVC Title:@"我的" imageName:@"icon_bz_s"
-               selectImage:@"icon_bz"];
+    [self addChildVcWithVC:userVC Title:@"我的" imageName:@"icon_index_s"
+               selectImage:@"icon_index"];
      UIImage *backImg = [CommonUtils createImageWithColor:BarColor];
      [self.tabBar setBackgroundImage:backImg];
 }

@@ -1,36 +1,32 @@
 //
-//  CustomProDetailVC.m
+//  NewCustomProDetailVC.m
 //  MillenniumStarERP
 //
-//  Created by yjq on 16/9/13.
-//  Copyright © 2016年 com.millenniumStar. All rights reserved.
+//  Created by yjq on 17/7/14.
+//  Copyright © 2017年 com.millenniumStar. All rights reserved.
 //
 
-#import "CustomProDetailVC.h"
+#import "NewCustomProDetailVC.h"
 #import "ConfirmOrderVC.h"
 #import "CustomFirstCell.h"
-#import "CustomProCell.h"
-#import "CustomEditTableCell.h"
+#import "NewCustomProCell.h"
 #import "CustomLastCell.h"
-#import "CusDetailHeadView.h"
-#import "DetailTextCustomView.h"
 #import "MWPhotoBrowser.h"
-#import "ETFoursquareImages.h"
 #import "DetailTypeInfo.h"
 #import "DetailModel.h"
 #import "DetailTypeInfo.h"
 #import "OrderListInfo.h"
 #import "DetailHeadInfo.h"
 #import "StrWithIntTool.h"
-#import "OrderNumTool.h"
 #import "CommonUtils.h"
+#import "OrderNumTool.h"
 #import "CustomJewelInfo.h"
 #import "CustomPickView.h"
 #import "HYBLoopScrollView.h"
 #import "NakedDriSeaListInfo.h"
 #import "NakedDriLibViewController.h"
-@interface CustomProDetailVC ()<UINavigationControllerDelegate,UITableViewDelegate,
-                   UITableViewDataSource,MWPhotoBrowserDelegate>
+@interface NewCustomProDetailVC ()<UINavigationControllerDelegate,UITableViewDelegate,
+UITableViewDataSource,MWPhotoBrowserDelegate>
 @property (nonatomic,  weak) UITableView *tableView;
 @property (nonatomic,  weak) IBOutlet UIButton *lookBtn;
 @property (nonatomic,  weak) IBOutlet UIButton *addBtn;
@@ -38,7 +34,6 @@
 @property (nonatomic,  copy)NSArray *typeArr;
 @property (nonatomic,  copy)NSArray *typeTArr;
 @property (nonatomic,  copy)NSArray *typeSArr;
-@property (nonatomic,  copy)NSArray*chooseArr;
 @property (nonatomic,  copy)NSArray*detailArr;
 @property (nonatomic,  copy)NSString*firstStr;
 @property (nonatomic,  copy)NSString*handStr;
@@ -51,19 +46,16 @@
 @property (nonatomic,  copy)NSArray *handArr;
 @property (nonatomic,  copy)NSArray *numArr;
 @property (nonatomic,  strong)NSMutableArray*mutArr;
-@property (nonatomic,  strong)NSMutableArray*nums;
-@property (nonatomic,  strong)NSMutableArray*bools;
 @property (nonatomic,    copy)NSString *driCode;
 @property (nonatomic,    copy)NSString *driPrice;
 @property (nonatomic,    copy)NSString *driId;
+@property (nonatomic,  strong)UIView *hView;
 @property (nonatomic,  strong)DetailModel *modelInfo;
 @property (nonatomic,  strong)CustomPickView *pickView;
-@property (nonatomic,  strong)DetailTextCustomView *textCView;
-@property (nonatomic,  strong)UIView *hView;
 @property (weak, nonatomic) IBOutlet UILabel *priceLab;
 @end
 
-@implementation CustomProDetailVC
+@implementation NewCustomProDetailVC
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -85,23 +77,20 @@
     self.typeArr = @[@"主   石",@"副石A",@"副石B",@"副石C"];
     self.typeSArr = @[@"stone",@"stoneA",@"stoneB",@"stoneC"];
     self.mutArr = @[].mutableCopy;
-    self.nums = @[@"",@"",@"",@""].mutableCopy;
-    self.bools = @[@YES,@NO,@NO,@NO].mutableCopy;
     [self setBaseTableView];
-    [self setupPopView];
-    [self setupTextView];
     [self setupDetailData];
+    [self setupPopView];
     [self creatNaviBtn];
     [self creatNearNetView:^(BOOL isWifi) {
         [self setupDetailData];
     }];
     [self setHandSize];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(orientChange:) name:UIApplicationDidChangeStatusBarOrientationNotification object:nil];
-    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(changeAddressText:)
-                                           name:NotificationDriName object:nil];
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(changeAddress:)
+                                                name:NotificationDriName object:nil];
 }
 //显示地址
-- (void)changeAddressText:(NSNotification *)notification{
+- (void)changeAddress:(NSNotification *)notification{
     NakedDriSeaListInfo *listInfo = notification.userInfo[UserInfoDriName];
     NSArray *infoArr = @[@"钻石",listInfo.Weight,@"圆形",listInfo.Color,listInfo.Purity];
     NSArray *arr = self.mutArr[0];
@@ -115,7 +104,6 @@
     self.driPrice = listInfo.Price;
     self.driId = listInfo.id;
     self.firstStr = @"1";
-    [self.bools setObject:@NO atIndexedSubscript:0];
     [self.tableView reloadData];
 }
 
@@ -137,12 +125,10 @@
     self.driId = CusInfo.jewelStoneId;
     self.firstStr = @"1";
     [self.mutArr addObject:mutA];
-    [self.bools setObject:@NO atIndexedSubscript:0];
     [self.tableView reloadData];
 }
 
 - (void)orientChange:(NSNotification *)notification{
-    self.textCView.frame = CGRectMake(0, 0, SDevWidth, SDevHeight);
     [self changeTableHeadView];
 }
 
@@ -182,17 +168,18 @@
         make.bottom.equalTo(self.view).offset(-50);
     }];
     self.tableView = table;
-    self.tableView.tableFooterView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, SDevWidth, 10)];
+    self.tableView.tableFooterView = [[UIView alloc]initWithFrame:
+                                               CGRectMake(0, 0, SDevWidth, 10)];
 }
 
 - (void)setHandSize{
     self.typeTArr = @[@"类型",@"规格",@"形状",@"颜色",@"净度"];
     self.numArr = @[@{@"title":@"1"},@{@"title":@"2"},@{@"title":@"3"},
-                  @{@"title":@"4"}, @{@"title":@"5"},@{@"title":@"6"},
-                  @{@"title":@"7"},@{@"title":@"8"},@{@"title":@"9"},
-                  @{@"title":@"10"},@{@"title":@"11"},@{@"title":@"12"},
-                  @{@"title":@"13"},@{@"title":@"14"},@{@"title":@"15"},
-                  @{@"title":@"16"},@{@"title":@"17"},@{@"title":@"18"}];
+                    @{@"title":@"4"}, @{@"title":@"5"},@{@"title":@"6"},
+                    @{@"title":@"7"},@{@"title":@"8"},@{@"title":@"9"},
+                    @{@"title":@"10"},@{@"title":@"11"},@{@"title":@"12"},
+                    @{@"title":@"13"},@{@"title":@"14"},@{@"title":@"15"},
+                    @{@"title":@"16"},@{@"title":@"17"},@{@"title":@"18"}];
 }
 
 - (void)viewWillAppear:(BOOL)animated{
@@ -217,7 +204,7 @@
 }
 
 - (void)backClick{
-    [self.navigationController popViewControllerAnimated:YES]; 
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 #pragma mark -- loadData 初始化数据
@@ -243,17 +230,10 @@
             }
             if ([YQObjectBool boolForObject:response.data[@"model"]]) {
                 DetailModel *modelIn = [DetailModel objectWithKeyValues:
-                                                       response.data[@"model"]];
+                                        response.data[@"model"]];
                 [self setupBaseListData:modelIn];
                 [self creatCusTomHeadView];
                 [self.tableView reloadData];
-            }
-            if ([YQObjectBool boolForObject:response.data[@"stoneType"]]) {
-                self.chooseArr = @[response.data[@"stoneType"],
-                                   response.data[@"stoneType"],
-                                   response.data[@"stoneShape"],
-                                   response.data[@"stoneColor"],
-                                   response.data[@"stonePurity"]];
             }
             if ([YQObjectBool boolForObject:response.data[@"handSizeData"]]) {
                 NSMutableArray *mutA = [NSMutableArray new];
@@ -277,28 +257,24 @@
         self.firstStr = modelIn.number;
         self.handStr = modelIn.handSize;
     }
-    [self setupNumbers:@[modelIn.stone,modelIn.stoneA,
-                         modelIn.stoneB,modelIn.stoneC]];
     self.detailArr  = @[[self arrWithDict:modelIn.stone],
                         [self arrWithDict:modelIn.stoneA],
                         [self arrWithDict:modelIn.stoneB],
                         [self arrWithDict:modelIn.stoneC]];
     [self setBaseMutArr];
-    self.specTitles = @[[self arrWithTitle:modelIn.stone],
-                        [self arrWithTitle:modelIn.stoneA],
-                        [self arrWithTitle:modelIn.stoneB],
-                        [self arrWithTitle:modelIn.stoneC]];
-    [self.bools setObject:@(modelIn.isSelfStone) atIndexedSubscript:0];
-    [self.bools setObject:[self boolWithStone:modelIn.stoneA] atIndexedSubscript:1];
-    [self.bools setObject:[self boolWithStone:modelIn.stoneB] atIndexedSubscript:2];
-    [self.bools setObject:[self boolWithStone:modelIn.stoneC] atIndexedSubscript:3];
 }
 
 - (void)setBaseMutArr{
+    int i=0;
     for (NSArray *arr in self.detailArr) {
-        if (![self boolWithNoArr:arr]) {
+        if (i==0) {
             [self setMutAWith:arr];
+        }else{
+            if (![self boolWithNoArr:arr]) {
+                [self setMutAWith:arr];
+            }
         }
+        i++;
     }
 }
 
@@ -309,31 +285,14 @@
     }
     [self.mutArr addObject:mut];
 }
-
-- (void)setupNumbers:(NSArray *)stoneArr{
-    for (int i=0; i<stoneArr.count; i++) {
-        NSDictionary *dict = stoneArr[i];
-        if ([YQObjectBool boolForObject:dict[@"number"]]) {
-            NSString *numStr = [dict[@"number"] description];
-            [self.nums setObject:numStr atIndexedSubscript:i];
+//一个石头里面的数据都是空的
+- (BOOL)boolWithNoArr:(NSArray *)arr{
+    for (DetailTypeInfo *info in arr) {
+        if (info.title.length>0) {
+            return NO;
         }
     }
-}
-
-- (id)boolWithStone:(NSDictionary *)dict{
-    id isStone = @NO;
-    if ([YQObjectBool boolForObject:dict[@"stoneOut"]]) {
-        isStone = dict[@"stoneOut"];
-    }
-    return isStone;
-}
-
-- (NSString *)arrWithTitle:(NSDictionary *)dict{
-    NSString *str;
-    if ([YQObjectBool boolForObject:dict[@"specSelectTitle"]]) {
-        str = dict[@"specSelectTitle"];
-    }
-    return str;
+    return YES;
 }
 
 - (NSMutableArray *)arrWithDict:(NSDictionary *)dict{
@@ -457,17 +416,10 @@
 - (void)setupPopView{
     CustomPickView *popV = [[CustomPickView alloc]init];
     popV.popBack = ^(int staue,id dict){
-        NSIndexPath *path = [dict allKeys][0];
         DetailTypeInfo *info = [dict allValues][0];
-        if (staue==1) {
-            [self chooseType:dict];
-        }else if (staue==2){
+        if (staue==2){
             self.handStr = info.title;
             NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
-            [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
-        }else if (staue==3){
-            [self.nums setObject:info.title atIndexedSubscript:path.section];
-            NSIndexPath *indexPath = [NSIndexPath indexPathForRow:path.section+1 inSection:0];
             [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
         }else if (staue==4){
             self.lastMess = [NSString stringWithFormat:@"%@%@",self.lastMess,info.title];
@@ -488,49 +440,8 @@
     [self dismissCustomPopView];
 }
 
-#pragma mark -- CustomPopView
-- (void)setupTextView{
-    DetailTextCustomView *popV = [[DetailTextCustomView alloc]initWithFrame:
-                           CGRectMake(0, 0, SDevWidth, SDevHeight)];
-    popV.textBack = ^(id dict){
-        [self chooseType:dict];
-    };
-    self.textCView = popV;
-}
-//选择石头
-- (void)chooseType:(NSDictionary *)dict{
-    NSIndexPath *path = [dict allKeys][0];
-    DetailTypeInfo *info = [dict allValues][0];
-    NSMutableArray *arr = self.mutArr[path.section];
-    [arr setObject:info atIndexedSubscript:path.row];
-    if (path.section!=0) {
-        [self.bools setObject:@NO atIndexedSubscript:path.section];
-    }
-    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:path.section+1 inSection:0];
-    [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
-}
-//一个石头里面的数据齐全
-- (BOOL)boolWithArr:(NSArray *)arr{
-    for (DetailTypeInfo *info in arr) {
-        if (info.title.length==0) {
-            return NO;
-        }
-    }
-    return YES;
-}
-//一个石头里面的数据都是空的
-- (BOOL)boolWithNoArr:(NSArray *)arr{
-    for (DetailTypeInfo *info in arr) {
-        if (info.title.length>0) {
-            return NO;
-        }
-    }
-    return YES;
-}
-
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
     [self dismissCustomPopView];
-    [self.textCView removeFromSuperview];
 }
 
 #pragma mark -- UITableViewDataSource
@@ -540,12 +451,12 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView
-                         numberOfRowsInSection:(NSInteger)section{
-    return self.mutArr.count+3;
+ numberOfRowsInSection:(NSInteger)section{
+    return self.mutArr.count+2;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView
-                     cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+         cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     if (indexPath.row==0) {
         CustomFirstCell *firstCell = [CustomFirstCell cellWithTableView:tableView];
         firstCell.MessBack = ^(BOOL isSel,NSString *messArr){
@@ -555,6 +466,7 @@
                 [self openNumberAndhandSize:2 and:indexPath];
             }
         };
+        firstCell.isNew = YES;
         if (self.driCode) {
             firstCell.certCode = self.driCode;
         }
@@ -563,15 +475,9 @@
         firstCell.handSize = self.handStr;
         return firstCell;
     }else if (indexPath.row==self.mutArr.count+1){
-        CustomEditTableCell *editCell = [CustomEditTableCell cellWithTableView:tableView];
-        editCell.back = ^(id staue){
-            [self editStoneWith:staue];
-        };
-        return editCell;
-    }else if (indexPath.row==self.mutArr.count+2){
         CustomLastCell *lastCell = [CustomLastCell cellWithTableView:tableView];
         [lastCell.btn addTarget:self action:@selector(openRemark:)
-                                  forControlEvents:UIControlEventTouchUpInside];
+               forControlEvents:UIControlEventTouchUpInside];
         lastCell.messBack = ^(id message){
             if ([message isKindOfClass:[NSString class]]) {
                 self.lastMess = message;
@@ -580,47 +486,44 @@
         lastCell.message = self.lastMess;
         return lastCell;
     }else{
-        CustomProCell *proCell = [CustomProCell cellWithTableView:tableView];
-        NSString *str = self.typeArr[indexPath.row-1];
-        proCell.number = self.nums[indexPath.row-1];
-        proCell.titleStr = str;
-        proCell.isSel = [self.bools[indexPath.row-1]boolValue];
+        NewCustomProCell *proCell = [NewCustomProCell cellWithTableView:tableView];
+        proCell.titleStr = self.typeArr[indexPath.row-1];
         proCell.list = self.mutArr[indexPath.row-1];
-        if (self.driPrice) {
-            proCell.driP = self.driPrice;
+        if (self.driCode) {
+            proCell.certCode = self.driCode;
         }
-        proCell.tableBack = ^(id index){
-            BOOL isYes = NO;
-            if ([index isKindOfClass:[NSNumber class]]) {
-                int row = [index intValue];
-                if (row==10) {
-                    isYes = YES;
-                }
-            }
-            if (self.driCode.length&&!isYes&&[str isEqualToString:@"主   石"]) {
-                [MBProgressHUD showError:@"不可选择"];
-                return;
-            }
-            if ([index isKindOfClass:[NSString class]]) {
-                NSIndexPath *inPath = [NSIndexPath indexPathForRow:0
-                                                         inSection:indexPath.row-1];
-                [self openNumberAndhandSize:3 and:inPath];
-            }else if ([index isKindOfClass:[NSDictionary class]]){
-                BOOL ishave = [index[@"主石"] boolValue];
-                [self.bools setObject:@(ishave) atIndexedSubscript:indexPath.row-1];
-            }else{
-                int row = [index intValue];
-                if (row==10) {
-                    [self gotoNakedDriLib];
-                }else{
-                    NSIndexPath *inPath = [NSIndexPath indexPathForRow:row
-                                                             inSection:indexPath.row-1];
-                    [self openPopTableWithInPath:inPath];
-                }
-            }
-        };
         return proCell;
     }
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    if (indexPath.row==1) {
+        [self gotoNakedDriLib];
+    }
+}
+
+- (void)openNumberAndhandSize:(int)staue and:(NSIndexPath *)index{
+    if (staue==2) {
+        self.pickView.typeList = self.handArr;
+        NSString *title = self.handStr?self.handStr:@"12";
+        self.pickView.titleStr = @"手寸";
+        self.pickView.selTitle = title;
+    }
+    self.pickView.section = index;
+    self.pickView.staue = staue;
+    [self showCustomPopView];
+}
+
+- (void)openRemark:(id)sender{
+    if (self.remakeArr.count==0) {
+        [MBProgressHUD showError:@"没有备注可选"];
+        return;
+    }
+    self.pickView.typeList = self.remakeArr;
+    self.pickView.section = [NSIndexPath indexPathForRow:0 inSection:0];
+    self.pickView.titleStr = @"备注";
+    self.pickView.staue = 4;
+    [self showCustomPopView];
 }
 
 - (void)showCustomPopView{
@@ -635,100 +538,6 @@
     NakedDriLibViewController *libVc = [NakedDriLibViewController new];
     libVc.isSel = YES;
     [self.navigationController pushViewController:libVc animated:YES];
-}
-
-- (void)openNumberAndhandSize:(int)staue and:(NSIndexPath *)index{
-    if (staue==2) {
-        self.pickView.typeList = self.handArr;
-        NSString *title = self.handStr?self.handStr:@"12";
-        self.pickView.titleStr = @"手寸";
-        self.pickView.selTitle = title;
-    }else{
-        self.pickView.typeList = self.numArr;
-        self.pickView.titleStr = @"数量";
-        self.pickView.selTitle = self.nums[index.section];
-    }
-    self.pickView.section = index;
-    self.pickView.staue = staue;
-    [self showCustomPopView];
-}
-
-- (void)editStoneWith:(id)number{
-    int num = [number intValue];
-    switch (num) {
-        case 1:{
-            if (self.mutArr.count==0) {
-                [MBProgressHUD showError:@"没有石头"];
-                return;
-            }
-            if (self.mutArr.count==1) {
-                self.driPrice = @"";
-                self.driCode = @"";
-                self.driId = @"";
-            }
-            NSArray *arr = _detailArr[self.mutArr.count-1];
-            [self.mutArr removeLastObject];
-            [self setMutAWith:arr];
-            [self.tableView reloadData];
-        }
-            break;
-        case 2:
-            if (self.mutArr.count==0) {
-                [MBProgressHUD showError:@"没有石头"];
-                return;
-            }
-            if (self.mutArr.count==1) {
-                self.driPrice = @"";
-                self.driCode = @"";
-                self.driId = @"";
-            }
-            [self.mutArr removeLastObject];
-            [self.tableView reloadData];
-            break;
-        case 3:{
-            if (self.mutArr.count==4) {
-                [MBProgressHUD showError:@"不能添加石头了"];
-                return;
-            }
-            NSArray *arr = _detailArr[self.mutArr.count];
-            [self setMutAWith:arr];
-            [self.tableView reloadData];
-            }
-            break;
-        default:
-            break;
-    }
-}
-
-- (void)openPopTableWithInPath:(NSIndexPath *)inPath{
-    if (inPath.row==1) {
-        NSString *titleStr = self.specTitles[inPath.section];
-        self.textCView.section = inPath;
-        self.textCView.topLab.text = titleStr;
-        [self.view addSubview:self.textCView];
-    }else{
-        NSArray *dictArr = self.chooseArr[inPath.row];
-        NSArray *list = self.mutArr[inPath.section];
-        DetailTypeInfo *info = list[inPath.row];
-        self.pickView.typeList = dictArr;
-        self.pickView.section = inPath;
-        self.pickView.titleStr = self.typeTArr[inPath.row];
-        self.pickView.selTitle = info.title;
-        self.pickView.staue = 1;
-        [self showCustomPopView];
-    }
-}
-
-- (void)openRemark:(id)sender{
-    if (self.remakeArr.count==0) {
-        [MBProgressHUD showError:@"没有备注可选"];
-        return;
-    }
-    self.pickView.typeList = self.remakeArr;
-    self.pickView.section = [NSIndexPath indexPathForRow:0 inSection:0];
-    self.pickView.titleStr = @"备注";
-    self.pickView.staue = 4;
-    [self showCustomPopView];
 }
 
 - (IBAction)lookOrder:(id)sender {
@@ -748,24 +557,7 @@
     NSMutableDictionary *params = [NSMutableDictionary new];
     for (int i=0; i<self.mutArr.count; i++) {
         NSMutableArray *arr = self.mutArr[i];
-        BOOL isAdd = [self boolWithArr:arr]&&[self.nums[i] length]>0;
-        BOOL isNoAdd = [self boolWithNoArr:arr]&&[self.nums[i] length]==0;
-        BOOL isYes = [self.bools[0] boolValue];
-        if (i==0&&isYes) {
-            [self paramsWithArr:arr andI:i andD:params];
-        }else{
-            if (isYes) {
-                params[self.typeSArr[i]] = @"||||||1";
-                continue;
-            }
-            if (isAdd) {
-                [self paramsWithArr:arr andI:i andD:params];
-            }else if (!isNoAdd){
-                NSString *str = @"请填写红框";
-                [MBProgressHUD showError:str];
-                return;
-            }
-        }
+        [self paramsWithArr:arr andI:i andD:params];
     }
     [self addOrderWithDict:params];
 }
@@ -783,7 +575,6 @@
             }
         }
     }
-    [mutA addObject:self.nums[i]];
     NSString *str = [StrWithIntTool strWithIntOrStrArr:mutA];
     NSString *key = self.typeSArr[i];
     if (![key isEqualToString:@"stone"]) {
@@ -812,13 +603,8 @@
     if (self.driId.length>0) {
         params[@"jewelStoneId"] = self.driId;
     }
-    params[@"isSelfStone"] = self.bools[0];
     if (!self.isEdit) {
         params[@"categoryId"] = @(self.modelInfo.categoryId);
-    }
-    if (_qualityId&&_colorId) {
-        params[@"qualityId"] = @(_qualityId);
-        params[@"purityId"] = @(_colorId);
     }
     if (self.lastMess.length>0) {
         params[@"remarks"] = self.lastMess;
@@ -858,13 +644,9 @@
 - (void)updateBottomPrice{
     float price = _modelInfo.price;
     if (self.driPrice.length>0) {
-       price = price + [self.driPrice floatValue];
+        price = price + [self.driPrice floatValue];
     }
     self.priceLab.text = [NSString stringWithFormat:@"￥%0.0f",price];
-}
-
-- (void)dealloc {
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 @end

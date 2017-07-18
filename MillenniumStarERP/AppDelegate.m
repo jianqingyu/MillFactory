@@ -36,7 +36,7 @@
     [[NSNotificationCenter defaultCenter] addObserver:self
                  selector:@selector(reachabilityChanged:)
                             name: kReachabilityChangedNotification object: nil];
-    hostReach = [Reachability reachabilityWithHostName:@"www.google.com"];
+    hostReach = [Reachability reachabilityWithHostName:@"www.apple.com"];
     [hostReach startNotifier];
     
     UIImage *backImg = [CommonUtils createImageWithColor:BarColor];
@@ -192,7 +192,7 @@
 
 - (void)reachabilityChanged:(NSNotification *)note {
     Reachability* curReach = [note object];
-    NSParameterAssert([curReach isKindOfClass: [Reachability class]]);
+//    NSParameterAssert([curReach isKindOfClass: [Reachability class]]);
     NetworkStatus status = [curReach currentReachabilityStatus];
     BOOL isYes = !(status == NotReachable);
     if (self.loadBack) {

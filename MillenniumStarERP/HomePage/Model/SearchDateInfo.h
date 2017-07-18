@@ -10,6 +10,7 @@
 
 @interface SearchDateInfo : NSObject
 @property (nonatomic,  copy)NSString *title;
+@property (nonatomic,  copy)NSString *key;
 @property (nonatomic,  copy)NSString *sdate;
 @property (nonatomic,  copy)NSString *edate;
 @property (nonatomic,assign)BOOL isDefault;

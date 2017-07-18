@@ -72,6 +72,7 @@
 - (void)loadHomeView{
     CusTomLoginView *loginV = [CusTomLoginView createLoginView];
     [self.view addSubview:loginV];
+    self.loginView = loginV;
     loginV.btnBack = ^(int staue){
         if (staue==1) {
             if (_noLogin) {

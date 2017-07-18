@@ -24,6 +24,7 @@
 #import "ConfirmOrderVC.h"
 #import "OrderNumTool.h"
 #import "CustomTextField.h"
+#import "NewCustomProDetailVC.h"
 @interface ProductListVC ()<UICollectionViewDataSource,UICollectionViewDelegate,
                              UITextFieldDelegate,CDRTranslucentSideBarDelegate>{
     int curPage;
@@ -445,9 +446,15 @@
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
     ProductInfo *info = self.dataArray[indexPath.row];
-    CustomProDetailVC *customDeVC = [CustomProDetailVC new];
-    customDeVC.proId = info.id;
-    [self.navigationController pushViewController:customDeVC animated:YES];
+    if ([[AccountTool account].isSel intValue]==0) {
+        NewCustomProDetailVC *newVc = [NewCustomProDetailVC new];
+        newVc.proId = info.id;
+        [self.navigationController pushViewController:newVc animated:YES];
+    }else{
+        CustomProDetailVC *customDeVC = [CustomProDetailVC new];
+        customDeVC.proId = info.id;
+        [self.navigationController pushViewController:customDeVC animated:YES];
+    }
 }
 
 - (void)viewWillDisappear:(BOOL)animated{

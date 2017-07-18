@@ -10,6 +10,8 @@
 typedef void (^SeaDateBack)(id dateInfo);
 @interface SearchOrderView : UIView
 @property (nonatomic,copy)NSArray *arr;
-- (void)setAllBtnSele;
+- (id)initWithFrame:(CGRect)frame withDic:(NSArray *)btnArr;
 @property (nonatomic,copy)SeaDateBack dateBack;
+@property (nonatomic,assign)CGFloat viewWid;
+- (void)setAllBtnSele;
 @end
