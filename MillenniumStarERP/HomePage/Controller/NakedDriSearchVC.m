@@ -20,6 +20,7 @@
 }
 @property (nonatomic,  copy)NSString *sortStr;
 @property (nonatomic,assign)BOOL isFir;
+@property (nonatomic,assign)BOOL isShow;
 @property (nonatomic,strong)UITableView *tableView;
 @property (nonatomic,strong)NSMutableArray *dataArray;
 @property (weak,  nonatomic) IBOutlet UIView *bottomV;
@@ -34,6 +35,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = @"搜索结果";
+    self.isShow = [[AccountTool account].isShow intValue];
     self.dataArray = @[].mutableCopy;
     [self setupBaseTableView];
     [self setupHeaderRefresh];
@@ -179,6 +181,11 @@
     }
     if([YQObjectBool boolForObject:data[@"stone"][@"headline"]]){
         NSArray *topArr = data[@"stone"][@"headline"];
+        if (!self.isShow) {
+            NSMutableArray *mutA = topArr.mutableCopy;
+            [mutA removeObjectAtIndex:2];
+            topArr = mutA.copy;
+        }
         [self setTableViewHeadView:topArr];
         [self.tableView mas_updateConstraints:^(MASConstraintMaker *make) {
             make.width.mas_equalTo((topArr.count*60+100));
@@ -232,6 +239,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     NakedDriSeaTableCell *cell = [NakedDriSeaTableCell cellWithTableView:tableView];
+    cell.isShow = self.isShow;
     cell.back = ^(BOOL isSel){
         [self cellBackWithIndex:indexPath.row];
     };
@@ -244,6 +252,9 @@
 }
 
 - (void)cellBackWithIndex:(NSInteger)index{
+    if (!self.isShow) {
+        return;
+    }
     NakedDriSeaListInfo *listInfo = self.dataArray[index];
     NakedDriPriceVC *nakedVc = [NakedDriPriceVC new];
     nakedVc.orderId = listInfo.id;
@@ -280,6 +291,9 @@
 }
 
 - (IBAction)priceClick:(id)sender {
+    if (!self.isShow) {
+        return;
+    }
     NSArray *arr = [self arrWithIsSel];
     if (arr.count==0) {
         [MBProgressHUD showError:@"请选择钻石"];
@@ -294,6 +308,9 @@
 }
 
 - (IBAction)orderCliCk:(id)sender {
+    if (!self.isShow) {
+        return;
+    }
     NSArray *arr = [self arrWithIsSel];
     if (arr.count==0) {
         [MBProgressHUD showError:@"请选择钻石"];

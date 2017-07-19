@@ -29,6 +29,7 @@
     [self loadNewHomeData];
     [self setCollectionView];
     [self creatNaviBtn];
+    self.isShowPrice = [[AccountTool account].isShow intValue];
     self.picUrl = @"http://appapi2.fanerweb.com/images/index/classAd_2_4.jpg";
     self.view.backgroundColor = DefaultColor;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(orientChange:) name:UIApplicationDidChangeStatusBarOrientationNotification object:nil];
@@ -70,9 +71,9 @@
     [BaseApi getGeneralData:^(BaseResponse *response, NSError *error) {
         if ([response.error intValue]==0) {
             if ([YQObjectBool boolForObject:response.data]) {
-                if([YQObjectBool boolForObject:response.data[@"model"][@"isShowPrice"]]){
-                    self.isShowPrice = [response.data[@"model"][@"isShowPrice"]intValue];
-                }
+//                if([YQObjectBool boolForObject:response.data[@"model"][@"isShowPrice"]]){
+//                    self.isShowPrice = [response.data[@"model"][@"isShowPrice"]intValue];
+//                }
                 NSArray *seaArr = [ProductInfo objectArrayWithKeyValuesArray:response.data[@"model"][@"modelList"]];
                 [_dataArray addObjectsFromArray:seaArr];
                 [self.homeCollection reloadData];

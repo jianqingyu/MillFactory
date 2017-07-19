@@ -21,6 +21,7 @@
         self.tokenKey = dict[@"tokenKey"];
         self.phone    = dict[@"phone"];
         self.isSel    = dict[@"isSel"];
+        self.isShow   = dict[@"isShow"];
     }
     return self;
 }
@@ -33,6 +34,7 @@
     [aCoder encodeObject:self.tokenKey forKey:@"tokenKey"];
     [aCoder encodeObject:self.phone forKey:@"phone"];
     [aCoder encodeObject:self.isSel forKey:@"isSel"];
+    [aCoder encodeObject:self.isShow forKey:@"isShow"];
 }
 /**
  *当从沙盒中解当时，就会调用这个方法
@@ -44,6 +46,7 @@
         self.tokenKey = [aDecoder decodeObjectForKey:@"tokenKey"];
         self.phone    = [aDecoder decodeObjectForKey:@"phone"];
         self.isSel    = [aDecoder decodeObjectForKey:@"isSel"];
+        self.isShow   = [aDecoder decodeObjectForKey:@"isShow"];
     }
     return self;
 }

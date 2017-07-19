@@ -146,6 +146,7 @@
                     <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="fPJ-rP-TJN" secondAttribute="trailing" constant="10" id="7W9-RR-ICx"/>
                     <constraint firstItem="UYa-qD-FAv" firstAttribute="top" relation="greaterThanOrEqual" secondItem="H2p-sc-9uM" secondAttribute="top" constant="49" id="9SK-Qx-cTt"/>
                     <constraint firstItem="UYa-qD-FAv" firstAttribute="top" secondItem="pPA-lu-gK7" secondAttribute="bottom" constant="9" id="AsN-uO-Dhq"/>
+                    <constraint firstItem="2eP-2v-jHv" firstAttribute="top" secondItem="1PW-eY-73i" secondAttribute="bottom" constant="3" id="AtF-6v-IgU"/>
                     <constraint firstItem="S3m-Wb-soz" firstAttribute="top" secondItem="jwA-iF-IXM" secondAttribute="bottom" constant="2" id="Eok-tK-PFj"/>
                     <constraint firstItem="jwA-iF-IXM" firstAttribute="top" secondItem="pPA-lu-gK7" secondAttribute="bottom" constant="9" id="Fbr-a0-kDB"/>
                     <constraint firstItem="2eP-2v-jHv" firstAttribute="top" secondItem="UYa-qD-FAv" secondAttribute="bottom" constant="9" id="GW7-VZ-ITe"/>
@@ -184,6 +185,7 @@
                         <exclude reference="Nb0-4k-PwJ"/>
                         <exclude reference="kfT-Sh-JpF"/>
                         <exclude reference="sil-8K-dxF"/>
+                        <exclude reference="Ke2-Xh-WnY"/>
                     </mask>
                 </variation>
             </tableViewCellContentView>

@@ -60,6 +60,7 @@
 }
 
 - (void)setBaseAllViewData{
+    self.isShowPrice = [[AccountTool account].isShow intValue];
     self.backDict = [NSMutableDictionary new];
     self.dataArray = [NSMutableArray new];
     self.orderNumLab.layer.cornerRadius = 8;
@@ -258,6 +259,9 @@
 }
 
 - (IBAction)historyOrder:(id)sender {
+    if (![[AccountTool account].isShow intValue]) {
+        return;
+    }
     OrderListController *listVC = [OrderListController new];
     [self.navigationController pushViewController:listVC animated:YES];
 }
@@ -379,9 +383,9 @@
 }
 //初始化数据
 - (void)setupDataWithData:(NSDictionary *)data{
-    if([YQObjectBool boolForObject:data[@"model"][@"isShowPrice"]]){
-        self.isShowPrice = [data[@"model"][@"isShowPrice"]intValue];
-    }
+//    if([YQObjectBool boolForObject:data[@"model"][@"isShowPrice"]]){
+//        self.isShowPrice = [data[@"model"][@"isShowPrice"]intValue];
+//    }
     if([YQObjectBool boolForObject:data[@"typeList"]]){
         self.slideRightTab.goods = [ScreeningInfo
                               objectArrayWithKeyValuesArray:data[@"typeList"]];
