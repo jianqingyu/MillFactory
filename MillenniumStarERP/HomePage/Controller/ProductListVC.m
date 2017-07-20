@@ -36,9 +36,11 @@
 @property (weak, nonatomic) IBOutlet UILabel *titleLab;
 @property (weak, nonatomic) IBOutlet UIButton *titleBtn;
 @property (weak, nonatomic) IBOutlet UILabel *orderNumLab;
+@property (weak, nonatomic) IBOutlet UIButton *hisBtn;
 @property (copy, nonatomic) NSString *keyWord;
 @property (nonatomic, assign) int index;
 @property (nonatomic,   weak) UIView *baView;
+@property (nonatomic, strong) NSMutableDictionary *backDict;
 @property (nonatomic, strong) NSMutableArray *dataArray;
 @property (nonatomic, strong) AllListPopView *popClassView;
 @property (nonatomic, strong) CDRTranslucentSideBar *rightSideBar;
@@ -60,7 +62,6 @@
 }
 
 - (void)setBaseAllViewData{
-    self.isShowPrice = [[AccountTool account].isShow intValue];
     self.backDict = [NSMutableDictionary new];
     self.dataArray = [NSMutableArray new];
     self.orderNumLab.layer.cornerRadius = 8;
@@ -80,6 +81,9 @@
 
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
+    self.isShowPrice = [[AccountTool account].isShow intValue];
+    self.hisBtn.enabled = [[AccountTool account].isShow intValue];
+    [self.rightCollection reloadData];
     App;
     [OrderNumTool orderWithNum:app.shopNum andView:self.orderNumLab];
 }

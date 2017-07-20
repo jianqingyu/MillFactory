@@ -54,7 +54,7 @@
 - (void)setDriP:(NSString *)driP{
     if (driP) {
         _driP = driP;
-        if (_driP.length>0&&[_titleStr isEqualToString:@"主   石"]&&![[AccountTool account].isShow intValue]) {
+        if (_driP.length>0&&[_titleStr isEqualToString:@"主   石"]&&[[AccountTool account].isShow intValue]) {
             self.mainBtn.enabled = NO;
             self.priceLab.textColor = MAIN_COLOR;
             if ([_driP containsString:@"."]) {

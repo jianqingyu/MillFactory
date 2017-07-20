@@ -472,7 +472,7 @@
             [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
         }else if (staue==4){
             self.lastMess = [NSString stringWithFormat:@"%@%@",self.lastMess,info.title];
-            NSIndexPath *indexPath = [NSIndexPath indexPathForRow:self.mutArr.count+1 inSection:0];
+            NSIndexPath *indexPath = [NSIndexPath indexPathForRow:self.mutArr.count+2 inSection:0];
             [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:
              UITableViewRowAnimationNone];
         }

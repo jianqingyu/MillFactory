@@ -27,8 +27,8 @@
     [super viewDidLoad];
     self.delegate = self;
     NewHomePageVC *newPage = [[NewHomePageVC alloc]init];
-    [self addChildVcWithVC:newPage Title:@"首页"imageName:@"icon_index_s"
-            selectImage:@"icon_index"];
+    [self addChildVcWithVC:newPage Title:@"首页"imageName:@"icon_ho"
+            selectImage:@"icon_ho2"];
     
     ProductListVC *listVc = [[ProductListVC alloc]init];
     [self addChildVcWithVC:listVc Title:@"产品"imageName:@"icon_cps1"
@@ -39,12 +39,12 @@
                selectImage:@"icon_dm_2"];
     
     HelpMenuVC *helpVc = [[HelpMenuVC alloc]init];
-    [self addChildVcWithVC:helpVc Title:@"设计师" imageName:@"icon_emill_s"
-               selectImage:@"icon_emill"];
+    [self addChildVcWithVC:helpVc Title:@"设计师" imageName:@"icon_index_s"
+               selectImage:@"icon_index"];
     
     EditUserInfoVC *userVC = [[EditUserInfoVC alloc]init];
-    [self addChildVcWithVC:userVC Title:@"我的" imageName:@"icon_index_s"
-               selectImage:@"icon_index"];
+    [self addChildVcWithVC:userVC Title:@"我的" imageName:@"icon_set"
+               selectImage:@"icon_set2"];
      UIImage *backImg = [CommonUtils createImageWithColor:BarColor];
      [self.tabBar setBackgroundImage:backImg];
 }

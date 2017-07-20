@@ -49,6 +49,9 @@
                                         <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <color key="titleShadowColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     </state>
+                                    <state key="disabled">
+                                        <color key="titleColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                    </state>
                                     <connections>
                                         <action selector="orderCliCk:" destination="-1" eventType="touchUpInside" id="Tt6-zp-rxS"/>
                                     </connections>
@@ -59,6 +62,9 @@
                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                     <state key="normal" title="批量报价">
                                         <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    </state>
+                                    <state key="disabled">
+                                        <color key="titleColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                     </state>
                                     <connections>
                                         <action selector="priceClick:" destination="-1" eventType="touchUpInside" id="oqe-8G-mv1"/>
@@ -138,7 +144,7 @@
                 <constraint firstAttribute="bottom" secondItem="z7i-8Q-Iei" secondAttribute="bottom" id="nyZ-8b-cKz"/>
                 <constraint firstAttribute="trailing" secondItem="z7i-8Q-Iei" secondAttribute="trailing" id="ptr-dP-RsJ"/>
             </constraints>
-            <point key="canvasLocation" x="420" y="270"/>
+            <point key="canvasLocation" x="337" y="270"/>
         </view>
     </objects>
     <resources>

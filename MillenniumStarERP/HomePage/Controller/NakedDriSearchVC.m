@@ -79,6 +79,7 @@
 
 - (void)setupBaseTableView{
     for (UIButton *btn in _bottomBtns) {
+        btn.enabled = [[AccountTool account].isShow intValue];
         [btn setLayerWithW:3 andColor:BordColor andBackW:0.001];
     }
     [self.sureBtn setLayerWithW:3 andColor:BordColor andBackW:0.001];
