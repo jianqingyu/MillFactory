@@ -53,6 +53,7 @@ UITableViewDataSource,MWPhotoBrowserDelegate>
 @property (nonatomic,  strong)DetailModel *modelInfo;
 @property (nonatomic,  strong)CustomPickView *pickView;
 @property (weak, nonatomic) IBOutlet UILabel *priceLab;
+@property (weak, nonatomic) IBOutlet UILabel *allLab;
 @end
 
 @implementation NewCustomProDetailVC
@@ -69,6 +70,7 @@ UITableViewDataSource,MWPhotoBrowserDelegate>
     [self.lookBtn setLayerWithW:5 andColor:BordColor andBackW:0.5];
     [self.addBtn setLayerWithW:5 andColor:BordColor andBackW:0.001];
     self.priceLab.hidden = ![[AccountTool account].isShow intValue];
+    self.allLab.hidden = ![[AccountTool account].isShow intValue];
     [self.priceLab setAdjustsFontSizeToFitWidth:YES];
     [self.numLab setAdjustsFontSizeToFitWidth:YES];
     if (self.isEdit) {

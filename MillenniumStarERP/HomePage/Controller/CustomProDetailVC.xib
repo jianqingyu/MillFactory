@@ -8,6 +8,7 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="CustomProDetailVC">
             <connections>
                 <outlet property="addBtn" destination="Giw-Jf-ZMw" id="tfJ-hR-xgx"/>
+                <outlet property="allLab" destination="ztb-GU-a5y" id="VHy-BW-rzM"/>
                 <outlet property="lookBtn" destination="rM9-Wz-e73" id="dvg-wk-yeO"/>
                 <outlet property="numLab" destination="ECl-Mf-FtD" id="0As-BI-bZb"/>
                 <outlet property="priceLab" destination="IV2-wT-nXB" id="7t5-CG-Qbc"/>
