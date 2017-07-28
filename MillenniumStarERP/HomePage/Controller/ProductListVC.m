@@ -40,7 +40,6 @@
 @property (copy, nonatomic) NSString *keyWord;
 @property (nonatomic, assign) int index;
 @property (nonatomic,   weak) UIView *baView;
-@property (nonatomic, strong) NSMutableDictionary *backDict;
 @property (nonatomic, strong) NSMutableArray *dataArray;
 @property (nonatomic, strong) AllListPopView *popClassView;
 @property (nonatomic, strong) CDRTranslucentSideBar *rightSideBar;
@@ -62,7 +61,9 @@
 }
 
 - (void)setBaseAllViewData{
-    self.backDict = [NSMutableDictionary new];
+    if (!self.backDict) {
+        self.backDict = [NSMutableDictionary new];
+    }
     self.dataArray = [NSMutableArray new];
     self.orderNumLab.layer.cornerRadius = 8;
     self.orderNumLab.layer.masksToBounds = YES;
@@ -114,9 +115,10 @@
     
     UIView *bView = [UIView new];
     bView.backgroundColor = CUSTOM_COLOR_ALPHA(0, 0, 0, 0.5);
+    bView.hidden = YES;
     [self.view addSubview:bView];
     [bView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.view).offset(2*SDevHeight);
+        make.top.equalTo(self.view).offset(0);
         make.left.equalTo(self.view).offset(0);
         make.right.equalTo(self.view).offset(0);
         make.bottom.equalTo(self.view).offset(0);
@@ -234,16 +236,12 @@
         self.titleBtn.selected = NO;
     }
     [self.popClassView removeFromSuperview];
-    [self.baView mas_updateConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.view).offset(0);
-    }];
+    self.baView.hidden = NO;
 }
 
 - (void)sideBar:(CDRTranslucentSideBar *)sideBar willDisappear:(BOOL)animated
 {
-    [self.baView mas_updateConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.view).offset(2*SDevHeight);
-    }];
+    self.baView.hidden = YES;
 }
 
 #pragma mark -- 顶部5个按钮

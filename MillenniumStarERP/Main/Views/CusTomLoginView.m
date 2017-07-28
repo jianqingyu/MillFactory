@@ -13,7 +13,7 @@
 @property (weak, nonatomic) UITextField *codeField;
 @property (weak, nonatomic) UIView *loginView;
 @property (weak, nonatomic) UIButton *loginBtn;
-@property (weak, nonatomic) UIButton *codeBtn;
+@property (weak, nonatomic) ZBButten *codeBtn;
 @property (weak, nonatomic) UIImageView *backImg;
 @property (weak, nonatomic) UIView *logView;
 @property (copy, nonatomic) NSString *code;
@@ -33,7 +33,7 @@
 - (id)init{
     self = [super init];
     if (self) {
-        self.backgroundColor = [UIColor blackColor];
+        self.backgroundColor = CUSTOM_COLOR(241, 241, 241);
         [self creatBaseView];
     }
     return self;
@@ -41,71 +41,51 @@
 
 - (void)layoutSubviews{
     [super layoutSubviews];
+    if (!IsPhone) {
+        return;
+    }
     if (SDevWidth>SDevHeight) {
-        [self.backImg mas_updateConstraints:^(MASConstraintMaker *make) {
-            make.bottom.equalTo(self).offset(0);
-        }];
         CGFloat mar = 10;
         if (SDevHeight>320) {
             mar = SDevHeight*0.1;
         }
-        if (!IsPhone) {
-            mar = SDevHeight*0.3;
-        }
-        [self.logView mas_updateConstraints:^(MASConstraintMaker *make) {
+        [self.backImg mas_updateConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(self).offset(mar);
         }];
     }else{
+        CGFloat mar = SDevHeight*0.2;
         [self.backImg mas_updateConstraints:^(MASConstraintMaker *make) {
-            make.bottom.equalTo(self).offset(SDevWidth*5/6-SDevHeight);
-        }];
-        CGFloat mar = SDevHeight*0.3;
-        if (!IsPhone) {
-            mar = SDevHeight*0.5;
-        }
-        [self.logView mas_updateConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(self).offset(mar);
         }];
     }
 }
 
 - (void)creatBaseView{
-    UIImageView *imageB = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"backView"]];
-    [self addSubview:imageB];
-    [imageB mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self).offset(0);
-        make.top.equalTo(self).offset(0);
-        make.right.equalTo(self).offset(0);
-        make.bottom.equalTo(self).offset(SDevWidth*5/6-SDevHeight);  
+    UIImageView *imageV = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"ic_03"]];
+    [self addSubview:imageV];
+    [imageV mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self).offset(SDevHeight*0.2);
+        make.centerX.mas_equalTo(self.centerX);
+        make.size.mas_equalTo(CGSizeMake(SDevWidth*0.5, SDevWidth*0.5/3));
     }];
-    self.backImg = imageB;
-    
+    self.backImg = imageV;
     //底部登录页面
     UIView *loginV = [[UIView alloc]init];
     loginV.backgroundColor = [UIColor clearColor];
     [self addSubview:loginV];
     [loginV mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self).offset(SDevHeight*0.5);
-        make.centerX.mas_equalTo(self.mas_centerX);
-        make.bottom.equalTo(self).offset(0);
-        make.width.mas_equalTo(SDevWidth*0.7);
+        make.top.equalTo(imageV.mas_bottom).with.offset(SDevHeight*0.09);
+        make.centerX.mas_equalTo(self.centerX);
+        make.size.mas_equalTo(CGSizeMake(SDevWidth*0.7, 210));
     }];
     self.logView = loginV;
-    
-    UIImageView *imageV = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"logo2"]];
-    [loginV addSubview:imageV];
-    [imageV mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(loginV).offset(0);
-        make.centerX.mas_equalTo(loginV.mas_centerX);
-        make.size.mas_equalTo(CGSizeMake(80, 103));
-    }];
     
     [self creatListView:loginV isC:1];
     [self creatListView:loginV isC:2];
     UIView *listView3 = [self creatListView:loginV isC:3];
     
     UIButton *loginBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    [loginBtn setBackgroundImage:[UIImage imageNamed:@"logbtn"] forState:UIControlStateNormal];
+    loginBtn.backgroundColor = MAIN_COLOR;
     [loginBtn setTitle:@"登  陆" forState:UIControlStateNormal];
     [loginBtn addTarget:self action:@selector(loginClick:)
                                forControlEvents:UIControlEventTouchUpInside];
@@ -118,26 +98,18 @@
         make.height.mas_equalTo(@35);
     }];
     
-    UIButton *restBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    restBtn.titleLabel.font = [UIFont systemFontOfSize:12];
-    [restBtn setTitle:@"注册账号" forState:UIControlStateNormal];
-    [restBtn addTarget:self action:@selector(resetClick:)
-       forControlEvents:UIControlEventTouchUpInside];
-    [loginV addSubview:restBtn];
+    UIButton *restBtn = [self creatBtnWith:@"注册账号" andV:loginV];
+    restBtn.tag = 2;
     [restBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(loginBtn.mas_bottom).with.offset(3);
+        make.bottom.equalTo(loginV).offset(-10);
         make.left.equalTo(loginV).offset(0);
         make.size.mas_equalTo(CGSizeMake(80, 30));
     }];
     
-    UIButton *eidtBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    eidtBtn.titleLabel.font = [UIFont systemFontOfSize:12];
-    [eidtBtn setTitle:@"忘记密码" forState:UIControlStateNormal];
-    [eidtBtn addTarget:self action:@selector(editClick:)
-      forControlEvents:UIControlEventTouchUpInside];
-    [loginV addSubview:eidtBtn];
+    UIButton *eidtBtn = [self creatBtnWith:@"忘记密码" andV:loginV];
+    eidtBtn.tag = 3;
     [eidtBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(loginBtn.mas_bottom).with.offset(3);
+        make.bottom.equalTo(loginV).offset(-10);
         make.right.equalTo(loginV).offset(0);
         make.size.mas_equalTo(CGSizeMake(80, 30));
     }];
@@ -148,49 +120,52 @@
     _passWordFie.text = password;
 }
 
+- (UIButton *)creatBtnWith:(NSString *)title andV:(UIView *)subV{
+    UIButton *editBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    editBtn.titleLabel.font = [UIFont systemFontOfSize:12];
+    [editBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [editBtn setTitle:title forState:UIControlStateNormal];
+    [editBtn addTarget:self action:@selector(bottomClick:)
+      forControlEvents:UIControlEventTouchUpInside];
+    [subV addSubview:editBtn];
+    return editBtn;
+}
+
 - (UIView *)creatListView:(UIView *)loginV isC:(int)staue{
     CGFloat heightMar = 5;
     CGFloat fieH = 20;
-    CGFloat viewH = (staue-1)*(1.6+39)+110;
+    CGFloat viewH = (staue-1)*(0.8+39);
     UIView *view = [[UIView alloc]init];
     [loginV addSubview:view];
     [view mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(loginV).offset(viewH);
         make.left.equalTo(loginV).offset(0);
         make.right.equalTo(loginV).offset(0);
-        make.height.mas_equalTo((fieH+heightMar+1.6));
+        make.height.mas_equalTo((fieH+heightMar+0.8));
     }];
-
-    UIView *line1 = [self creatLineChange:view];
-    [line1 mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(view).offset(0);
-        make.left.equalTo(view).offset(0);
-        make.right.equalTo(view).offset(0);
-        make.height.mas_equalTo(@0.8);
-    }];
-    UIImageView *image = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"icon_user"]];
+    UIImageView *image = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"ic_07"]];
     [view addSubview:image];
     [image mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(line1.mas_bottom).with.offset(heightMar);
+        make.top.equalTo(view).with.offset(heightMar);
         make.left.equalTo(view).offset(0);
         make.size.mas_equalTo(CGSizeMake(fieH, fieH));
     }];
     
     UIView *line = [[UIView alloc]init];
-    line.backgroundColor = [UIColor whiteColor];
+    line.backgroundColor = BordColor;
     [view addSubview:line];
     [line mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(line1.mas_bottom).with.offset(heightMar+2);
+        make.top.equalTo(view).offset(heightMar+2);
         make.left.equalTo(image.mas_right).with.offset(5);
-        make.size.mas_equalTo(CGSizeMake(0.5, fieH-4));
+        make.size.mas_equalTo(CGSizeMake(0.8, fieH-4));
     }];
     
     UITextField *fie = [[UITextField alloc]init];
-    fie.textColor = [UIColor whiteColor];
+    fie.textColor = [UIColor blackColor];
     fie.font = [UIFont systemFontOfSize:12];
     [view addSubview:fie];
     [fie mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(line1.mas_bottom).with.offset(heightMar);
+        make.top.equalTo(view).offset(heightMar);
         make.left.equalTo(line.mas_right).with.offset(5);
         make.right.equalTo(view).offset(0);
         make.height.mas_equalTo(fieH);
@@ -204,15 +179,14 @@
             fie.placeholder = @"请输入密码";
             self.passWordFie = fie;
             fie.secureTextEntry = YES;
-            image.image = [UIImage imageNamed:@"icon_pass"];
+            image.image = [UIImage imageNamed:@"ic_11"];
             break;
         default:{
             fie.placeholder = @"请输入验证码";
-            image.image = [UIImage imageNamed:@"icon_code"];
+            image.image = [UIImage imageNamed:@"ic_15"];
             fie.keyboardType = UIKeyboardTypeNumberPad;
             self.codeField = fie;
             ZBButten *btn = [ZBButten buttonWithType:UIButtonTypeCustom];
-            btn.backgroundColor = [UIColor lightGrayColor];
             [btn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
             [btn setLayerWithW:8 andColor:BordColor andBackW:0.0001];
             btn.titleLabel.font = [UIFont systemFontOfSize:12];
@@ -221,19 +195,19 @@
             [btn addTarget:self action:@selector(getCode:)
                                   forControlEvents:UIControlEventTouchUpInside];
             [view addSubview:btn];
+            self.codeBtn = btn;
             [btn mas_makeConstraints:^(MASConstraintMaker *make) {
-                make.top.equalTo(line1.mas_bottom).with.offset(heightMar);
+                make.top.equalTo(view).offset(heightMar);
                 make.right.equalTo(view).offset(0);
                 make.size.mas_equalTo(CGSizeMake(80, fieH));
             }];
         }
             break;
     }
-    [fie setValue:[UIColor lightGrayColor] forKeyPath:@"_placeholderLabel.textColor"];
     UIView *line2 = [self creatLineChange:view];
     [line2 mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(fie.mas_bottom).with.offset(heightMar);
-        make.left.equalTo(view).offset(0);
+        make.left.equalTo(view).offset(fieH);
         make.right.equalTo(view).offset(0);
         make.height.mas_equalTo(@0.8);
     }];
@@ -242,15 +216,7 @@
 
 - (UIView *)creatLineChange:(UIView *)view{
     UIView *line = [[UIView alloc]init];
-    line.backgroundColor = [UIColor clearColor];
-    CAGradientLayer *layer = [CAGradientLayer new];
-    layer.colors = @[(__bridge id)[UIColor clearColor].CGColor,
-                     (__bridge id)[UIColor lightGrayColor].CGColor,
-                     (__bridge id)[UIColor clearColor].CGColor];
-    layer.startPoint = CGPointMake(0, 0);
-    layer.endPoint = CGPointMake(1, 0);
-    layer.frame = (CGRect){CGPointZero, CGSizeMake(SDevWidth*0.7, 0.8)};
-    [line.layer addSublayer:layer];
+    line.backgroundColor = BordColor;
     [view addSubview:line];
     return line;
 }
@@ -282,7 +248,12 @@
     params[@"userName"] = self.nameFie.text;
     params[@"password"] = self.passWordFie.text;
     [BaseApi getGeneralData:^(BaseResponse *response, NSError *error) {
-        [MBProgressHUD showMessage:response.message];
+        if ([response.error intValue]==0) {
+            [MBProgressHUD showSuccess:response.message];
+        }else{
+            [self.codeBtn resetBtn];
+            SHOWALERTVIEW(response.message);
+        }
     } requestURL:codeUrl params:params];
 }
 
@@ -298,7 +269,7 @@
 
 - (void)loginClick:(UIButton *)sender {
     if (![NetworkDetermineTool isExistenceNet]) {
-        [MBProgressHUD showMessage:@"网络断开、请联网"];
+        [MBProgressHUD showError:@"网络断开、请联网"];
         return;
     }
     [SVProgressHUD show];
@@ -328,17 +299,10 @@
     } requestURL:logUrl params:params];
 }
 
-- (void)resetClick:(id)sender{
+- (void)bottomClick:(UIButton *)btn{
     [self resignViewResponder];
     if (self.btnBack) {
-        self.btnBack(2);
-    }
-}
-
-- (void)editClick:(id)sender{
-    [self resignViewResponder];
-    if (self.btnBack) {
-        self.btnBack(3);
+        self.btnBack((int)btn.tag);
     }
 }
 

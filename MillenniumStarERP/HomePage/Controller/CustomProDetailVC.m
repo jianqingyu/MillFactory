@@ -40,7 +40,7 @@
 @property (nonatomic,  copy)NSArray *typeSArr;
 @property (nonatomic,  copy)NSArray*chooseArr;
 @property (nonatomic,  copy)NSArray*detailArr;
-@property (nonatomic,  copy)NSString*firstStr;
+@property (nonatomic,  copy)NSString*proNum;
 @property (nonatomic,  copy)NSString*handStr;
 @property (nonatomic,  copy)NSArray*remakeArr;
 @property (nonatomic,  copy)NSArray*IDarray;
@@ -74,6 +74,7 @@
 }
 
 - (void)loadBaseCustomView{
+    self.proNum = @"1";
     [self.numLab setLayerWithW:8 andColor:BordColor andBackW:0.001];
     [self.lookBtn setLayerWithW:5 andColor:BordColor andBackW:0.5];
     [self.addBtn setLayerWithW:5 andColor:BordColor andBackW:0.001];
@@ -117,7 +118,7 @@
     self.driCode = listInfo.CertCode;
     self.driPrice = listInfo.Price;
     self.driId = listInfo.id;
-    self.firstStr = @"1";
+    self.proNum = @"1";
     [self.bools setObject:@NO atIndexedSubscript:0];
     [self.tableView reloadData];
 }
@@ -138,7 +139,7 @@
     self.driCode = CusInfo.jewelStoneCode;
     self.driPrice = CusInfo.jewelStonePrice;
     self.driId = CusInfo.jewelStoneId;
-    self.firstStr = @"1";
+    self.proNum = @"1";
     [self.mutArr addObject:mutA];
     [self.bools setObject:@NO atIndexedSubscript:0];
     [self.tableView reloadData];
@@ -277,7 +278,7 @@
     self.modelInfo = modelIn;
     self.lastMess = modelIn.remark;
     if (self.isEdit) {
-        self.firstStr = modelIn.number;
+        self.proNum = modelIn.number;
         self.handStr = modelIn.handSize;
     }
     [self setupNumbers:@[modelIn.stone,modelIn.stoneA,
@@ -553,7 +554,7 @@
         CustomFirstCell *firstCell = [CustomFirstCell cellWithTableView:tableView];
         firstCell.MessBack = ^(BOOL isSel,NSString *messArr){
             if (isSel) {
-                self.firstStr = messArr;
+                self.proNum = messArr;
             }else{
                 [self openNumberAndhandSize:2 and:indexPath];
             }
@@ -562,7 +563,7 @@
             firstCell.certCode = self.driCode;
         }
         firstCell.modelInfo = self.modelInfo;
-        firstCell.messArr = self.firstStr;
+        firstCell.messArr = self.proNum;
         firstCell.handSize = self.handStr;
         return firstCell;
     }else if (indexPath.row==self.mutArr.count+1){
@@ -744,7 +745,7 @@
 }
 #pragma mark -- 提交订单
 - (IBAction)addOrder:(id)sender {
-    if ([self.firstStr length]==0) {
+    if ([self.proNum length]==0) {
         [MBProgressHUD showError:@"请选择件数"];
         return;
     }
@@ -808,7 +809,7 @@
     NSString *proId = self.isEdit?@"itemId":@"productId";
     params[@"tokenKey"] = [AccountTool account].tokenKey;
     params[proId] = @(self.proId);
-    params[@"number"] = self.firstStr;
+    params[@"number"] = self.proNum;
     if ([self.handStr length]>0) {
         params[@"handSize"] = self.handStr;
     }

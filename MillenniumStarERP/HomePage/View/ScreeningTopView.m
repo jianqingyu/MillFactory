@@ -52,6 +52,9 @@
         CGFloat labH = 40;
         CGFloat height = 24;
         CGFloat width = (self.width - 5*6)/4;
+        if (width<0) {
+            width = (MIN(SDevWidth, SDevHeight)*0.8 - 5*5)/4;
+        }
         for (int i=0; i<self.mutA.count; i++) {
             int column = i % num;
             int row = i / num;

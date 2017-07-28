@@ -275,6 +275,9 @@
 		7989B5D41D824BD600706F5E /* NSArray+PureLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 7989B5CD1D824BD600706F5E /* NSArray+PureLayout.m */; };
 		7989B5D51D824BD600706F5E /* NSLayoutConstraint+PureLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 7989B5CF1D824BD600706F5E /* NSLayoutConstraint+PureLayout.m */; };
 		798B199C1EF38A0900DA8B69 /* ScreeningTopView.m in Sources */ = {isa = PBXBuildFile; fileRef = 798B199B1EF38A0900DA8B69 /* ScreeningTopView.m */; };
+		798C96621F26E280002DE7A5 /* NakedDriLibCustomView.m in Sources */ = {isa = PBXBuildFile; fileRef = 798C96611F26E280002DE7A5 /* NakedDriLibCustomView.m */; };
+		798C96661F26E496002DE7A5 /* NewChooseDriDetailVc.m in Sources */ = {isa = PBXBuildFile; fileRef = 798C96641F26E496002DE7A5 /* NewChooseDriDetailVc.m */; };
+		798C96671F26E496002DE7A5 /* NewChooseDriDetailVc.xib in Resources */ = {isa = PBXBuildFile; fileRef = 798C96651F26E496002DE7A5 /* NewChooseDriDetailVc.xib */; };
 		799235DD1DB752400003379B /* RemarkPopView.m in Sources */ = {isa = PBXBuildFile; fileRef = 799235DC1DB752400003379B /* RemarkPopView.m */; };
 		799235E41DB766BE0003379B /* ClassListController.m in Sources */ = {isa = PBXBuildFile; fileRef = 799235E21DB766BE0003379B /* ClassListController.m */; };
 		799235E51DB766BE0003379B /* ClassListController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 799235E31DB766BE0003379B /* ClassListController.xib */; };
@@ -884,6 +887,11 @@
 		7989B5D21D824BD600706F5E /* PureLayoutDefines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PureLayoutDefines.h; sourceTree = "<group>"; };
 		798B199A1EF38A0900DA8B69 /* ScreeningTopView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScreeningTopView.h; sourceTree = "<group>"; };
 		798B199B1EF38A0900DA8B69 /* ScreeningTopView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScreeningTopView.m; sourceTree = "<group>"; };
+		798C96601F26E280002DE7A5 /* NakedDriLibCustomView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NakedDriLibCustomView.h; sourceTree = "<group>"; };
+		798C96611F26E280002DE7A5 /* NakedDriLibCustomView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NakedDriLibCustomView.m; sourceTree = "<group>"; };
+		798C96631F26E496002DE7A5 /* NewChooseDriDetailVc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewChooseDriDetailVc.h; sourceTree = "<group>"; };
+		798C96641F26E496002DE7A5 /* NewChooseDriDetailVc.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewChooseDriDetailVc.m; sourceTree = "<group>"; };
+		798C96651F26E496002DE7A5 /* NewChooseDriDetailVc.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NewChooseDriDetailVc.xib; sourceTree = "<group>"; };
 		799235DB1DB752400003379B /* RemarkPopView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RemarkPopView.h; sourceTree = "<group>"; };
 		799235DC1DB752400003379B /* RemarkPopView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RemarkPopView.m; sourceTree = "<group>"; };
 		799235E11DB766BE0003379B /* ClassListController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ClassListController.h; sourceTree = "<group>"; };
@@ -1674,6 +1682,9 @@
 				79C875BD1F18AF3300B21736 /* NewCustomProDetailVC.h */,
 				79C875BE1F18AF3300B21736 /* NewCustomProDetailVC.m */,
 				79C875BF1F18AF3300B21736 /* NewCustomProDetailVC.xib */,
+				798C96631F26E496002DE7A5 /* NewChooseDriDetailVc.h */,
+				798C96641F26E496002DE7A5 /* NewChooseDriDetailVc.m */,
+				798C96651F26E496002DE7A5 /* NewChooseDriDetailVc.xib */,
 				792C01B91D89043B005943AE /* ConfirmOrderVC.h */,
 				792C01BA1D89043B005943AE /* ConfirmOrderVC.m */,
 				792C01BB1D89043B005943AE /* ConfirmOrderVC.xib */,
@@ -2040,6 +2051,8 @@
 				7915BCE91E7A833E00407927 /* SearchResultTableCell.xib */,
 				794B718F1E7F8D9200A8BCE7 /* SearchHeadBtnView.h */,
 				794B71901E7F8D9200A8BCE7 /* SearchHeadBtnView.m */,
+				798C96601F26E280002DE7A5 /* NakedDriLibCustomView.h */,
+				798C96611F26E280002DE7A5 /* NakedDriLibCustomView.m */,
 				7976889D1EE023B7001C6711 /* NakedDriPirceTableCell.h */,
 				7976889E1EE023B7001C6711 /* NakedDriPirceTableCell.m */,
 				7976889F1EE023B7001C6711 /* NakedDriPirceTableCell.xib */,
@@ -2262,6 +2275,7 @@
 				792C01C71D891FB3005943AE /* ConfirmOrdCell.xib in Resources */,
 				79655DEE1D7D0AAA006B90FC /* LoginViewController.xib in Resources */,
 				79A0D8191F1C630900CBBCE6 /* CustomEditTableCell.xib in Resources */,
+				798C96671F26E496002DE7A5 /* NewChooseDriDetailVc.xib in Resources */,
 				794F28A41EDEF093003EC54D /* NakedDriLibHeadView.xib in Resources */,
 				797958881EF8B084004EF7B7 /* NewHomePageCollCell.xib in Resources */,
 				79E177971E6917F200318916 /* DeliveryOrderTableCell.xib in Resources */,
@@ -2410,6 +2424,7 @@
 				79655E111D7D0E53006B90FC /* BaseApi.m in Sources */,
 				7947FCAF1E135603003276D1 /* DetailTextCustomView.m in Sources */,
 				7953E17B1F04D25900FF7AE7 /* CustomJewelInfo.m in Sources */,
+				798C96621F26E280002DE7A5 /* NakedDriLibCustomView.m in Sources */,
 				79E1778C1E690FC300318916 /* SettlementOrderVC.m in Sources */,
 				7937D3711DF5238300FE7844 /* YQObjectBool.m in Sources */,
 				79E8B21D1D7FA894009D7296 /* PassWordViewController.m in Sources */,
@@ -2531,6 +2546,7 @@
 				7933E2DF1EE00AD200C6247F /* NakedDriDetailHeadV.m in Sources */,
 				794F28961EDEB68F003EC54D /* NakedDriDetailOrderVc.m in Sources */,
 				794F28AD1EDEF914003EC54D /* NakedDriLibSLabCell.m in Sources */,
+				798C96661F26E496002DE7A5 /* NewChooseDriDetailVc.m in Sources */,
 				790D22471EE115FE00EB6450 /* NakedDriConfirmHeadV.m in Sources */,
 				792DF4BB1E021B7E00128456 /* ChooseInvoiceCell.m in Sources */,
 				79E1779D1E69256400318916 /* DeliveryListInfo.m in Sources */,

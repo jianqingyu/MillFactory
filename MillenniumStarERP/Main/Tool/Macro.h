@@ -48,7 +48,8 @@
 //颜色相关
 #define CUSTOM_COLOR(a,b,c) [UIColor colorWithRed:a/255.0f green:b/255.0f blue:c/255.0f alpha:1]
 #define CUSTOM_COLOR_ALPHA(a,b,c,d) [UIColor colorWithRed:a/255.0f green:b/255.0f blue:c/255.0f alpha:d]
-#define MAIN_COLOR CUSTOM_COLOR(241,43,49)
+#define MAIN_COLOR CUSTOM_COLOR(239, 132, 92)
+#define MAINText_COLOR CUSTOM_COLOR(241,43,49)
 #define DefaultColor CUSTOM_COLOR(240,239,245)
 #define BarColor CUSTOM_COLOR(245,245,247)
 #define BordColor CUSTOM_COLOR(218,218,218)

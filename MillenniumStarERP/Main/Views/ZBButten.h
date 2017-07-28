@@ -20,6 +20,6 @@
 /**
  设置启动后的文字
  */
--(void)setbuttenfrontTitle:(NSString *)frontstr backtitle:(NSString *)backstr;
-
+- (void)setbuttenfrontTitle:(NSString *)frontstr backtitle:(NSString *)backstr;
+- (void)resetBtn;
 @end

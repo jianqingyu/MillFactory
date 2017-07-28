@@ -57,16 +57,16 @@
     }
     
     UIView *footView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, SDevWidth, 80)];
+    CGFloat width = MIN(SDevWidth, SDevHeight)*0.8;
     UIButton *cancelBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     cancelBtn.backgroundColor = MAIN_COLOR;
-    cancelBtn.layer.masksToBounds = YES;
-    cancelBtn.layer.cornerRadius = 5;
+    [cancelBtn setLayerWithW:5 andColor:BordColor andBackW:0.001];
     [cancelBtn addTarget:self action:@selector(cancelClick) forControlEvents:UIControlEventTouchUpInside];
     [cancelBtn setTitle:@"退出登录" forState:UIControlStateNormal];
     [footView addSubview:cancelBtn];
     [cancelBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.center.equalTo(footView);
-        make.size.mas_equalTo(CGSizeMake(SDevWidth-80, 44));
+        make.size.mas_equalTo(CGSizeMake(width, 44));
     }];
     self.tableView.tableFooterView = footView;
 }

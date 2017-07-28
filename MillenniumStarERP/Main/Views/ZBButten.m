@@ -78,6 +78,13 @@
     }
 }
 
+- (void)resetBtn{
+    [self setTitle:_normaltext forState:UIControlStateNormal];
+    [self.zbtimer setFireDate:[NSDate distantFuture]];
+    self.userInteractionEnabled = YES;
+    _Timer = _oldtimer;
+}
+
 - (void)sendAction:(SEL)action to:(nullable id)target forEvent:(nullable UIEvent *)event
 {
     [super sendAction:action to:target forEvent:event];
@@ -92,8 +99,4 @@
     self.backstr = backstr;
 }
 
-//-(void)addTarget:(id)target action:(SEL)action forControlEvents:(UIControlEvents)controlEvents
-//{
-//    [super addTarget:target action:action forControlEvents:controlEvents];
-//    }
 @end

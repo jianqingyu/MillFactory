@@ -42,7 +42,7 @@
 }
 
 - (void)loadNewHomeData{
-    NSString *url = [NSString stringWithFormat:@"%@IndexPage",baseUrl];
+    NSString *url = [NSString stringWithFormat:@"%@IndexPageForYoour",baseUrl];
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     [BaseApi getGeneralData:^(BaseResponse *response, NSError *error) {
         if ([response.error intValue]==0) {
@@ -59,11 +59,11 @@
 
 - (void)setCollectionView{
     UICollectionViewFlowLayout *flowLayout = [[UICollectionViewFlowLayout alloc]init];
-    flowLayout.minimumInteritemSpacing = 10.0f;//左右间隔
-    flowLayout.minimumLineSpacing = 10.0f;//上下间隔
-    flowLayout.sectionInset = UIEdgeInsetsMake(10,10,0,10);//边距距
+    flowLayout.minimumInteritemSpacing = 5.0f;//左右间隔
+    flowLayout.minimumLineSpacing = 5.0f;//上下间隔
+    flowLayout.sectionInset = UIEdgeInsetsMake(5,0,0,0);//边距距
     self.homeCollection = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:flowLayout];
-    self.homeCollection.backgroundColor = DefaultColor; 
+    self.homeCollection.backgroundColor = [UIColor whiteColor];
     self.homeCollection.delegate = self;
     self.homeCollection.dataSource = self;
     [self.view addSubview:_homeCollection];
@@ -95,11 +95,13 @@
 }
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath{
-    int width = (SDevWidth-10*3)*0.5;
+    int width = (SDevWidth-5)*0.5;
+    CGSize size = CGSizeMake(width, width/1.60);
     if (indexPath.section%2==1) {
-        width = SDevWidth-2*10;
+        width = SDevWidth;
+        size = CGSizeMake(width, width/2.50);
     }
-    return CGSizeMake(width, width*0.6);
+    return size;
 }
 
 - (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath {
@@ -114,7 +116,7 @@
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section {
     if (section==0) {
-        return CGSizeMake(SDevWidth, (int)(MAX(SDevHeight, SDevWidth))/3);
+        return CGSizeMake(SDevWidth,SDevWidth/1.56);
     }
     return CGSizeZero;
 }
@@ -127,7 +129,6 @@
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     NewHomePageCollCell *collcell = [collectionView dequeueReusableCellWithReuseIdentifier:@"NewHomePageCollCell" forIndexPath:indexPath];
-    [collcell setLayerWithW:0.1 andColor:BordColor andBackW:0.1];
     NSArray *arr = self.list[indexPath.section];
     NewHomeShopInfo *info = arr[indexPath.row];
     [collcell.itemImage sd_setImageWithURL:[NSURL URLWithString:info.pic] placeholderImage:DefaultImage];

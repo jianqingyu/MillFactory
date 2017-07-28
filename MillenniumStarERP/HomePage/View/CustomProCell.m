@@ -56,7 +56,7 @@
         _driP = driP;
         if (_driP.length>0&&[_titleStr isEqualToString:@"主   石"]&&[[AccountTool account].isShow intValue]) {
             self.mainBtn.enabled = NO;
-            self.priceLab.textColor = MAIN_COLOR;
+            self.priceLab.textColor = MAINText_COLOR;
             if ([_driP containsString:@"."]) {
                 NSRange range = [_driP rangeOfString:@"."];
                 if (_driP.length>range.location+2) {
@@ -113,9 +113,9 @@
         }
         [self setBtnBackLine];
         [self setNumberFie];
-        if ([self boolWithArr:list]) {
-            [self setupPrice];
-        }
+//        if ([self boolWithArr:list]) {
+//            [self setupPrice];
+//        }
     }
 }
 //设置红框方法
@@ -167,20 +167,20 @@
     return YES;
 }
 //获取价格
-- (void)setupPrice{
-    NSString *regiUrl = [NSString stringWithFormat:@"%@getStonePrice",baseUrl];
-    NSMutableDictionary *params = [NSMutableDictionary dictionary];
-    params[@"tokenKey"] = [AccountTool account].tokenKey;
-    params[@"categoryId"] = @([self infoWith:0].id);
-    params[@"specValue"] = [self infoWith:1].title;
-    params[@"colorId"] = @([self infoWith:3].id);
-    params[@"purityId"] = @([self infoWith:4].id);
-    [BaseApi getGeneralData:^(BaseResponse *response, NSError *error) {
-        if ([response.error intValue]==0) {
-            self.priceLab.text = response.data[@"price"];
-        }
-    }requestURL:regiUrl params:params];
-}
+//- (void)setupPrice{
+//    NSString *regiUrl = [NSString stringWithFormat:@"%@getStonePrice",baseUrl];
+//    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+//    params[@"tokenKey"] = [AccountTool account].tokenKey;
+//    params[@"categoryId"] = @([self infoWith:0].id);
+//    params[@"specValue"] = [self infoWith:1].title;
+//    params[@"colorId"] = @([self infoWith:3].id);
+//    params[@"purityId"] = @([self infoWith:4].id);
+//    [BaseApi getGeneralData:^(BaseResponse *response, NSError *error) {
+//        if ([response.error intValue]==0) {
+//            self.priceLab.text = response.data[@"price"];
+//        }
+//    }requestURL:regiUrl params:params];
+//}
 
 - (DetailTypeInfo *)infoWith:(NSInteger)index{
     DetailTypeInfo *info = self.list[index];

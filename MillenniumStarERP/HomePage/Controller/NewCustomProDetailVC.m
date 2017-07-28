@@ -24,7 +24,7 @@
 #import "CustomPickView.h"
 #import "HYBLoopScrollView.h"
 #import "NakedDriSeaListInfo.h"
-#import "NakedDriLibViewController.h"
+#import "NewChooseDriDetailVc.h"
 @interface NewCustomProDetailVC ()<UINavigationControllerDelegate,UITableViewDelegate,
 UITableViewDataSource,MWPhotoBrowserDelegate>
 @property (nonatomic,  weak) UITableView *tableView;
@@ -35,13 +35,12 @@ UITableViewDataSource,MWPhotoBrowserDelegate>
 @property (nonatomic,  copy)NSArray *typeTArr;
 @property (nonatomic,  copy)NSArray *typeSArr;
 @property (nonatomic,  copy)NSArray*detailArr;
-@property (nonatomic,  copy)NSString*firstStr;
+@property (nonatomic,  copy)NSString*proNum;
 @property (nonatomic,  copy)NSString*handStr;
 @property (nonatomic,  copy)NSArray*remakeArr;
 @property (nonatomic,  copy)NSArray*IDarray;
 @property (nonatomic,  copy)NSArray*headImg;
 @property (nonatomic,  copy)NSArray*photos;
-@property (nonatomic,  copy)NSArray*specTitles;
 @property (nonatomic,  copy)NSString*lastMess;
 @property (nonatomic,  copy)NSArray *handArr;
 @property (nonatomic,  copy)NSArray *numArr;
@@ -66,6 +65,7 @@ UITableViewDataSource,MWPhotoBrowserDelegate>
 }
 
 - (void)loadBaseCustomView{
+    self.proNum = @"1";
     [self.numLab setLayerWithW:8 andColor:BordColor andBackW:0.001];
     [self.lookBtn setLayerWithW:5 andColor:BordColor andBackW:0.5];
     [self.addBtn setLayerWithW:5 andColor:BordColor andBackW:0.001];
@@ -106,7 +106,7 @@ UITableViewDataSource,MWPhotoBrowserDelegate>
     self.driCode = listInfo.CertCode;
     self.driPrice = listInfo.Price;
     self.driId = listInfo.id;
-    self.firstStr = @"1";
+    self.proNum = @"1";
     [self.tableView reloadData];
 }
 
@@ -126,7 +126,7 @@ UITableViewDataSource,MWPhotoBrowserDelegate>
     self.driCode = CusInfo.jewelStoneCode;
     self.driPrice = CusInfo.jewelStonePrice;
     self.driId = CusInfo.jewelStoneId;
-    self.firstStr = @"1";
+    self.proNum = @"1";
     [self.mutArr addObject:mutA];
     [self.tableView reloadData];
 }
@@ -257,7 +257,7 @@ UITableViewDataSource,MWPhotoBrowserDelegate>
     self.modelInfo = modelIn;
     self.lastMess = modelIn.remark;
     if (self.isEdit) {
-        self.firstStr = modelIn.number;
+        self.proNum = modelIn.number;
         self.handStr = modelIn.handSize;
     }
     self.detailArr  = @[[self arrWithDict:modelIn.stone],
@@ -464,7 +464,7 @@ UITableViewDataSource,MWPhotoBrowserDelegate>
         CustomFirstCell *firstCell = [CustomFirstCell cellWithTableView:tableView];
         firstCell.MessBack = ^(BOOL isSel,NSString *messArr){
             if (isSel) {
-                self.firstStr = messArr;
+                self.proNum = messArr;
             }else{
                 [self openNumberAndhandSize:2 and:indexPath];
             }
@@ -474,7 +474,7 @@ UITableViewDataSource,MWPhotoBrowserDelegate>
             firstCell.certCode = self.driCode;
         }
         firstCell.modelInfo = self.modelInfo;
-        firstCell.messArr = self.firstStr;
+        firstCell.messArr = self.proNum;
         firstCell.handSize = self.handStr;
         return firstCell;
     }else if (indexPath.row==self.mutArr.count+1){
@@ -538,8 +538,7 @@ UITableViewDataSource,MWPhotoBrowserDelegate>
 }
 
 - (void)gotoNakedDriLib{
-    NakedDriLibViewController *libVc = [NakedDriLibViewController new];
-    libVc.isSel = YES;
+    NewChooseDriDetailVc *libVc = [NewChooseDriDetailVc new];
     [self.navigationController pushViewController:libVc animated:YES];
 }
 
@@ -553,7 +552,7 @@ UITableViewDataSource,MWPhotoBrowserDelegate>
 }
 #pragma mark -- 提交订单
 - (IBAction)addOrder:(id)sender {
-    if ([self.firstStr length]==0) {
+    if ([self.proNum length]==0) {
         [MBProgressHUD showError:@"请选择件数"];
         return;
     }
@@ -599,7 +598,7 @@ UITableViewDataSource,MWPhotoBrowserDelegate>
     NSString *proId = self.isEdit?@"itemId":@"productId";
     params[@"tokenKey"] = [AccountTool account].tokenKey;
     params[proId] = @(self.proId);
-    params[@"number"] = self.firstStr;
+    params[@"number"] = self.proNum;
     if ([self.handStr length]>0) {
         params[@"handSize"] = self.handStr;
     }

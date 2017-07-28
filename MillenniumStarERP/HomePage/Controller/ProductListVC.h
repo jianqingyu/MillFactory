@@ -9,5 +9,5 @@
 #import "BaseViewController.h"
 
 @interface ProductListVC : BaseViewController
-
+@property (nonatomic, strong) NSMutableDictionary *backDict;
 @end

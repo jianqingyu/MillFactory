@@ -217,7 +217,7 @@
                                 </view>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QN3-jt-5SC">
                                     <rect key="frame" x="20" y="288" width="280" height="40"/>
-                                    <color key="backgroundColor" red="0.91372549020000005" green="0.062745098040000002" blue="0.1529411765" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="backgroundColor" red="0.93725490199999995" green="0.51764705879999995" blue="0.36078431370000003" alpha="1" colorSpace="calibratedRGB"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="40" id="gIS-0Y-ZGv"/>
                                     </constraints>

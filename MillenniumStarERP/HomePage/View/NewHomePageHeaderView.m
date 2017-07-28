@@ -7,11 +7,9 @@
 //
 
 #import "NewHomePageHeaderView.h"
-#import "ETFoursquareImages.h"
 #import "NewHomeShopInfo.h"
 #import "HYBLoopScrollView.h"
 @interface NewHomePageHeaderView()
-@property (nonatomic,  weak)ETFoursquareImages *foursquareImages;
 @property (nonatomic,strong)NSMutableArray *arr;
 @end
 @implementation NewHomePageHeaderView
@@ -28,9 +26,8 @@
     [UIView animateWithDuration:0.1 animations:^{
         [self.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
     }];
-    CGFloat height = (int)(MAX(SDevHeight, SDevWidth))/3;
     HYBLoopScrollView *loop = [HYBLoopScrollView loopScrollViewWithFrame:
-                               CGRectMake(0, 0, SDevWidth, height) imageUrls:arr];
+                               CGRectMake(0, 0, SDevWidth, SDevWidth/1.56) imageUrls:arr];
     loop.timeInterval = 3.0;
     loop.didSelectItemBlock = ^(NSInteger atIndex,HYBLoadImageView  *sender){
         

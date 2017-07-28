@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10117" systemVersion="15G31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10117" systemVersion="15G1510" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
@@ -56,7 +56,7 @@
                             <nil key="highlightedColor"/>
                         </label>
                     </subviews>
-                    <color key="backgroundColor" red="0.94509803920000002" green="0.16862745100000001" blue="0.19215686269999999" alpha="1" colorSpace="calibratedRGB"/>
+                    <color key="backgroundColor" red="0.93725490199999995" green="0.51764705879999995" blue="0.36078431370000003" alpha="1" colorSpace="calibratedRGB"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="80" id="000-AQ-rh3"/>
                         <constraint firstAttribute="trailing" secondItem="QwD-SD-Z28" secondAttribute="trailing" constant="20" id="C94-mm-ajN"/>
@@ -173,7 +173,6 @@
                 <constraint firstItem="cBK-bB-vi6" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="15" id="8ht-b9-W88"/>
                 <constraint firstItem="FAl-H6-MTM" firstAttribute="top" secondItem="cBK-bB-vi6" secondAttribute="bottom" constant="15" id="9ke-oo-WJ5"/>
                 <constraint firstAttribute="trailing" secondItem="rcZ-YD-xbe" secondAttribute="trailing" id="Bgh-qD-nS2"/>
-                <constraint firstItem="rcZ-YD-xbe" firstAttribute="leading" secondItem="q0T-Pk-dSk" secondAttribute="trailing" id="FK2-sp-TCv"/>
                 <constraint firstAttribute="trailing" secondItem="cBK-bB-vi6" secondAttribute="trailing" id="G9j-Gq-CcM"/>
                 <constraint firstItem="cBK-bB-vi6" firstAttribute="top" secondItem="q0T-Pk-dSk" secondAttribute="bottom" constant="15" id="Ids-V8-OPc"/>
                 <constraint firstItem="sX3-w0-Qy3" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="q0T-Pk-dSk" secondAttribute="trailing" constant="10" id="Iiv-gs-3Cl"/>
@@ -182,11 +181,12 @@
                 <constraint firstAttribute="trailing" secondItem="Qfg-Mj-9ru" secondAttribute="trailing" constant="15" id="PTX-ZJ-6OA"/>
                 <constraint firstAttribute="trailing" secondItem="1it-7a-DUG" secondAttribute="trailing" id="QNA-xw-MSt"/>
                 <constraint firstItem="7Bd-f0-7DG" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="88" id="T8P-7U-Vzd"/>
-                <constraint firstItem="xh1-Go-BJa" firstAttribute="leading" secondItem="FAl-H6-MTM" secondAttribute="trailing" constant="15" id="Y3U-4h-ah2"/>
                 <constraint firstItem="7Bd-f0-7DG" firstAttribute="top" secondItem="1it-7a-DUG" secondAttribute="bottom" constant="8" id="YDm-3T-jDh"/>
                 <constraint firstItem="q0T-Pk-dSk" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="15" id="ZZp-V9-eJU"/>
                 <constraint firstAttribute="trailing" secondItem="8u6-qI-do5" secondAttribute="trailing" id="itS-wN-ltq"/>
+                <constraint firstItem="rcZ-YD-xbe" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="73" id="jZu-4s-eFT"/>
                 <constraint firstItem="Qfg-Mj-9ru" firstAttribute="centerY" secondItem="q0T-Pk-dSk" secondAttribute="centerY" id="llc-n7-kr4"/>
+                <constraint firstItem="xh1-Go-BJa" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="88" id="m2u-mv-StG"/>
                 <constraint firstItem="xh1-Go-BJa" firstAttribute="centerY" secondItem="FAl-H6-MTM" secondAttribute="centerY" id="n0K-8y-0Rx"/>
                 <constraint firstItem="1it-7a-DUG" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="oAM-xi-biy"/>
                 <constraint firstItem="8u6-qI-do5" firstAttribute="top" secondItem="7Bd-f0-7DG" secondAttribute="bottom" constant="7" id="obE-3d-h3K"/>
@@ -210,7 +210,7 @@
                 <outletCollection property="btns" destination="PN0-aR-xeD" id="LBU-j0-Hd5"/>
                 <outletCollection property="btns" destination="rcZ-YD-xbe" id="bOl-YV-MXh"/>
             </connections>
-            <point key="canvasLocation" x="619" y="363.5"/>
+            <point key="canvasLocation" x="430" y="353.5"/>
         </view>
     </objects>
     <resources>

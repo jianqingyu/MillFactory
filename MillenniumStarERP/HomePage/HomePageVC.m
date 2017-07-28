@@ -212,7 +212,6 @@
     switch (indexPath.row) {
         case 0:{
             ProductListVC*listVc = [[ProductListVC alloc]init];
-            listVc.backDict = [NSMutableDictionary new];
             [self.navigationController pushViewController:listVc animated:YES];
         }
             break;
