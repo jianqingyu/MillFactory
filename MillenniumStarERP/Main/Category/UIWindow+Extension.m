@@ -10,11 +10,12 @@
 #import "MainTabViewController.h"
 #import "MainNavViewController.h"
 #import "LoginViewController.h"
+#import "LauchimageCustomVC.h"
 #import "NewfeatureViewController.h"
 @implementation UIWindow (Extension)
 
 - (void)switchRootViewController{
-    self.rootViewController = [[LoginViewController alloc]init];
+    self.rootViewController = [[LauchimageCustomVC alloc]init];
 //    NSString *key = @"CFBundleVersion";
 //    //取出的版本
 //    NSString *lastVersion = [[NSUserDefaults standardUserDefaults]objectForKey:key];

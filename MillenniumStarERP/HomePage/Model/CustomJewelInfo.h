@@ -12,6 +12,7 @@
 @property (nonatomic,copy)NSString *jewelStoneCode;
 @property (nonatomic,copy)NSString *jewelStoneColor;
 @property (nonatomic,copy)NSString *jewelStoneId;
+@property (nonatomic,copy)NSString *jewelStoneShape;
 @property (nonatomic,copy)NSString *jewelStonePrice;
 @property (nonatomic,copy)NSString *jewelStonePurity;
 @property (nonatomic,copy)NSString *jewelStoneWeight;

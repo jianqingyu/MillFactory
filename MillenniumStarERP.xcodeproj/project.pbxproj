@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		0B02C56CEF9CD4F9CC95C4A6 /* libPods-MillenniumStarERP.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DD7A030BEEA4F618DC154CD2 /* libPods-MillenniumStarERP.a */; };
+		790368FB1F30371000973024 /* LauchimageCustomVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 790368F91F30371000973024 /* LauchimageCustomVC.m */; };
+		790368FC1F30371000973024 /* LauchimageCustomVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 790368FA1F30371000973024 /* LauchimageCustomVC.xib */; };
 		790375FF1EDFE0DC00344FCD /* NakedDriSeaTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 790375FE1EDFE0DC00344FCD /* NakedDriSeaTableCell.m */; };
 		790376021EDFE30400344FCD /* NakedDriSeaListInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 790376011EDFE30400344FCD /* NakedDriSeaListInfo.m */; };
 		79050ADB1DF7B84700DCEA69 /* DetailHeadInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 79050ADA1DF7B84700DCEA69 /* DetailHeadInfo.m */; };
@@ -410,6 +412,9 @@
 
 /* Begin PBXFileReference section */
 		2DA28B36AF90E2D5C539E66B /* Pods-MillenniumStarERP.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MillenniumStarERP.release.xcconfig"; path = "Pods/Target Support Files/Pods-MillenniumStarERP/Pods-MillenniumStarERP.release.xcconfig"; sourceTree = "<group>"; };
+		790368F81F30371000973024 /* LauchimageCustomVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LauchimageCustomVC.h; sourceTree = "<group>"; };
+		790368F91F30371000973024 /* LauchimageCustomVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LauchimageCustomVC.m; sourceTree = "<group>"; };
+		790368FA1F30371000973024 /* LauchimageCustomVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LauchimageCustomVC.xib; sourceTree = "<group>"; };
 		790375FD1EDFE0DC00344FCD /* NakedDriSeaTableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NakedDriSeaTableCell.h; sourceTree = "<group>"; };
 		790375FE1EDFE0DC00344FCD /* NakedDriSeaTableCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NakedDriSeaTableCell.m; sourceTree = "<group>"; };
 		790376001EDFE30400344FCD /* NakedDriSeaListInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NakedDriSeaListInfo.h; sourceTree = "<group>"; };
@@ -1321,6 +1326,9 @@
 				79655DCA1D7D0AAA006B90FC /* MainTabViewController.m */,
 				79655DCB1D7D0AAA006B90FC /* NewfeatureViewController.h */,
 				79655DCC1D7D0AAA006B90FC /* NewfeatureViewController.m */,
+				790368F81F30371000973024 /* LauchimageCustomVC.h */,
+				790368F91F30371000973024 /* LauchimageCustomVC.m */,
+				790368FA1F30371000973024 /* LauchimageCustomVC.xib */,
 				79655DC41D7D0AAA006B90FC /* LoginViewController.h */,
 				79655DC51D7D0AAA006B90FC /* LoginViewController.m */,
 				79655DC61D7D0AAA006B90FC /* LoginViewController.xib */,
@@ -2249,6 +2257,7 @@
 				796FD18B1E6E41BB00A50DDC /* SettlementListCell.xib in Resources */,
 				792DF4BC1E021B7E00128456 /* ChooseInvoiceCell.xib in Resources */,
 				7948B34B1E79143400909601 /* SearchResultDetailVC.xib in Resources */,
+				790368FC1F30371000973024 /* LauchimageCustomVC.xib in Resources */,
 				794F288D1EDEB619003EC54D /* NakedDriPriceVC.xib in Resources */,
 				794F28921EDEB647003EC54D /* NakedDriConfirmOrderVc.xib in Resources */,
 				79E8B2261D7FC180009D7296 /* HomeHeadView.xib in Resources */,
@@ -2612,6 +2621,7 @@
 				794F288C1EDEB619003EC54D /* NakedDriPriceVC.m in Sources */,
 				79CD81A91D9E376C00B7BC84 /* PayReturnPageVC.m in Sources */,
 				79B4B8371DA8DD2E00B97070 /* OrderHeadView.m in Sources */,
+				790368FB1F30371000973024 /* LauchimageCustomVC.m in Sources */,
 				7933E2DB1EDFFCF100C6247F /* NakedDriAllListCell.m in Sources */,
 				79655DF41D7D0AAA006B90FC /* Account.m in Sources */,
 				794EDBE61DDD38CD0018DDF3 /* IQTextView.m in Sources */,

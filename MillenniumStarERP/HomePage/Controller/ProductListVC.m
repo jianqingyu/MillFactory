@@ -212,6 +212,8 @@
     slideTab.isTop = YES;
     slideTab.tableBack = ^(NSDictionary *dict,BOOL isSel){
         [self.backDict removeAllObjects];
+        self.popClassView.seIndex = 0;
+        _titleLab.text = @"全部";
         [self.backDict addEntriesFromDictionary:dict];
         [self.rightCollection.header beginRefreshing];
     };
@@ -385,16 +387,10 @@
 }
 //初始化数据
 - (void)setupDataWithData:(NSDictionary *)data{
-//    if([YQObjectBool boolForObject:data[@"model"][@"isShowPrice"]]){
-//        self.isShowPrice = [data[@"model"][@"isShowPrice"]intValue];
-//    }
     if([YQObjectBool boolForObject:data[@"typeList"]]){
         self.slideRightTab.goods = [ScreeningInfo
                               objectArrayWithKeyValuesArray:data[@"typeList"]];
     }
-//    if (data[@"typeFiler"]||data[@"searchValue"]) {
-//        self.screenPop.list = @[data[@"typeFiler"],data[@"searchValue"]];
-//    }
     if([YQObjectBool boolForObject:data[@"customList"]]){
         self.popClassView.productList = [DetailTypeInfo
                              objectArrayWithKeyValuesArray:data[@"customList"]];

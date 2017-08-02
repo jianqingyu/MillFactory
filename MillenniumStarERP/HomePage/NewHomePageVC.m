@@ -15,7 +15,7 @@
 @property(nonatomic,strong) NSArray *photos;
 @property(nonatomic,strong) NSArray *list;
 @property(strong,nonatomic) UICollectionView *homeCollection;
-@property (nonatomic,strong)NewHomePageHeaderView *headerView;
+@property(nonatomic,strong) NewHomePageHeaderView *headerView;
 @end
 
 @implementation NewHomePageVC

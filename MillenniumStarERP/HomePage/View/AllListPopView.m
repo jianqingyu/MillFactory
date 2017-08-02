@@ -10,7 +10,7 @@
 #import "DetailTypeInfo.h"
 @interface AllListPopView()<UITableViewDataSource,UITableViewDelegate>
 @property (nonatomic,strong)UITableView *tableView;
-@property (nonatomic,assign)int seIndex;
+
 @end
 @implementation AllListPopView
 

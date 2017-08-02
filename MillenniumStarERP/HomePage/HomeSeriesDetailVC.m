@@ -30,7 +30,7 @@
     [self setCollectionView];
     [self creatNaviBtn];
     self.isShowPrice = [[AccountTool account].isShow intValue];
-    self.picUrl = @"http://appapi2.fanerweb.com/images/index/classAd_2_4.jpg";
+    self.picUrl = @"http://appapi2.fanerweb.com/images/ad/20170727/round1.jpg";
     self.view.backgroundColor = DefaultColor;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(orientChange:) name:UIApplicationDidChangeStatusBarOrientationNotification object:nil];
 }
@@ -71,9 +71,6 @@
     [BaseApi getGeneralData:^(BaseResponse *response, NSError *error) {
         if ([response.error intValue]==0) {
             if ([YQObjectBool boolForObject:response.data]) {
-//                if([YQObjectBool boolForObject:response.data[@"model"][@"isShowPrice"]]){
-//                    self.isShowPrice = [response.data[@"model"][@"isShowPrice"]intValue];
-//                }
                 NSArray *seaArr = [ProductInfo objectArrayWithKeyValuesArray:response.data[@"model"][@"modelList"]];
                 [_dataArray addObjectsFromArray:seaArr];
                 [self.homeCollection reloadData];
@@ -148,7 +145,7 @@
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section {
     if (section==0) {
-        return CGSizeMake(SDevWidth, (int)(MAX(SDevHeight, SDevWidth))/3);
+        return CGSizeMake(SDevWidth,SDevWidth/1.56);
     }
     return CGSizeZero;
 }

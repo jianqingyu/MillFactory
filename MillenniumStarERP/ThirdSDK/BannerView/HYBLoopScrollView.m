@@ -273,7 +273,8 @@ NSString * const kCellIdentifier = @"ReuseCellIdentifier";
     } else if ([urlString hasPrefix:@"http://"]
                || [urlString hasPrefix:@"https://"]
                || [urlString containsString:@"/"]) {
-      [cell.imageView setImageWithURLString:urlString placeholder:self.placeholder];
+      [cell.imageView sd_setImageWithURL:[NSURL URLWithString:urlString] placeholderImage:self.placeholder];
+//       setImageWithURLString:urlString placeholder:self.placeholder];
     } else {
       cell.imageView.image = [UIImage imageNamed:urlString];
     }

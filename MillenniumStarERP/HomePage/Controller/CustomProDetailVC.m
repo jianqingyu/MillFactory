@@ -35,6 +35,7 @@
 @property (nonatomic,  weak) IBOutlet UIButton *lookBtn;
 @property (nonatomic,  weak) IBOutlet UIButton *addBtn;
 @property (nonatomic,  weak) IBOutlet UILabel *numLab;
+@property (nonatomic,assign)float wid;
 @property (nonatomic,  copy)NSArray *typeArr;
 @property (nonatomic,  copy)NSArray *typeTArr;
 @property (nonatomic,  copy)NSArray *typeSArr;
@@ -70,6 +71,7 @@
     [super viewDidLoad];
     self.title = @"定制信息";
     self.view.backgroundColor = DefaultColor;
+    self.wid = IsPhone?0.5:0.65;
     [self loadBaseCustomView];
 }
 
@@ -101,13 +103,13 @@
     }];
     [self setHandSize];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(orientChange:) name:UIApplicationDidChangeStatusBarOrientationNotification object:nil];
-    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(changeAddressText:)
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(changeDri:)
                                            name:NotificationDriName object:nil];
 }
-//显示地址
-- (void)changeAddressText:(NSNotification *)notification{
+//改变裸石
+- (void)changeDri:(NSNotification *)notification{
     NakedDriSeaListInfo *listInfo = notification.userInfo[UserInfoDriName];
-    NSArray *infoArr = @[@"钻石",listInfo.Weight,@"圆形",listInfo.Color,listInfo.Purity];
+    NSArray *infoArr = @[@"钻石",listInfo.Weight,listInfo.Shape,listInfo.Color,listInfo.Purity];
     NSArray *arr = self.mutArr[0];
     for (int i=0; i<arr.count; i++) {
         DetailTypeInfo *info = arr[i];
@@ -125,7 +127,7 @@
 
 - (void)addStoneWithDic:(NSDictionary *)data{
     CustomJewelInfo *CusInfo = [CustomJewelInfo objectWithKeyValues:data];
-    NSArray *infoArr = @[@"钻石",CusInfo.jewelStoneWeight,@"圆形",CusInfo.jewelStoneColor,
+    NSArray *infoArr = @[@"钻石",CusInfo.jewelStoneWeight,CusInfo.jewelStoneShape,CusInfo.jewelStoneColor,
                          CusInfo.jewelStonePurity];
     NSMutableArray *mutA = [NSMutableArray new];
     for (int i=0; i<5; i++) {
@@ -160,7 +162,7 @@
     }else{
         self.tableView.tableHeaderView = [[UIView alloc]initWithFrame:CGRectZero];
         [self.tableView mas_updateConstraints:^(MASConstraintMaker *make) {
-            make.left.equalTo(self.view).offset(SDevWidth*0.5);
+            make.left.equalTo(self.view).offset(SDevWidth*self.wid);
         }];
         [self setupHeadView:self.headImg and:NO];
     }
@@ -397,9 +399,9 @@
 }
 
 - (void)setupHeadView:(NSArray *)headArr and:(BOOL)isHead{
-    CGRect headF = CGRectMake(0, 0, SDevWidth*0.5, SDevHeight-60);
+    CGRect headF = CGRectMake(0, 0, SDevWidth*self.wid, SDevHeight-60);
     if (!IsPhone){
-        headF = CGRectMake(0, 20, SDevWidth*0.5, SDevHeight-80);
+        headF = CGRectMake(0, 20, SDevWidth*self.wid, SDevHeight-80);
     }
     if (isHead) {
         headF = CGRectMake(0, 0, SDevWidth, SDevWidth);

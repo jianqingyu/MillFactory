@@ -11,7 +11,7 @@
 #import <SDWebImage/UIButton+WebCache.h>
 @implementation NakedDriLibListCell
 
-+ (id)cellWithTableView:(UITableView *)tableView{
++ (id)cellWithTableView:(UITableView *)tableView{ 
     static NSString *Id = @"imgCell";
     NakedDriLibListCell *imgCell = [tableView dequeueReusableCellWithIdentifier:Id];
     if (imgCell==nil) {
@@ -34,9 +34,14 @@
         [self.contentView addSubview:lab];
         
         int COLUMN = 5;
+        if (!IsPhone) {
+            COLUMN = SDevHeight>SDevWidth?8:10;
+        }else{
+            COLUMN = SDevHeight>SDevWidth?5:8;
+        }
         CGFloat ROWSPACE = 10;
         NSInteger total = _imgInfo.values.count;
-        CGFloat rowWid = (SDevWidth - 6*10)/5;
+        CGFloat rowWid = (SDevWidth - (COLUMN+1)*10)/COLUMN;
         CGFloat rowhei = rowWid+15;
         
         CGFloat cellHeight = 0;
@@ -48,8 +53,10 @@
             btn.frame = CGRectMake(ROWSPACE + rowWid*column + ROWSPACE * column,height+ ROWSPACE + (rowhei + ROWSPACE)*row, rowWid, rowhei);
             btn.tag = i;
             btn.selected = dInfo.isSel;
-            [btn sd_setBackgroundImageWithURL:[NSURL URLWithString:dInfo.pic] forState:UIControlStateNormal];
-            [btn sd_setBackgroundImageWithURL:[NSURL URLWithString:dInfo.pic1] forState:UIControlStateSelected];
+            [btn sd_setImageWithURL:[NSURL URLWithString:dInfo.pic] forState:UIControlStateNormal];
+            [btn sd_setImageWithURL:[NSURL URLWithString:dInfo.pic1] forState:UIControlStateSelected];
+//            [btn sd_setBackgroundImageWithURL:[NSURL URLWithString:dInfo.pic] forState:UIControlStateNormal];
+//            [btn sd_setBackgroundImageWithURL:[NSURL URLWithString:dInfo.pic1] forState:UIControlStateSelected];
             cellHeight = CGRectGetMaxY(btn.frame)+10;
         }
         self.bounds = CGRectMake(0, 0, SDevWidth, cellHeight);
@@ -58,6 +65,7 @@
 
 - (UIButton *)creatBtn{
     UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
+    [btn setBackgroundImage:[CommonUtils createImageWithColor:MAIN_COLOR] forState:UIControlStateSelected];
     [btn setLayerWithW:5 andColor:BordColor andBackW:0.5];
     [btn addTarget:self action:@selector(subCateBtnAction:) forControlEvents:UIControlEventTouchUpInside];
     [self.contentView addSubview:btn];
