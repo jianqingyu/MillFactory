@@ -7,6 +7,7 @@
 //
 
 #import "BaseViewController.h"
+#import "NakedDriSeaListInfo.h"
 typedef void (^ EditOrderBack)(id orderInfo);
 @interface CustomProDetailVC : BaseViewController
 @property (nonatomic,assign)int proId;
@@ -14,4 +15,5 @@ typedef void (^ EditOrderBack)(id orderInfo);
 @property (nonatomic,assign)int colorId;
 @property (nonatomic,assign)int isEdit;
 @property (nonatomic,  copy)EditOrderBack orderBack;
+@property (nonatomic,strong)NakedDriSeaListInfo *seaInfo;
 @end

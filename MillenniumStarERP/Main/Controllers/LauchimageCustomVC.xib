@@ -16,7 +16,7 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="loading" translatesAutoresizingMaskIntoConstraints="NO" id="f7h-Z2-uCc">
+                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="loading" translatesAutoresizingMaskIntoConstraints="NO" id="f7h-Z2-uCc">
                     <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                 </imageView>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="34h-nK-uqD">
@@ -44,7 +44,7 @@
                 <constraint firstAttribute="trailing" secondItem="f7h-Z2-uCc" secondAttribute="trailing" id="XpJ-4q-afL"/>
                 <constraint firstAttribute="bottom" secondItem="34h-nK-uqD" secondAttribute="bottom" constant="10" id="eze-ZV-QS3"/>
             </constraints>
-            <point key="canvasLocation" x="508" y="462"/>
+            <point key="canvasLocation" x="755.5" y="263"/>
         </view>
     </objects>
     <resources>

@@ -61,12 +61,20 @@
 }
 
 - (void)creatBaseView{
+    CGFloat wid = MIN(SDevWidth, SDevHeight)*0.5;
+    CGFloat loWid = MIN(SDevWidth, SDevHeight)*0.7;
+    CGFloat topSet = 0.09;
+    if (!IsPhone) {
+        wid = MIN(SDevWidth, SDevHeight)*0.3;
+        loWid = MIN(SDevWidth, SDevHeight)*0.4;
+        topSet = 0.15;
+    }
     UIImageView *imageV = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"ic_03"]];
     [self addSubview:imageV];
     [imageV mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self).offset(SDevHeight*0.2);
         make.centerX.mas_equalTo(self.centerX);
-        make.size.mas_equalTo(CGSizeMake(SDevWidth*0.5, SDevWidth*0.5/3));
+        make.size.mas_equalTo(CGSizeMake(wid, wid/3));
     }];
     self.backImg = imageV;
     //底部登录页面
@@ -74,9 +82,10 @@
     loginV.backgroundColor = [UIColor clearColor];
     [self addSubview:loginV];
     [loginV mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(imageV.mas_bottom).with.offset(SDevHeight*0.09);
+        make.top.equalTo(imageV.mas_bottom).with.offset(SDevHeight*topSet);
         make.centerX.mas_equalTo(self.centerX);
-        make.size.mas_equalTo(CGSizeMake(SDevWidth*0.7, 210));
+        make.width.mas_equalTo(loWid);
+        make.bottom.equalTo(self).offset(0);
     }];
     self.logView = loginV;
     
@@ -85,6 +94,7 @@
     UIView *listView3 = [self creatListView:loginV isC:3];
     
     UIButton *loginBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    loginBtn.titleLabel.font = [UIFont systemFontOfSize:14];
     loginBtn.backgroundColor = MAIN_COLOR;
     [loginBtn setTitle:@"登  陆" forState:UIControlStateNormal];
     [loginBtn addTarget:self action:@selector(loginClick:)
@@ -92,7 +102,7 @@
     [loginBtn setLayerWithW:3 andColor:BordColor andBackW:0.001];
     [loginV addSubview:loginBtn];
     [loginBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(listView3.mas_bottom).with.offset(15);
+        make.top.equalTo(listView3.mas_bottom).with.offset(25);
         make.left.equalTo(loginV).offset(0);
         make.right.equalTo(loginV).offset(0);
         make.height.mas_equalTo(@35);

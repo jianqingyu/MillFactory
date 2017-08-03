@@ -10,10 +10,10 @@
                 <outlet property="backScr" destination="ph5-Ve-5pr" id="hF1-DR-Pg5"/>
                 <outlet property="bottomV" destination="a99-oz-3yg" id="0OK-Ma-ZXn"/>
                 <outlet property="headLab" destination="9o8-tv-ws2" id="wYg-8L-Kdg"/>
+                <outlet property="orderBtn" destination="d8Y-Az-lpU" id="s2H-Dp-eqn"/>
+                <outlet property="priceBtn" destination="yh8-4K-jI3" id="ULl-de-Zh0"/>
                 <outlet property="sureBtn" destination="bXN-4H-Jd1" id="u7u-S6-YYZ"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
-                <outletCollection property="bottomBtns" destination="yh8-4K-jI3" id="DMl-Kx-cnR"/>
-                <outletCollection property="bottomBtns" destination="d8Y-Az-lpU" id="L7r-D6-Gdo"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
@@ -59,14 +59,14 @@
                             <rect key="frame" x="150" y="0.0" width="170" height="35"/>
                             <subviews>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="d8Y-Az-lpU">
-                                    <rect key="frame" x="90" y="4" width="70" height="28"/>
+                                    <rect key="frame" x="10" y="4" width="70" height="28"/>
                                     <color key="backgroundColor" red="0.93725490199999995" green="0.51764705879999995" blue="0.36078431370000003" alpha="1" colorSpace="calibratedRGB"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="28" id="AXS-hH-fdS"/>
                                         <constraint firstAttribute="width" constant="70" id="Iit-c5-Y0r"/>
                                     </constraints>
                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                    <state key="normal" title="下单">
+                                    <state key="normal" title="选戒托">
                                         <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <color key="titleShadowColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     </state>
@@ -78,7 +78,7 @@
                                     </connections>
                                 </button>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yh8-4K-jI3">
-                                    <rect key="frame" x="10" y="4" width="70" height="28"/>
+                                    <rect key="frame" x="90" y="4" width="70" height="28"/>
                                     <color key="backgroundColor" red="0.93725490199999995" green="0.51764705879999995" blue="0.36078431370000003" alpha="1" colorSpace="calibratedRGB"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                     <state key="normal" title="批量报价">
@@ -93,11 +93,11 @@
                                 </button>
                             </subviews>
                             <constraints>
+                                <constraint firstItem="yh8-4K-jI3" firstAttribute="leading" secondItem="d8Y-Az-lpU" secondAttribute="trailing" constant="10" id="4nH-9X-aq5"/>
                                 <constraint firstAttribute="width" constant="170" id="ExV-1j-6TH"/>
                                 <constraint firstItem="d8Y-Az-lpU" firstAttribute="centerY" secondItem="a99-oz-3yg" secondAttribute="centerY" id="QAZ-O1-NRf"/>
-                                <constraint firstItem="d8Y-Az-lpU" firstAttribute="leading" secondItem="yh8-4K-jI3" secondAttribute="trailing" constant="10" id="YOa-zz-LRD"/>
-                                <constraint firstAttribute="trailing" secondItem="d8Y-Az-lpU" secondAttribute="trailing" constant="10" id="f4T-J0-g1S"/>
                                 <constraint firstItem="yh8-4K-jI3" firstAttribute="centerY" secondItem="a99-oz-3yg" secondAttribute="centerY" id="uQ7-HS-tO5"/>
+                                <constraint firstAttribute="trailing" secondItem="yh8-4K-jI3" secondAttribute="trailing" constant="10" id="yG7-sN-Vcd"/>
                             </constraints>
                         </view>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bXN-4H-Jd1">

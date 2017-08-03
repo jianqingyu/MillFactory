@@ -45,6 +45,7 @@ UITableViewDataSource,MWPhotoBrowserDelegate>
 @property (nonatomic,  copy)NSString*lastMess;
 @property (nonatomic,  copy)NSArray *handArr;
 @property (nonatomic,  copy)NSArray *numArr;
+@property (nonatomic,  copy)NSArray *chooseArr;
 @property (nonatomic,  strong)NSMutableArray*mutArr;
 @property (nonatomic,    copy)NSString *driCode;
 @property (nonatomic,    copy)NSString *driPrice;
@@ -61,7 +62,7 @@ UITableViewDataSource,MWPhotoBrowserDelegate>
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = @"定制信息";
-    self.view.backgroundColor = DefaultColor;
+    self.view.backgroundColor = [UIColor whiteColor];
     self.wid = IsPhone?0.5:0.65;
     [self loadBaseCustomView];
 }
@@ -97,13 +98,31 @@ UITableViewDataSource,MWPhotoBrowserDelegate>
 //改变裸石
 - (void)changeNakedDri:(NSNotification *)notification{
     NakedDriSeaListInfo *listInfo = notification.userInfo[UserInfoDriName];
-    NSArray *infoArr = @[@"钻石",listInfo.Weight,listInfo.Shape,listInfo.Color,listInfo.Purity];
+    NSArray *infoArr = @[@"钻石",listInfo.Weight,[self modelWith:2 and:listInfo.Shape],[self modelWith:3 and:listInfo.Color],[self modelWith:4 and:listInfo.Purity]];
     NSArray *arr = self.mutArr[0];
     for (int i=0; i<arr.count; i++) {
         DetailTypeInfo *info = arr[i];
         info.id = 1;
-        NSString *title = [infoArr[i] length]>0?infoArr[i]:@"默认";
-        info.title = title;
+        info.title = infoArr[i];
+    }
+    self.driCode = listInfo.CertCode;
+    self.driPrice = listInfo.Price;
+    self.driId = listInfo.id;
+    self.proNum = @"1";
+    [self.tableView reloadData];
+}
+
+- (void)setBaseNakedDriSeaInfo{
+    if (!self.seaInfo) {
+        return;
+    }
+    NakedDriSeaListInfo *listInfo = self.seaInfo;
+    NSArray *infoArr = @[@"钻石",listInfo.Weight,[self modelWith:2 and:listInfo.Shape],[self modelWith:3 and:listInfo.Color],[self modelWith:4 and:listInfo.Purity]];
+    NSArray *arr = self.mutArr[0];
+    for (int i=0; i<arr.count; i++) {
+        DetailTypeInfo *info = arr[i];
+        info.id = 1;
+        info.title = infoArr[i];
     }
     self.driCode = listInfo.CertCode;
     self.driPrice = listInfo.Price;
@@ -114,15 +133,12 @@ UITableViewDataSource,MWPhotoBrowserDelegate>
 
 - (void)addStoneWithDic:(NSDictionary *)data{
     CustomJewelInfo *CusInfo = [CustomJewelInfo objectWithKeyValues:data];
-    NSArray *infoArr = @[@"钻石",CusInfo.jewelStoneWeight,CusInfo.jewelStoneShape,CusInfo.jewelStoneColor,
-                         CusInfo.jewelStonePurity];
+    NSArray *infoArr = @[@"钻石",CusInfo.jewelStoneWeight,[self modelWith:2 and:CusInfo.jewelStoneShape],[self modelWith:3 and:CusInfo.jewelStoneColor],[self modelWith:4 and:CusInfo.jewelStonePurity]];
     NSMutableArray *mutA = [NSMutableArray new];
     for (int i=0; i<5; i++) {
         DetailTypeInfo *info = [DetailTypeInfo new];
         info.id = 1;
-        BOOL isNull = [infoArr[i] length]>0&&![infoArr[i] isEqualToString:@" "];
-        NSString *title = isNull?infoArr[i]:@"默认";
-        info.title = title;
+        info.title = infoArr[i];
         [mutA addObject:info];
     }
     self.driCode = CusInfo.jewelStoneCode;
@@ -133,8 +149,21 @@ UITableViewDataSource,MWPhotoBrowserDelegate>
     [self.tableView reloadData];
 }
 
+- (NSString *)modelWith:(int)idx and:(NSString *)obj{
+    NSString *str = obj;
+    if (idx>self.chooseArr.count) {
+        return str;
+    }
+    if (![YQObjectBool boolForObject:obj]) {
+        DetailTypeInfo *info = self.chooseArr[idx][0];
+        str = info.title;
+    }
+    return str;
+}
+
 - (void)orientChange:(NSNotification *)notification{
     [self changeTableHeadView];
+    [self.tableView reloadData];
 }
 
 - (void)changeTableHeadView{
@@ -155,7 +184,6 @@ UITableViewDataSource,MWPhotoBrowserDelegate>
 
 - (void)setBaseTableView{
     UITableView *table = [[UITableView alloc]init];
-    table.backgroundColor = DefaultColor;
     table.separatorStyle = UITableViewCellSeparatorStyleNone;
     table.delegate = self;
     table.dataSource = self;
@@ -240,6 +268,13 @@ UITableViewDataSource,MWPhotoBrowserDelegate>
                 [self creatCusTomHeadView];
                 [self.tableView reloadData];
             }
+            if ([YQObjectBool boolForObject:response.data[@"stoneType"]]) {
+                self.chooseArr = @[response.data[@"stoneType"],
+                                   response.data[@"stoneColor"],
+                                   response.data[@"stoneShape"],
+                                   response.data[@"stoneColor"],
+                                   response.data[@"stonePurity"]];
+            }
             if ([YQObjectBool boolForObject:response.data[@"handSizeData"]]) {
                 NSMutableArray *mutA = [NSMutableArray new];
                 for (NSString *title in response.data[@"handSizeData"]) {
@@ -250,6 +285,7 @@ UITableViewDataSource,MWPhotoBrowserDelegate>
             if ([YQObjectBool boolForObject:response.data[@"remarks"]]) {
                 self.remakeArr = response.data[@"remarks"];
             }
+            [self setBaseNakedDriSeaInfo];
         }
         [SVProgressHUD dismiss];
     } requestURL:regiUrl params:params];

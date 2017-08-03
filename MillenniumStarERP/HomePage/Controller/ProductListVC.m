@@ -450,11 +450,13 @@
     ProductInfo *info = self.dataArray[indexPath.row];
     if ([[AccountTool account].isSel intValue]==0) {
         NewCustomProDetailVC *newVc = [NewCustomProDetailVC new];
+        newVc.seaInfo = self.driInfo;
         newVc.proId = info.id;
         [self.navigationController pushViewController:newVc animated:YES];
     }else{
         CustomProDetailVC *customDeVC = [CustomProDetailVC new];
         customDeVC.proId = info.id;
+        customDeVC.seaInfo = self.driInfo;
         [self.navigationController pushViewController:customDeVC animated:YES];
     }
 }
