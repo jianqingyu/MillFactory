@@ -20,7 +20,7 @@
     [super viewDidLoad];
     self.helpTable.tableFooterView = [[UIView alloc]initWithFrame:CGRectZero];
     self.helpArr = @[@"iOS下载地址"];
-    self.dictArr = @[@{@"title":@"苹果最新版",@"image":@"iOSCode",@"url":@"https://itunes.apple.com/cn/app/%E5%8D%83%E7%A6%A7%E4%B9%8B%E6%98%9F%E7%8F%A0%E5%AE%9D/id1227342902?mt=8"}];
+    self.dictArr = @[@{@"title":@"苹果最新版",@"image":@"iOSCode",@"url":@"https://www.pgyer.com/nufA"}];
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{

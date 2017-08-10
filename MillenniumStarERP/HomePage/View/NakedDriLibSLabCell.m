@@ -32,7 +32,12 @@
         lab.text = _textSInfo.title;
         [self.contentView addSubview:lab];
         
-        int COLUMN = (int)_textSInfo.values.count;
+        int COLUMN = 5;
+        if (!IsPhone) {
+            COLUMN = SDevHeight>SDevWidth?8:10;
+        }else{
+            COLUMN = SDevHeight>SDevWidth?5:8;
+        }
         CGFloat ROWSPACE = 10;
         NSInteger total = _textSInfo.values.count;
         CGFloat rowWid = (SDevWidth -height-(COLUMN+1)*10)/COLUMN;

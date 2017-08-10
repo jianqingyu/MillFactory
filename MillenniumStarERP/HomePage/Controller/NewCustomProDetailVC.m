@@ -19,7 +19,6 @@
 #import "DetailHeadInfo.h"
 #import "StrWithIntTool.h"
 #import "CommonUtils.h"
-#import "OrderNumTool.h"
 #import "CustomJewelInfo.h"
 #import "CustomPickView.h"
 #import "HYBLoopScrollView.h"
@@ -386,7 +385,11 @@ UITableViewDataSource,MWPhotoBrowserDelegate>
     if (mPic.count==0) {
         mPic = @[@"pic"].mutableCopy;
     }
-    headArr = mPic.copy;
+    if (IsPhone) {
+        headArr = mPic.copy;
+    }else{
+        headArr = bPic.copy;
+    }
     self.headImg = headArr;
     self.IDarray = [bPic copy];
     [self changeTableHeadView];
@@ -597,6 +600,9 @@ UITableViewDataSource,MWPhotoBrowserDelegate>
     NSMutableDictionary *params = [NSMutableDictionary new];
     for (int i=0; i<self.mutArr.count; i++) {
         NSMutableArray *arr = self.mutArr[i];
+        if ([self boolWithNoArr:arr]) {
+            continue;
+        }
         [self paramsWithArr:arr andI:i andD:params];
     }
     [self addOrderWithDict:params];

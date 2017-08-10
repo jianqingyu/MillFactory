@@ -22,7 +22,6 @@
 #import "OrderListInfo.h"
 #import "DetailHeadInfo.h"
 #import "StrWithIntTool.h"
-#import "OrderNumTool.h"
 #import "CommonUtils.h"
 #import "CustomJewelInfo.h"
 #import "CustomPickView.h"
@@ -430,7 +429,11 @@
     if (mPic.count==0) {
         mPic = @[@"pic"].mutableCopy;
     }
-    headArr = mPic.copy;
+    if (IsPhone) {
+        headArr = mPic.copy;
+    }else{
+        headArr = bPic.copy;
+    }
     self.headImg = headArr;
     self.IDarray = [bPic copy];
     [self changeTableHeadView];

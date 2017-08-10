@@ -49,7 +49,8 @@
         string = [string substringToIndex:10];//截取掉下标10之后的字符串
         self.delNum.text = [NSString stringWithFormat:@"出库单号 %@",_listInfo.moNum];
         self.setDate.text = [NSString stringWithFormat:@"出货日期 : %@",string];
-        self.priceLab.text = [NSString stringWithFormat:@"价格 : ￥%0.2f",_listInfo.totalPrice];
+        NSString *dePrice = [OrderNumTool strWithPrice:_listInfo.totalPrice];
+        self.priceLab.text = [NSString stringWithFormat:@"价格 : %@",dePrice];
         self.numLab.text = [NSString stringWithFormat:@"数量 : %@件",_listInfo.number];
     }
 }

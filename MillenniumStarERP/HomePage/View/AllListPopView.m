@@ -76,7 +76,7 @@
     DetailTypeInfo *detail = self.productList[indexPath.row];
     tabCell.textLabel.text = detail.title;
     if (indexPath.row==self.seIndex) {
-        tabCell.textLabel.textColor = [UIColor redColor];
+        tabCell.textLabel.textColor = MAIN_COLOR;
     }else{
         tabCell.textLabel.textColor = [UIColor blackColor];
     }

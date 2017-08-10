@@ -17,7 +17,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.title = @"版本下载";
+    self.title = @"苹果最新版下载";
     self.titleLab.text = self.dict[@"title"];
     self.codeImg.image = [UIImage imageNamed:self.dict[@"image"]];
 }

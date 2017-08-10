@@ -22,7 +22,6 @@
 #import "ClassListController.h"
 #import "OrderListController.h"
 #import "ConfirmOrderVC.h"
-#import "OrderNumTool.h"
 #import "CustomTextField.h"
 #import "NewCustomProDetailVC.h"
 @interface ProductListVC ()<UICollectionViewDataSource,UICollectionViewDelegate,
@@ -39,7 +38,9 @@
 @property (weak, nonatomic) IBOutlet UIButton *hisBtn;
 @property (copy, nonatomic) NSString *keyWord;
 @property (nonatomic, assign) int index;
+@property (nonatomic, assign) int idxPage;
 @property (nonatomic,   weak) UIView *baView;
+@property (nonatomic,   weak) UILabel *numLab;
 @property (nonatomic, strong) NSMutableArray *dataArray;
 @property (nonatomic, strong) AllListPopView *popClassView;
 @property (nonatomic, strong) CDRTranslucentSideBar *rightSideBar;
@@ -97,9 +98,10 @@
     flowLayout.sectionInset = UIEdgeInsetsMake(5, 5, 5, 5);//边距距
     self.rightCollection = [[UICollectionView alloc] initWithFrame:CGRectZero
                                                collectionViewLayout:flowLayout];
-    self.rightCollection.backgroundColor = DefaultColor;
+    self.rightCollection.backgroundColor = [UIColor whiteColor];
     self.rightCollection.delegate = self;
     self.rightCollection.dataSource = self;
+//    self.rightCollection.pagingEnabled = YES;
     [self.view addSubview:_rightCollection];
     [_rightCollection mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.view).offset(40.5);
@@ -124,7 +126,46 @@
         make.bottom.equalTo(self.view).offset(0);
     }];
     self.baView = bView;
+    
+    UILabel *lab = [UILabel new];
+    lab.textColor = [UIColor whiteColor];
+    lab.font = [UIFont systemFontOfSize:14];
+    lab.textAlignment = NSTextAlignmentCenter;
+    [lab setLayerWithW:10 andColor:BordColor andBackW:0.0001];
+    lab.hidden = YES;
+    lab.backgroundColor = CUSTOM_COLOR_ALPHA(80, 80, 80, 0.5);
+    [self.view addSubview:lab];
+    [self.view bringSubviewToFront:lab];
+    [lab mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.mas_equalTo(self.view.mas_centerX);
+        make.size.mas_equalTo(CGSizeMake(60, 24));
+        make.bottom.equalTo(self.view).offset(-20);
+    }];
+    self.numLab = lab;
 }
+
+- (void)scrollViewDidScroll:(UIScrollView *)sender {
+    if (totalCount==0) {
+        return;
+    }
+    // 得到每页高度
+    CGFloat pageWidth = sender.frame.size.height;
+    // 根据当前的x坐标和页宽度计算出当前页数
+    int currentPage = floor((sender.contentOffset.y - pageWidth / 2) / pageWidth) + 1;
+//    NSLog(@"%d",currentPage);
+    int toPage = totalCount%12==0?totalCount/12:totalCount/12+1;
+    if (self.idxPage!=currentPage&&totalCount!=0) {
+        self.idxPage = currentPage;
+        self.numLab.text = [NSString stringWithFormat:@"%d/%d",self.idxPage/2+1,toPage];
+        if(self.numLab.hidden){
+            self.numLab.hidden = NO;
+        }
+    }
+}
+
+//- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView{
+//    self.numLab.hidden = YES;
+//}
 
 - (void)setupSearchBar{
     CGFloat width = SDevWidth*0.70;
@@ -440,15 +481,15 @@
 }
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath{
-    CGFloat rowH = self.isShowPrice?64:33;
+//    CGFloat rowH = self.isShowPrice?80:51;
     int num = SDevWidth>SDevHeight?4:2;
     CGFloat width = (SDevWidth-(num+1)*5)/num;
-    return CGSizeMake(width, width+rowH);
+    return CGSizeMake(width, width);
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
     ProductInfo *info = self.dataArray[indexPath.row];
-    if ([[AccountTool account].isSel intValue]==0) {
+    if ([[AccountTool account].isNorm intValue]==0) {
         NewCustomProDetailVC *newVc = [NewCustomProDetailVC new];
         newVc.seaInfo = self.driInfo;
         newVc.proId = info.id;

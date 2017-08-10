@@ -8,7 +8,6 @@
 
 #import "UserManagerMenuHrizontal.h"
 #import "CommonUtils.h"
-#import "OrderNumTool.h"
 
 @implementation UserManagerMenuHrizontal
 - (id)initWithFrame:(CGRect)frame ButtonItems:(NSArray *)aItemsArray{

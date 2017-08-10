@@ -34,7 +34,7 @@
         self.orderNum.text = _staueInfo.orderNum;
         self.orderStaue.text = _staueInfo.orderStatus;
         self.orderDate.text = _staueInfo.orderDate;
-        self.orderKing.text = [NSString stringWithFormat:@"￥%0.2f",_staueInfo.goldPrice];
+        self.orderKing.text = [OrderNumTool strWithPrice:_staueInfo.goldPrice];
     }
 }
 

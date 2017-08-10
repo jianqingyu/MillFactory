@@ -247,7 +247,8 @@
             value = value+info.price*info.number;
         }
     }
-    self.bottomLab.text = [NSString stringWithFormat:@"合计:￥%0.2f",value];
+    NSString *dePrice = [OrderNumTool strWithPrice:value];
+    self.bottomLab.text = [NSString stringWithFormat:@"合计:%@",dePrice];
 }
 
 - (IBAction)confirmClick:(id)sender {

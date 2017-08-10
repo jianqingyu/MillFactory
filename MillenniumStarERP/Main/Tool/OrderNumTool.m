@@ -22,4 +22,7 @@
     }
 }
 
++ (NSString *)strWithPrice:(float)price{
+    return [NSString stringWithFormat:@"￥%0.0f",price];
+}
 @end

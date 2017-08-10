@@ -36,7 +36,7 @@
     if (lInfo) {
         _lInfo = lInfo;
         self.detailInfoLab.text = _lInfo.info;
-        self.priceLab.text = [NSString stringWithFormat:@"￥%0.2f",_lInfo.price];
+        self.priceLab.text = [OrderNumTool strWithPrice:_lInfo.price];
         self.numLab.text = [NSString stringWithFormat:@"x%@",_lInfo.number];
     }
 }

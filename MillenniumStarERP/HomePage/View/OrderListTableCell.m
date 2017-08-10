@@ -59,8 +59,8 @@
         }
         self.detailLab.text = _listInfo.otherInfo;
         self.staueLab.text = _listInfo.orderStatusTitle;
-        self.totlePriceLab.text = [NSString stringWithFormat:@"￥%0.2f",_listInfo.totalPrice];
-        self.priceLab.text = [NSString stringWithFormat:@"￥%0.2f",_listInfo.needPayPrice];
+        self.totlePriceLab.text = [OrderNumTool strWithPrice:_listInfo.totalPrice];
+        self.priceLab.text = [OrderNumTool strWithPrice:_listInfo.needPayPrice];
         for (int i=0; i<_listInfo.pics.count; i++) {
             if (i>3) {
                 return;

@@ -22,6 +22,8 @@
 @property (nonatomic,  copy)NSString *sortStr;
 @property (nonatomic,assign)BOOL isFir;
 @property (nonatomic,assign)BOOL isShow;
+@property (nonatomic,assign) int idxPage;
+@property (nonatomic,  weak) UILabel *numLab;
 @property (nonatomic,strong)UITableView *tableView;
 @property (nonatomic,strong)NSMutableArray *dataArray;
 @property (weak,  nonatomic) IBOutlet UIView *bottomV;
@@ -97,10 +99,42 @@
         make.width.mas_equalTo(SDevWidth);
     }];
     self.tableView.tableFooterView = [[UIView alloc]initWithFrame:CGRectZero];
-    
     self.backScr.contentSize = CGSizeMake(SDevWidth, 0);
+    
+    UILabel *lab = [UILabel new];
+    lab.textColor = [UIColor whiteColor];
+    lab.font = [UIFont systemFontOfSize:14];
+    lab.textAlignment = NSTextAlignmentCenter;
+    [lab setLayerWithW:10 andColor:BordColor andBackW:0.0001];
+    lab.backgroundColor = CUSTOM_COLOR_ALPHA(80, 80, 80, 0.5);
+    [self.view addSubview:lab];
+    [self.view bringSubviewToFront:lab];
+    lab.hidden = YES;
+    [lab mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.mas_equalTo(self.view.mas_centerX);
+        make.size.mas_equalTo(CGSizeMake(60, 24));
+        make.bottom.equalTo(self.view).offset(-60);
+    }];
+    self.numLab = lab;
 }
 
+- (void)scrollViewDidScroll:(UIScrollView *)sender {
+    if (totalCount==0) {
+        return;
+    }
+    // 得到每页高度
+    CGFloat pageWidth = sender.frame.size.height;
+    // 根据当前的x坐标和页宽度计算出当前页数
+    int currentPage = floor((sender.contentOffset.y - pageWidth / 2) / pageWidth) + 1;
+    int toPage = totalCount%30==0?totalCount/30:totalCount/30+1;
+    if (self.idxPage!=currentPage&&totalCount!=0) {
+        self.idxPage = currentPage;
+        self.numLab.text = [NSString stringWithFormat:@"%d/%d",self.idxPage+1,toPage];
+        if(self.numLab.hidden){
+            self.numLab.hidden = NO;
+        }
+    }
+}
 #pragma mark -- 网络请求
 - (void)setupHeaderRefresh{
     // 刷新功能

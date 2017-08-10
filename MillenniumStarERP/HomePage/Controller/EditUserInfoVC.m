@@ -8,12 +8,14 @@
 
 #import "EditUserInfoVC.h"
 #import "AccountTool.h"
+#import "CustomInvoice.h"
 #import "EditAddressVC.h"
 #import "EditPhoneNumVc.h"
 #import "CommonUsedTool.h"
 #import "MasterCountInfo.h"
-#import "EditUserInfoCell.h"
+#import "EditShowPriceVC.h"
 #import <ShareSDK/ShareSDK.h>
+#import "CustomInputPassView.h"
 #import "LoginViewController.h"
 #import "PassWordViewController.h"
 #import <ShareSDKUI/ShareSDK+SSUI.h>
@@ -21,12 +23,11 @@
 @interface EditUserInfoVC ()<UITableViewDelegate,UITableViewDataSource,
                  UIImagePickerControllerDelegate,UINavigationControllerDelegate>
 @property (nonatomic,strong)UITableView *tableView;
-@property (nonatomic,assign)BOOL isShow;
 @property (nonatomic,strong)UIImage *image;
 @property (nonatomic,  copy)NSArray *textArr;
 @property (nonatomic,  copy)NSString *url;
+@property (nonatomic,  weak)CustomInputPassView *putView;
 @property (nonatomic,strong)NSMutableDictionary *mutDic;
-@property (nonatomic,  weak)EditUserInfoCell *editCell;
 @property (nonatomic,strong)MasterCountInfo *masterInfo;
 @end
 
@@ -34,13 +35,14 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.title = @"我的";
     self.mutDic = [NSMutableDictionary new];
     [self setBaseViewData];
 }
 
 - (void)setBaseViewData{
-    self.textArr = @[@[@"用户名",@"修改头像",@"是否显示价格",@"是否高级定制"],
-                 @[@"修改密码",@"修改手机号码",@"管理地址",@"清理缓存",@"分享该应用"]];
+    self.textArr = @[@[@"用户名",@"修改头像"],
+                     @[@"设置",@"修改密码",@"修改手机号码",@"管理地址",@"清理缓存",@"分享该应用"]];
     self.tableView = [[UITableView alloc]initWithFrame:CGRectZero style:UITableViewStyleGrouped];
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
@@ -57,10 +59,11 @@
     }
     
     UIView *footView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, SDevWidth, 80)];
-    CGFloat width = MIN(SDevWidth, SDevHeight)*0.8;
     UIButton *cancelBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    CGFloat width = MIN(SDevWidth, SDevHeight)*0.8;
     cancelBtn.backgroundColor = MAIN_COLOR;
-    [cancelBtn setLayerWithW:5 andColor:BordColor andBackW:0.001];
+    cancelBtn.layer.masksToBounds = YES;
+    cancelBtn.layer.cornerRadius = 5;
     [cancelBtn addTarget:self action:@selector(cancelClick) forControlEvents:UIControlEventTouchUpInside];
     [cancelBtn setTitle:@"退出登录" forState:UIControlStateNormal];
     [footView addSubview:cancelBtn];
@@ -69,6 +72,26 @@
         make.size.mas_equalTo(CGSizeMake(width, 44));
     }];
     self.tableView.tableFooterView = footView;
+    
+    CustomInputPassView *pass = [CustomInputPassView new];
+    pass.hidden = YES;
+    pass.clickBlock = ^(NSString *mess){
+        self.putView.hidden = YES;
+        if ([mess isEqualToString:[AccountTool account].password]) {
+            EditShowPriceVC *priceVc = [EditShowPriceVC new];
+            [self.navigationController pushViewController:priceVc animated:YES];
+        }else{
+            [MBProgressHUD showError:@"密码错误"];
+        }
+    };
+    [self.view addSubview:pass];
+    [pass mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.view).offset(0);
+        make.left.equalTo(self.view).offset(0);
+        make.right.equalTo(self.view).offset(0);
+        make.bottom.equalTo(self.view).offset(0);
+    }];
+    self.putView = pass;
 }
 
 - (void)viewWillAppear:(BOOL)animated{
@@ -84,13 +107,7 @@
     [BaseApi getGeneralData:^(BaseResponse *response, NSError *error) {
         if ([response.error intValue]==0) {
             if ([YQObjectBool boolForObject:response.data]) {
-                self.isShow = [response.data[@"isShowPrice"]intValue];
-                int master = [response.data[@"isMasterAccount"]intValue];
                 self.masterInfo = [MasterCountInfo objectWithKeyValues:response.data];
-                if (master) {
-                    self.textArr = @[@[@"用户名",@"修改头像",@"是否显示价格",@"是否高级定制",@"是否显示成本价"],
-                                     @[@"修改密码",@"修改手机号码",@"管理地址",@"清理缓存",@"分享该应用"]];
-                }
                 if ([YQObjectBool boolForObject:response.data[@"headPic"]]) {
                     self.url = response.data[@"headPic"];
                 }
@@ -104,35 +121,6 @@
                     self.mutDic[@"管理地址"] = response.data[@"address"];
                 }
                 [self.tableView reloadData];
-            }
-        }
-        [SVProgressHUD dismiss];
-    } requestURL:regiUrl params:params];
-}
-
-- (void)viewWillDisappear:(BOOL)animated{
-    [super viewWillDisappear:animated];
-    NSString *driUrl = [NSString stringWithFormat:@"%@modifyUserModelAddtionDo",baseUrl];
-    NSMutableDictionary *driparams = [NSMutableDictionary dictionary];
-    driparams[@"tokenKey"] = [AccountTool account].tokenKey;
-    driparams[@"value"] = self.editCell.shopFie.text;
-    [BaseApi getGeneralData:^(BaseResponse *response, NSError *error) {
-        if ([response.error intValue]==0) {
-            if ([YQObjectBool boolForObject:response.data]) {
-                
-            }
-        }
-        [SVProgressHUD dismiss];
-    } requestURL:driUrl params:driparams];
-    
-    NSString *regiUrl = [NSString stringWithFormat:@"%@modifyUserStoneAddtionDo",baseUrl];
-    NSMutableDictionary *params = [NSMutableDictionary dictionary];
-    params[@"tokenKey"] = [AccountTool account].tokenKey;
-    params[@"value"] = self.editCell.driFie.text;
-    [BaseApi getGeneralData:^(BaseResponse *response, NSError *error) {
-        if ([response.error intValue]==0) {
-            if ([YQObjectBool boolForObject:response.data]) {
-                
             }
         }
         [SVProgressHUD dismiss];
@@ -156,9 +144,6 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     if (indexPath.section==0&&indexPath.row==1) {
         return 80;
-    }
-    if (indexPath.section==0&&indexPath.row==4) {
-        return 145;
     }
     return 44;
 }
@@ -191,24 +176,8 @@
             }else if(indexPath.row==1){
                 UIImageView *imageView = [self creatImageView];
                 tableCell.accessoryView = imageView;
-            }else if(indexPath.row==2){
-                UISwitch *switchBtn = [[UISwitch alloc]initWithFrame:CGRectMake(0, 0, 50, 20)];
-                [switchBtn setOn:[[AccountTool account].isShow intValue]];
-                tableCell.accessoryView = switchBtn;
-                [switchBtn addTarget:self action:@selector(showPriceClick:)
-                    forControlEvents:UIControlEventTouchUpInside];
-            }else if(indexPath.row==3){
-                UISwitch *switchBtn = [[UISwitch alloc]initWithFrame:CGRectMake(0, 0, 50, 20)];
-                [switchBtn setOn:[[AccountTool account].isSel intValue]];
-                tableCell.accessoryView = switchBtn;
-                [switchBtn addTarget:self action:@selector(easyClick:)
-                    forControlEvents:UIControlEventTouchUpInside];
-            }else{
-                tableCell = [EditUserInfoCell cellWithTableView:tableView];
-                [tableCell setValue:self.masterInfo forKey:@"mInfo"];
-                self.editCell = (EditUserInfoCell *)tableCell;
             }
-        }
+         }
             break;
             default:
             tableCell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
@@ -245,19 +214,21 @@
         }
             break;
         case 1:
-            if (indexPath.row==0) {
+            if (indexPath.row==0){
+                self.putView.hidden = NO;
+            }else if (indexPath.row==1) {
                 PassWordViewController *passVc = [[PassWordViewController alloc]init];
                 passVc.title = @"修改密码";
                 passVc.isForgot = NO;
                 [self.navigationController pushViewController:passVc animated:YES];
-            }else if(indexPath.row==1){
+            }else if(indexPath.row==2){
                 [MBProgressHUD showSuccess:@"功能暂未开放"];
 //                EditPhoneNumVc *editNum = [EditPhoneNumVc new];
 //                [self.navigationController pushViewController:editNum animated:YES];
-            }else if(indexPath.row==2){
+            }else if(indexPath.row==3){
                 EditAddressVC *addVc = [EditAddressVC new];
                 [self.navigationController pushViewController:addVc animated:YES];
-            }else if(indexPath.row==3){
+            }else if(indexPath.row==4){
                 [self clearTmpPics];
             }else{
                 [MBProgressHUD showSuccess:@"功能暂未开放"];
@@ -267,43 +238,6 @@
         default:
             break;
     }
-}
-
-- (void)easyClick:(UISwitch *)btn{
-    NSMutableDictionary *params = [NSMutableDictionary new];
-    params[@"userName"] = [AccountTool account].userName;
-    params[@"password"] = [AccountTool account].password;
-    params[@"phone"] = [AccountTool account].phone;
-    params[@"tokenKey"] = [AccountTool account].tokenKey;
-    params[@"isShow"] = [AccountTool account].isShow;
-    params[@"isSel"] = @(btn.on);
-    Account *account = [Account accountWithDict:params];
-    //自定义类型存储用NSKeyedArchiver
-    [AccountTool saveAccount:account];
-    [MBProgressHUD showSuccess:@"修改成功"];
-}
-
-- (void)showPriceClick:(UISwitch *)btn{
-    NSMutableDictionary *params = [NSMutableDictionary new];
-    params[@"userName"] = [AccountTool account].userName;
-    params[@"password"] = [AccountTool account].password;
-    params[@"phone"] = [AccountTool account].phone;
-    params[@"tokenKey"] = [AccountTool account].tokenKey;
-    params[@"isSel"] = [AccountTool account].isSel;
-    params[@"isShow"] = @(btn.on);
-    Account *account = [Account accountWithDict:params];
-    //自定义类型存储用NSKeyedArchiver
-    [AccountTool saveAccount:account];
-    [MBProgressHUD showSuccess:@"修改成功"];
-//    NSString *url = [NSString stringWithFormat:@"%@UpdateIsShowPrice",baseUrl];
-//    NSMutableDictionary *params = [NSMutableDictionary dictionary];
-//    params[@"value"] = @(btn.on);
-//    params[@"tokenKey"] = [AccountTool account].tokenKey;
-//    [BaseApi getGeneralData:^(BaseResponse *response, NSError *error) {
-//        if ([response.error intValue]==0) {
-//            [MBProgressHUD showSuccess:@"更新成功"];
-//        }
-//    } requestURL:url params:params];
 }
 
 - (void)clearTmpPics{
@@ -336,7 +270,7 @@
     }];
 }
 
-- (void)creatUIAlertView:(UIView *)cell{
+- (void)creatUIAlertView:(UITableViewCell *)cell{
     [NewUIAlertTool creatActionSheetPhoto:^{
         [self openAlbum];
     } andCamera:^{

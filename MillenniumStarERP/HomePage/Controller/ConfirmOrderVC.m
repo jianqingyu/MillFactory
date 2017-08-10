@@ -439,6 +439,14 @@
     if (dict[@"modelQuality"]) {
         self.qualityArr = dict[@"modelQuality"];
     }
+    if ([YQObjectBool boolForObject:dict[@"defaultValue"]]) {
+        self.qualityInfo = [DetailTypeInfo objectWithKeyValues:
+                            dict[@"defaultValue"][@"modelColor"]];
+        self.colorInfo = [DetailTypeInfo objectWithKeyValues:
+                          dict[@"defaultValue"][@"modelQuality"]];
+        self.headView.qualityMes = self.qualityInfo.title;
+        self.headView.colorMes = self.colorInfo.title;
+    }
     if (self.editId&&dict[@"orderInfo"]&&dict[@"totalPrice"]&&dict[@"totalNeedPayPrice"]) {
         OrderNewInfo *orderInfo = [OrderNewInfo objectWithKeyValues:dict[@"orderInfo"]];
         self.headView.orderInfo = orderInfo;
@@ -447,10 +455,10 @@
         self.invoInfo.price = orderInfo.invoiceTitle;
         self.invoInfo.title = orderInfo.invoiceType;
         
-        self.totleLab.text = [NSString stringWithFormat:@"参考总价:￥%0.2f",
-                                               [dict[@"totalPrice"]floatValue]];
-        self.deposLab.text = [NSString stringWithFormat:@"定金:￥%0.2f",
-                                        [dict[@"totalNeedPayPrice"]floatValue]];
+        NSString *price = [OrderNumTool strWithPrice:[dict[@"totalPrice"]floatValue]];
+        self.totleLab.text = [NSString stringWithFormat:@"参考总价:%@",price];
+        NSString *dePrice = [OrderNumTool strWithPrice:[dict[@"totalNeedPayPrice"]floatValue]];
+        self.deposLab.text = [NSString stringWithFormat:@"定金:%@",dePrice];
     }
 }
 //更新list数据
@@ -762,7 +770,7 @@
 //编辑
 - (void)editIndex:(NSInteger)index{
     OrderListInfo *collectInfo = self.dataArray[index];
-    if ([[AccountTool account].isSel intValue]==0) {
+    if ([[AccountTool account].isNorm intValue]==0) {
         NewCustomProDetailVC *newVc = [NewCustomProDetailVC new];
         newVc.isEdit = self.editId?2:1;
         newVc.proId = collectInfo.id;
@@ -845,7 +853,8 @@
                 value = value+collectInfo.price;
             }
         }
-        self.priceLab.text = [NSString stringWithFormat:@"参考总价:￥%0.2f",value];
+        NSString *price = [OrderNumTool strWithPrice:value];
+        self.priceLab.text = [NSString stringWithFormat:@"参考总价:%@",price];
     }else{
         double needValue = 0.0;
         if (_dataArray.count){
@@ -855,8 +864,10 @@
                 needValue = needValue+collectInfo.needPayPrice;
             }
         }
-        self.totleLab.text = [NSString stringWithFormat:@"参考总价:￥%0.2f",value];
-        self.deposLab.text = [NSString stringWithFormat:@"定金:￥%0.2f",needValue];
+        NSString *price = [OrderNumTool strWithPrice:value];
+        self.totleLab.text = [NSString stringWithFormat:@"参考总价:%@",price];
+        NSString *dePrice = [OrderNumTool strWithPrice:needValue];
+        self.deposLab.text = [NSString stringWithFormat:@"定金:%@",dePrice];
         if (self.boolBack) {
             self.boolBack(NO);
         }

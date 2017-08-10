@@ -20,7 +20,7 @@
         self.password = dict[@"password"];
         self.tokenKey = dict[@"tokenKey"];
         self.phone    = dict[@"phone"];
-        self.isSel    = dict[@"isSel"];
+        self.isNorm    = dict[@"isNorm"];
         self.isShow   = dict[@"isShow"];
     }
     return self;
@@ -33,7 +33,7 @@
     [aCoder encodeObject:self.password forKey:@"password"];
     [aCoder encodeObject:self.tokenKey forKey:@"tokenKey"];
     [aCoder encodeObject:self.phone forKey:@"phone"];
-    [aCoder encodeObject:self.isSel forKey:@"isSel"];
+    [aCoder encodeObject:self.isNorm forKey:@"isNorm"];
     [aCoder encodeObject:self.isShow forKey:@"isShow"];
 }
 /**
@@ -45,7 +45,7 @@
         self.password = [aDecoder decodeObjectForKey:@"password"];
         self.tokenKey = [aDecoder decodeObjectForKey:@"tokenKey"];
         self.phone    = [aDecoder decodeObjectForKey:@"phone"];
-        self.isSel    = [aDecoder decodeObjectForKey:@"isSel"];
+        self.isNorm    = [aDecoder decodeObjectForKey:@"isNorm"];
         self.isShow   = [aDecoder decodeObjectForKey:@"isShow"];
     }
     return self;

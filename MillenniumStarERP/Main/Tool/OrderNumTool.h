@@ -10,4 +10,5 @@
 
 @interface OrderNumTool : NSObject
 + (void)orderWithNum:(int)number andView:(UILabel *)sLab;
++ (NSString *)strWithPrice:(float)price;
 @end

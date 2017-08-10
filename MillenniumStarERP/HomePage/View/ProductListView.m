@@ -28,7 +28,7 @@
     self.title.text = self.proInfo.title;
 //    self.headImage.contentMode = UIViewContentModeScaleAspectFit;
     [self.headImage sd_setImageWithURL:[NSURL URLWithString:self.proInfo.pic] placeholderImage:DefaultImage];
-    self.officialPrice.text = [NSString stringWithFormat:@"¥%0.2f",self.proInfo.price];
+    self.officialPrice.text = [OrderNumTool strWithPrice:self.proInfo.price];
 }
 
 - (IBAction)tapGesture:(id)sender

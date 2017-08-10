@@ -52,7 +52,8 @@
     if (secInfo) {
         _secInfo = secInfo;
         self.tLab.text = _secInfo.title;
-        NSString *str = [NSString stringWithFormat:@"金额:￥%0.2f",_secInfo.moneySum];
+        NSString *dePrice = [OrderNumTool strWithPrice:_secInfo.moneySum];
+        NSString *str = [NSString stringWithFormat:@"金额:%@",dePrice];
         [self lab:self.priceLab withStr:str];
     }
 }

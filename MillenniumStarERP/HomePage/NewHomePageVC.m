@@ -11,9 +11,10 @@
 #import "HomeSeriesDetailVC.h"
 #import "NewHomePageCollCell.h"
 #import "NewHomePageHeaderView.h"
+#import "HomeListWebViewVc.h"
 @interface NewHomePageVC ()<UINavigationControllerDelegate,UICollectionViewDataSource,UICollectionViewDelegate>
-@property(nonatomic,strong) NSArray *photos;
 @property(nonatomic,strong) NSArray *list;
+@property(nonatomic,strong) NSArray *photos;
 @property(strong,nonatomic) UICollectionView *homeCollection;
 @property(nonatomic,strong) NewHomePageHeaderView *headerView;
 @end
@@ -42,6 +43,7 @@
 }
 
 - (void)loadNewHomeData{
+    [SVProgressHUD show];
     NSString *url = [NSString stringWithFormat:@"%@IndexPageForYoour",baseUrl];
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     [BaseApi getGeneralData:^(BaseResponse *response, NSError *error) {
@@ -99,7 +101,7 @@
     CGSize size = CGSizeMake(width, width/1.60);
     if (indexPath.section%2==1) {
         width = SDevWidth;
-        size = CGSizeMake(width, width/2.50);
+        size = CGSizeMake(width, width*0.41);
     }
     return size;
 }
@@ -136,11 +138,19 @@
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
+    NSArray *tArr =@[@"http://appapi2.fanerweb.com/html/wyshow.html",
+                     @"http://appapi2.fanerweb.com/html/ppwh.html"];
     NSArray *arr = self.list[indexPath.section];
     NewHomeShopInfo *info = arr[indexPath.row];
-    HomeSeriesDetailVC *detailVc = [HomeSeriesDetailVC new];
-    detailVc.seaKey = info.key;
-    [self.navigationController pushViewController:detailVc animated:YES];
+    if (indexPath.section%2==0) {
+        HomeSeriesDetailVC *detailVc = [HomeSeriesDetailVC new];
+        detailVc.seaKey = info.key;
+        [self.navigationController pushViewController:detailVc animated:YES];
+    }else{
+        HomeListWebViewVc *webVc = [HomeListWebViewVc new];
+        webVc.url = tArr[indexPath.row];
+        [self.navigationController pushViewController:webVc animated:YES];
+    }
 }
 
 - (void)dealloc {

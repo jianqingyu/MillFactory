@@ -173,7 +173,7 @@
         self.imgView.hidden = !_deliveryInfo.isOpen;
         NSString *title = [NSString stringWithFormat:@"%@ %@ %@",_deliveryInfo.modNum,_deliveryInfo.typeName,_deliveryInfo.modelNum];
         self.titleLab.text = title;
-        self.priceLab.text = [NSString stringWithFormat:@"￥%0.2f",_deliveryInfo.unitPrice];
+        self.priceLab.text = [OrderNumTool strWithPrice:_deliveryInfo.unitPrice];
         self.detailLab.text = _deliveryInfo.sInfo;
         self.detailLab2.text = _deliveryInfo.sInfo;
         self.detailLab3.text = _deliveryInfo.dInfo;

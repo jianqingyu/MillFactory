@@ -45,7 +45,7 @@
         self.orderDate.text = string;
         self.pureyLab.text = _info.purityName;
         self.customer.text = _info.customerName;
-        self.goldLab.text = [NSString stringWithFormat:@"￥%0.2f",_info.goldPrice];
+        self.goldLab.text = [OrderNumTool strWithPrice:_info.goldPrice];
         self.numLab.text = [NSString stringWithFormat:@"%@件",_info.number];
     }
 }

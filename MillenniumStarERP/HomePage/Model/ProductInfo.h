@@ -12,5 +12,9 @@
 @property (nonatomic,assign)int id;
 @property (nonatomic,assign)float price;
 @property (nonatomic,copy)NSString *pic;
+@property (nonatomic,copy)NSString *picb;
+@property (nonatomic,copy)NSString *picm;
 @property (nonatomic,copy)NSString *title;
+@property (nonatomic,copy)NSString *modelNum;
+@property (nonatomic,copy)NSString *describe;
 @end

@@ -13,8 +13,14 @@
 #import "CustomProDetailVC.h"
 #import "ProductCollectionCell.h"
 #import "NewCustomProDetailVC.h"
-@interface HomeSeriesDetailVC ()<UINavigationControllerDelegate,UICollectionViewDataSource,UICollectionViewDelegate>
-@property(nonatomic,   copy) NSString *photos;
+@interface HomeSeriesDetailVC ()<UINavigationControllerDelegate,UICollectionViewDataSource,UICollectionViewDelegate>{
+    int curPage;
+    int pageCount;
+    int totalCount;//商品总数量
+}
+@property(nonatomic,   copy)NSString *photos;
+@property (nonatomic,assign)int idxPage;
+@property (nonatomic,  weak)UILabel *numLab;
 @property (nonatomic,assign)BOOL isShowPrice;
 @property (nonatomic,strong)NSString *picUrl;
 @property (nonatomic,strong)NSMutableArray *dataArray;
@@ -26,11 +32,11 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.dataArray = [NSMutableArray new];
-    [self loadNewHomeData];
     [self setCollectionView];
+    [self setupHeaderRefresh];
     [self creatNaviBtn];
     self.isShowPrice = [[AccountTool account].isShow intValue];
-    self.picUrl = @"http://appapi2.fanerweb.com/images/ad/20170727/round1.jpg";
+    self.picUrl = @"http://appapi2.fanerweb.com/html/pages/xl/banner.jpg";
     self.view.backgroundColor = DefaultColor;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(orientChange:) name:UIApplicationDidChangeStatusBarOrientationNotification object:nil];
 }
@@ -62,30 +68,93 @@
     [self.navigationController popViewControllerAnimated:YES];
 }
 
+#pragma mark -- 网络请求
+- (void)setupHeaderRefresh{
+    // 刷新功能
+    MJRefreshStateHeader*header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
+        [self headerRereshing];
+    }];
+    [header setTitle:@"用力往下拉我!!!" forState:MJRefreshStateIdle];
+    [header setTitle:@"快放开我!!!" forState:MJRefreshStatePulling];
+    [header setTitle:@"努力刷新中..." forState:MJRefreshStateRefreshing];
+    _homeCollection.header = header;
+    [self.homeCollection.header beginRefreshing];
+}
+
+- (void)setupFootRefresh{
+    
+    MJRefreshAutoNormalFooter*footer = [MJRefreshAutoNormalFooter footerWithRefreshingBlock:^{
+        [self footerRereshing];
+    }];
+    [footer setTitle:@"上拉有惊喜" forState:MJRefreshStateIdle];
+    [footer setTitle:@"好了，可以放松一下手指" forState:MJRefreshStatePulling];
+    [footer setTitle:@"努力加载中，请稍候" forState:MJRefreshStateRefreshing];
+    _homeCollection.footer = footer;
+}
+#pragma mark - MJRefresh
+- (void)headerRereshing{
+    [self loadNewRequestWith:YES];
+}
+
+- (void)footerRereshing{
+    [self loadNewRequestWith:NO];
+}
+
+- (void)loadNewRequestWith:(BOOL)isPullRefresh{
+    if (isPullRefresh){
+        curPage = 1;
+        [self.dataArray removeAllObjects];
+    }
+    [self loadNewHomeData];
+}
+
 - (void)loadNewHomeData{
     [SVProgressHUD show];
     NSString *url = [NSString stringWithFormat:@"%@modelListPage",baseUrl];
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     params[@"tokenKey"] = [AccountTool account].tokenKey;
-    params[@"linkKey"] = _seaKey;
+    params[@"category"] = _seaKey;
+    params[@"cpage"] = @(curPage);
     [BaseApi getGeneralData:^(BaseResponse *response, NSError *error) {
+        [self.homeCollection.header endRefreshing];
+        [self.homeCollection.footer endRefreshing];
         if ([response.error intValue]==0) {
+            [self setupFootRefresh];
             if ([YQObjectBool boolForObject:response.data]) {
-                NSArray *seaArr = [ProductInfo objectArrayWithKeyValuesArray:response.data[@"model"][@"modelList"]];
-                [_dataArray addObjectsFromArray:seaArr];
+                [self setupListDataWithDict:response.data];
                 [self.homeCollection reloadData];
             }
         }
     } requestURL:url params:params];
 }
 
+//初始化列表数据
+- (void)setupListDataWithDict:(NSDictionary *)data{
+    if([YQObjectBool boolForObject:data[@"model"][@"modelList"]]){
+        self.homeCollection.footer.state = MJRefreshStateIdle;
+        curPage++;
+        totalCount = [data[@"model"][@"list_count"]intValue];
+        NSArray *seaArr = [ProductInfo objectArrayWithKeyValuesArray:data[@"model"][@"modelList"]];
+        [_dataArray addObjectsFromArray:seaArr];
+        if(_dataArray.count>=totalCount){
+            MJRefreshAutoNormalFooter*footer = (MJRefreshAutoNormalFooter*)self.homeCollection.footer;
+            [footer setTitle:@"" forState:MJRefreshStateNoMoreData];
+            self.homeCollection.footer.state = MJRefreshStateNoMoreData;
+        }
+    }else{
+        MJRefreshAutoNormalFooter*footer = (MJRefreshAutoNormalFooter*)self.homeCollection.footer;
+        [footer setTitle:@"暂时没有商品" forState:MJRefreshStateNoMoreData];
+        self.homeCollection.footer.state = MJRefreshStateNoMoreData;
+    }
+}
+
 - (void)setCollectionView{
     UICollectionViewFlowLayout *flowLayout = [[UICollectionViewFlowLayout alloc]init];
-    flowLayout.minimumInteritemSpacing = 10.0f;//左右间隔
-    flowLayout.minimumLineSpacing = 10.0f;//上下间隔
-    flowLayout.sectionInset = UIEdgeInsetsMake(10,10,10,10);//边距距
+    flowLayout.minimumInteritemSpacing = 5.0f;//左右间隔
+    flowLayout.minimumLineSpacing = 5.0f;//上下间隔
+    flowLayout.sectionInset = UIEdgeInsetsMake(5,0,0,0);//边距距
     self.homeCollection = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:flowLayout];
-    self.homeCollection.backgroundColor = DefaultColor;
+    self.homeCollection.backgroundColor = [UIColor whiteColor];
     self.homeCollection.delegate = self;
     self.homeCollection.dataSource = self;
     [self.view addSubview:_homeCollection];
@@ -100,8 +169,43 @@
     UINib *nib = [UINib nibWithNibName:@"ProductCollectionCell" bundle:nil];
     [self.homeCollection registerNib:nib
            forCellWithReuseIdentifier:@"ProductCollectionCell"];
+    //注册头视图
+    [self.homeCollection registerClass:[HomeSeriesHeadView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"Header"];
     
-    [self.homeCollection registerClass:[HomeSeriesHeadView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"Header"];             //注册头视图
+    UILabel *lab = [UILabel new];
+    lab.textColor = [UIColor whiteColor];
+    lab.font = [UIFont systemFontOfSize:14];
+    lab.textAlignment = NSTextAlignmentCenter;
+    [lab setLayerWithW:10 andColor:BordColor andBackW:0.0001];
+    lab.hidden = YES;
+    lab.backgroundColor = CUSTOM_COLOR_ALPHA(80, 80, 80, 0.5);
+    [self.view addSubview:lab];
+    [self.view bringSubviewToFront:lab];
+    [lab mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.mas_equalTo(self.view.mas_centerX);
+        make.size.mas_equalTo(CGSizeMake(60, 24));
+        make.bottom.equalTo(self.view).offset(-20);
+    }];
+    self.numLab = lab;
+}
+
+- (void)scrollViewDidScroll:(UIScrollView *)sender {
+    if (totalCount==0) {
+        return;
+    }
+    // 得到每页高度
+    CGFloat pageWidth = sender.frame.size.height;
+    // 根据当前的x坐标和页宽度计算出当前页数
+    int currentPage = floor((sender.contentOffset.y - pageWidth / 2) / pageWidth) + 1;
+    //    NSLog(@"%d",currentPage);
+    int toPage = totalCount%12==0?totalCount/12:totalCount/12+1;
+    if (self.idxPage!=currentPage&&totalCount!=0) {
+        self.idxPage = currentPage;
+        self.numLab.text = [NSString stringWithFormat:@"%d/%d",self.idxPage/2+1,toPage];
+        if(self.numLab.hidden){
+            self.numLab.hidden = NO;
+        }
+    }
 }
 
 #pragma mark--CollectionView-------
@@ -127,15 +231,15 @@
 }
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath{
-    CGFloat rowH = self.isShowPrice?64:33;
+//    CGFloat rowH = self.isShowPrice?80:51;
     int num = SDevWidth>SDevHeight?4:2;
-    CGFloat width = (SDevWidth-(num+1)*10)/num;
-    return CGSizeMake(width, width+rowH);
+    CGFloat width = (SDevWidth-(num-1)*5)/num;
+    return CGSizeMake(width, width);
 }
-
+//头视图
 - (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath {
     UICollectionReusableView *reusableView = nil;
-    if (kind == UICollectionElementKindSectionHeader) {       //头视图
+    if (kind == UICollectionElementKindSectionHeader) {
         HomeSeriesHeadView *headV = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"Header" forIndexPath:indexPath];
         [headV.image sd_setImageWithURL:[NSURL URLWithString:self.picUrl] placeholderImage:DefaultImage];
         reusableView = headV;
@@ -145,14 +249,14 @@
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section {
     if (section==0) {
-        return CGSizeMake(SDevWidth,SDevWidth/1.56);
+        return CGSizeMake(SDevWidth,SDevWidth*0.628);
     }
     return CGSizeZero;
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
     ProductInfo *info = self.dataArray[indexPath.row];
-    if ([[AccountTool account].isSel intValue]==0) {
+    if ([[AccountTool account].isNorm intValue]==0) {
         NewCustomProDetailVC *newVc = [NewCustomProDetailVC new];
         newVc.proId = info.id;
         [self.navigationController pushViewController:newVc animated:YES];

@@ -43,7 +43,7 @@
         self.addNameLab.text = _hInfo.postName;
         self.addPhoneLab.text = _hInfo.postTel;
         self.addressLab.text = _hInfo.postAddress;
-        self.priceLab.text = [NSString stringWithFormat:@"￥%0.2f",_hInfo.totelPrice];
+        self.priceLab.text = [OrderNumTool strWithPrice:_hInfo.totelPrice];
         self.numLab.text = _hInfo.orderNumber;
         NSString *string = _hInfo.orderDate;
         string = [string substringToIndex:10];//截取掉下标10之后的字符串

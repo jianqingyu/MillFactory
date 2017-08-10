@@ -31,7 +31,7 @@
         _footInfo = footInfo;
         self.numLab.text = [NSString stringWithFormat:@"%@件",_footInfo.number];
         self.orderName.text = _footInfo.recOperator;
-        self.priceLab.text = [NSString stringWithFormat:@"￥%0.2f",_footInfo.totalPrice];
+        self.priceLab.text = [OrderNumTool strWithPrice:_footInfo.totalPrice];
     }
 }
 

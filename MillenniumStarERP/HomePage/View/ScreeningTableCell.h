@@ -8,10 +8,10 @@
 
 #import <UIKit/UIKit.h>
 #import "ScreeningInfo.h"
-#define COLUMN 3
-#define ROWHEIHT 36
+#define COLUMN (IsPhone?3:5)
+#define ROWHEIHT 30
 #define ROWSPACE 10
-#define ROWWIDTH (MIN(SDevHeight, SDevWidth)*0.8 - 4*ROWSPACE)/3
+#define ROWWIDTH (MIN(SDevHeight, SDevWidth)*0.8 - (COLUMN+1)*ROWSPACE)/COLUMN
 typedef void (^ScreenClickBack)(id data);
 @interface ScreeningTableCell : UITableViewCell
 + (id)cellWithTableView:(UITableView *)tableView;

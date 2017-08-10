@@ -53,7 +53,7 @@
             make.top.equalTo(self).offset(mar);
         }];
     }else{
-        CGFloat mar = SDevHeight*0.2;
+        CGFloat mar = SDevHeight*0.20;
         [self.backImg mas_updateConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(self).offset(mar);
         }];
@@ -63,16 +63,14 @@
 - (void)creatBaseView{
     CGFloat wid = MIN(SDevWidth, SDevHeight)*0.5;
     CGFloat loWid = MIN(SDevWidth, SDevHeight)*0.7;
-    CGFloat topSet = 0.09;
     if (!IsPhone) {
         wid = MIN(SDevWidth, SDevHeight)*0.3;
         loWid = MIN(SDevWidth, SDevHeight)*0.4;
-        topSet = 0.15;
     }
     UIImageView *imageV = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"ic_03"]];
     [self addSubview:imageV];
     [imageV mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self).offset(SDevHeight*0.2);
+        make.top.equalTo(self).offset(MIN(SDevWidth, SDevHeight)*0.25);
         make.centerX.mas_equalTo(self.centerX);
         make.size.mas_equalTo(CGSizeMake(wid, wid/3));
     }];
@@ -82,7 +80,7 @@
     loginV.backgroundColor = [UIColor clearColor];
     [self addSubview:loginV];
     [loginV mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(imageV.mas_bottom).with.offset(SDevHeight*topSet);
+        make.top.equalTo(imageV.mas_bottom).with.offset(MIN(SDevWidth, SDevHeight)*0.15);
         make.centerX.mas_equalTo(self.centerX);
         make.width.mas_equalTo(loWid);
         make.bottom.equalTo(self).offset(0);
@@ -293,7 +291,7 @@
     [BaseApi getNoLogGeneralData:^(BaseResponse *response, NSError *error) {
         if (response !=nil&&[response.error intValue]==0) {
             params[@"tokenKey"] = response.data[@"tokenKey"];
-            params[@"isSel"] = [AccountTool account].isSel;
+            params[@"isNorm"] = [AccountTool account].isNorm;
             params[@"isShow"] = [AccountTool account].isShow;
             Account *account = [Account accountWithDict:params];
             //自定义类型存储用NSKeyedArchiver

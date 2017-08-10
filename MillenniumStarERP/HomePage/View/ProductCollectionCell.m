@@ -12,17 +12,30 @@
 @property (weak, nonatomic) IBOutlet UILabel *titleLab;
 @property (weak, nonatomic) IBOutlet UIView *bottomV;
 @property (weak, nonatomic) IBOutlet UILabel *priceLab;
+@property (weak, nonatomic) IBOutlet UILabel *modeLab;
+@property (weak, nonatomic) IBOutlet UILabel *desLab;
+@property (nonatomic,assign)BOOL isSel;
 @end
 @implementation ProductCollectionCell
 //数据更新
 - (void)setProInfo:(ProductInfo *)proInfo{
     if (proInfo) {
+        if (!self.isSel) {
+            [self setLayerWithW:0.001 andColor:BordColor andBackW:0.5];
+        }
         _proInfo = proInfo;
         self.bottomV.hidden = self.isShow;
         self.titleLab.text = _proInfo.title;
-        [self.headView sd_setImageWithURL:[NSURL URLWithString:_proInfo.pic]
+        self.modeLab.text = _proInfo.modelNum;
+        self.desLab.text = _proInfo.describe;
+        NSString *image = _proInfo.pic;
+        if (!IsPhone) {
+            image = _proInfo.picm;
+        }
+        [self.headView sd_setImageWithURL:[NSURL URLWithString:image]
                          placeholderImage:DefaultImage];
-        self.priceLab.text = [NSString stringWithFormat:@"¥%0.2f",_proInfo.price];
+        self.priceLab.text = [OrderNumTool strWithPrice:_proInfo.price];
+        self.isSel = YES;
     }
 }
 
