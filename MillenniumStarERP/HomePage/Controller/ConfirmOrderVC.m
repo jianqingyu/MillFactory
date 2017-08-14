@@ -19,6 +19,7 @@
 #import "CustomerInfo.h"
 #import "StrWithIntTool.h"
 #import "CustomProDetailVC.h"
+#import "NewEasyCusProDetailVC.h"
 #import "OrderPriceInfo.h"
 #import "OrderNewInfo.h"
 #import "ConfirmEditHeadView.h"
@@ -67,8 +68,8 @@
 }
 
 - (void)creatConfirmOrder{
-    self.conBtn.enabled = [[AccountTool account].isShow intValue];
-    self.priceLab.hidden = ![[AccountTool account].isShow intValue];
+    self.conBtn.enabled = ![[AccountTool account].isNoShow intValue];
+    self.priceLab.hidden = [[AccountTool account].isNoShow intValue];
     [self changeHeightWithDev];
     [self setupTableView];
     [self creatHeadView];
@@ -769,8 +770,17 @@
 }
 //编辑
 - (void)editIndex:(NSInteger)index{
+    //高级定制
     OrderListInfo *collectInfo = self.dataArray[index];
     if ([[AccountTool account].isNorm intValue]==0) {
+        NewEasyCusProDetailVC *easyVc = [NewEasyCusProDetailVC new];
+        easyVc.isEdit = self.editId?2:1;
+        easyVc.proId = collectInfo.id;
+        easyVc.orderBack = ^(OrderListInfo *dict){
+            [self detailOrderBack:dict andIdx:index];
+        };
+        [self.navigationController pushViewController:easyVc animated:YES];
+    }else{
         NewCustomProDetailVC *newVc = [NewCustomProDetailVC new];
         newVc.isEdit = self.editId?2:1;
         newVc.proId = collectInfo.id;
@@ -778,14 +788,13 @@
             [self detailOrderBack:dict andIdx:index];
         };
         [self.navigationController pushViewController:newVc animated:YES];
-    }else{
-        CustomProDetailVC *detailVc = [CustomProDetailVC new];
-        detailVc.isEdit = self.editId?2:1;
-        detailVc.proId = collectInfo.id;
-        detailVc.orderBack = ^(OrderListInfo *dict){
-            [self detailOrderBack:dict andIdx:index];
-        };
-        [self.navigationController pushViewController:detailVc animated:YES];
+//        CustomProDetailVC *detailVc = [CustomProDetailVC new];
+//        detailVc.isEdit = self.editId?2:1;
+//        detailVc.proId = collectInfo.id;
+//        detailVc.orderBack = ^(OrderListInfo *dict){
+//            [self detailOrderBack:dict andIdx:index];
+//        };
+//        [self.navigationController pushViewController:detailVc animated:YES];
     }
 }
 
@@ -904,7 +913,7 @@
     if (self.editId) {
         [self cancelOrder];
     }else{
-        if (![[AccountTool account].isShow intValue]) {
+        if ([[AccountTool account].isNoShow intValue]) {
             return;
         }
         [self confirmOrder];

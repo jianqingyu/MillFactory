@@ -71,8 +71,8 @@ UITableViewDataSource,MWPhotoBrowserDelegate>
     [self.numLab setLayerWithW:8 andColor:BordColor andBackW:0.001];
     [self.lookBtn setLayerWithW:5 andColor:BordColor andBackW:0.5];
     [self.addBtn setLayerWithW:5 andColor:BordColor andBackW:0.001];
-    self.priceLab.hidden = ![[AccountTool account].isShow intValue];
-    self.allLab.hidden = ![[AccountTool account].isShow intValue];
+    self.priceLab.hidden = [[AccountTool account].isNoShow intValue];
+    self.allLab.hidden = [[AccountTool account].isNoShow intValue];
     [self.priceLab setAdjustsFontSizeToFitWidth:YES];
     [self.numLab setAdjustsFontSizeToFitWidth:YES];
     if (self.isEdit) {

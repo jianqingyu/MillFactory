@@ -21,7 +21,7 @@
         self.tokenKey = dict[@"tokenKey"];
         self.phone    = dict[@"phone"];
         self.isNorm    = dict[@"isNorm"];
-        self.isShow   = dict[@"isShow"];
+        self.isNoShow   = dict[@"isNoShow"];
     }
     return self;
 }
@@ -34,7 +34,7 @@
     [aCoder encodeObject:self.tokenKey forKey:@"tokenKey"];
     [aCoder encodeObject:self.phone forKey:@"phone"];
     [aCoder encodeObject:self.isNorm forKey:@"isNorm"];
-    [aCoder encodeObject:self.isShow forKey:@"isShow"];
+    [aCoder encodeObject:self.isNoShow forKey:@"isNoShow"];
 }
 /**
  *当从沙盒中解当时，就会调用这个方法
@@ -46,7 +46,7 @@
         self.tokenKey = [aDecoder decodeObjectForKey:@"tokenKey"];
         self.phone    = [aDecoder decodeObjectForKey:@"phone"];
         self.isNorm    = [aDecoder decodeObjectForKey:@"isNorm"];
-        self.isShow   = [aDecoder decodeObjectForKey:@"isShow"];
+        self.isNoShow   = [aDecoder decodeObjectForKey:@"isNoShow"];
     }
     return self;
 }

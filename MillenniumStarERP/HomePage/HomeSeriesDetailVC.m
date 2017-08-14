@@ -11,6 +11,7 @@
 #import "NewHomePageCollCell.h"
 #import "HomeSeriesHeadView.h"
 #import "CustomProDetailVC.h"
+#import "NewEasyCusProDetailVC.h"
 #import "ProductCollectionCell.h"
 #import "NewCustomProDetailVC.h"
 @interface HomeSeriesDetailVC ()<UINavigationControllerDelegate,UICollectionViewDataSource,UICollectionViewDelegate>{
@@ -35,7 +36,7 @@
     [self setCollectionView];
     [self setupHeaderRefresh];
     [self creatNaviBtn];
-    self.isShowPrice = [[AccountTool account].isShow intValue];
+    self.isShowPrice = ![[AccountTool account].isNoShow intValue];
     self.picUrl = @"http://appapi2.fanerweb.com/html/pages/xl/banner.jpg";
     self.view.backgroundColor = DefaultColor;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(orientChange:) name:UIApplicationDidChangeStatusBarOrientationNotification object:nil];
@@ -255,15 +256,19 @@
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
+    //高级定制
     ProductInfo *info = self.dataArray[indexPath.row];
     if ([[AccountTool account].isNorm intValue]==0) {
+        NewEasyCusProDetailVC *easyVc = [NewEasyCusProDetailVC new];
+        easyVc.proId = info.id;
+        [self.navigationController pushViewController:easyVc animated:YES];
+    }else{
         NewCustomProDetailVC *newVc = [NewCustomProDetailVC new];
         newVc.proId = info.id;
         [self.navigationController pushViewController:newVc animated:YES];
-    }else{
-        CustomProDetailVC *customDeVC = [CustomProDetailVC new];
-        customDeVC.proId = info.id;
-        [self.navigationController pushViewController:customDeVC animated:YES];
+//        CustomProDetailVC *customDeVC = [CustomProDetailVC new];
+//        customDeVC.proId = info.id;
+//        [self.navigationController pushViewController:customDeVC animated:YES];
     }
 }
 

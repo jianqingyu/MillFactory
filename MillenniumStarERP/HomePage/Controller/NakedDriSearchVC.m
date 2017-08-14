@@ -39,7 +39,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = @"搜索结果";
-    self.isShow = [[AccountTool account].isShow intValue];
+    self.isShow = ![[AccountTool account].isNoShow intValue];
     self.dataArray = @[].mutableCopy;
     [self setupBaseTableView];
     [self setupHeaderRefresh];
@@ -79,7 +79,7 @@
 }
 
 - (void)setupBaseTableView{
-    self.priceBtn.enabled = [[AccountTool account].isShow intValue];
+    self.priceBtn.enabled = ![[AccountTool account].isNoShow intValue];
     self.orderBtn.hidden = self.isSel;
     [self.orderBtn setLayerWithW:3 andColor:BordColor andBackW:0.001];
     [self.priceBtn setLayerWithW:3 andColor:BordColor andBackW:0.001];

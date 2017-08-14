@@ -12,6 +12,7 @@
 #import "ProductPopView.h"
 #import "ScanViewController.h"
 #import "CustomProDetailVC.h"
+#import "NewEasyCusProDetailVC.h"
 #import "AllListPopView.h"
 #import "CDRTranslucentSideBar.h"
 #import "ScreeningRightView.h"
@@ -83,8 +84,8 @@
 
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-    self.isShowPrice = [[AccountTool account].isShow intValue];
-    self.hisBtn.enabled = [[AccountTool account].isShow intValue];
+    self.isShowPrice = ![[AccountTool account].isNoShow intValue];
+    self.hisBtn.enabled = ![[AccountTool account].isNoShow intValue];
     [self.rightCollection reloadData];
     App;
     [OrderNumTool orderWithNum:app.shopNum andView:self.orderNumLab];
@@ -304,7 +305,7 @@
 }
 
 - (IBAction)historyOrder:(id)sender {
-    if (![[AccountTool account].isShow intValue]) {
+    if ([[AccountTool account].isNoShow intValue]) {
         return;
     }
     OrderListController *listVC = [OrderListController new];
@@ -488,17 +489,22 @@
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
+    //高级定制
     ProductInfo *info = self.dataArray[indexPath.row];
     if ([[AccountTool account].isNorm intValue]==0) {
+        NewEasyCusProDetailVC *easyVc = [NewEasyCusProDetailVC new];
+        easyVc.seaInfo = self.driInfo;
+        easyVc.proId = info.id;
+        [self.navigationController pushViewController:easyVc animated:YES];
+    }else{
         NewCustomProDetailVC *newVc = [NewCustomProDetailVC new];
         newVc.seaInfo = self.driInfo;
         newVc.proId = info.id;
         [self.navigationController pushViewController:newVc animated:YES];
-    }else{
-        CustomProDetailVC *customDeVC = [CustomProDetailVC new];
-        customDeVC.proId = info.id;
-        customDeVC.seaInfo = self.driInfo;
-        [self.navigationController pushViewController:customDeVC animated:YES];
+//        CustomProDetailVC *customDeVC = [CustomProDetailVC new];
+//        customDeVC.proId = info.id;
+//        customDeVC.seaInfo = self.driInfo;
+//        [self.navigationController pushViewController:customDeVC animated:YES];
     }
 }
 
