@@ -24,13 +24,17 @@
 #import "HYBLoopScrollView.h"
 #import "NakedDriSeaListInfo.h"
 #import "NewChooseDriDetailVc.h"
+#import "CustomDrListiTableCell.h"
 @interface NewCustomProDetailVC ()<UINavigationControllerDelegate,UITableViewDelegate,
 UITableViewDataSource,MWPhotoBrowserDelegate>
 @property (nonatomic,  weak) UITableView *tableView;
 @property (nonatomic,  weak) IBOutlet UIButton *lookBtn;
 @property (nonatomic,  weak) IBOutlet UIButton *addBtn;
 @property (nonatomic,  weak) IBOutlet UILabel *numLab;
+@property (nonatomic,  weak) IBOutlet UILabel *priceLab;
+@property (nonatomic,  weak) IBOutlet UILabel *allLab;
 @property (nonatomic,assign)float wid;
+@property (nonatomic,assign)int cou;
 @property (nonatomic,  copy)NSArray *typeArr;
 @property (nonatomic,  copy)NSArray *typeTArr;
 @property (nonatomic,  copy)NSArray *typeSArr;
@@ -45,15 +49,15 @@ UITableViewDataSource,MWPhotoBrowserDelegate>
 @property (nonatomic,  copy)NSArray *handArr;
 @property (nonatomic,  copy)NSArray *numArr;
 @property (nonatomic,  copy)NSArray *chooseArr;
-@property (nonatomic,  strong)NSMutableArray*mutArr;
-@property (nonatomic,    copy)NSString *driCode;
-@property (nonatomic,    copy)NSString *driPrice;
-@property (nonatomic,    copy)NSString *driId;
-@property (nonatomic,  strong)UIView *hView;
-@property (nonatomic,  strong)DetailModel *modelInfo;
-@property (nonatomic,  strong)CustomPickView *pickView;
-@property (weak, nonatomic) IBOutlet UILabel *priceLab;
-@property (weak, nonatomic) IBOutlet UILabel *allLab;
+
+@property (nonatomic,  copy)NSString *driCode;
+@property (nonatomic,  copy)NSString *driPrice;
+@property (nonatomic,  copy)NSString *driId;
+@property (nonatomic,strong)NSMutableArray*mutArr;
+@property (nonatomic,strong)UIView *hView;
+@property (nonatomic,strong)DetailModel *modelInfo;
+@property (nonatomic,strong)CustomPickView *pickView;
+
 @end
 
 @implementation NewCustomProDetailVC
@@ -63,6 +67,7 @@ UITableViewDataSource,MWPhotoBrowserDelegate>
     self.title = @"定制信息";
     self.view.backgroundColor = [UIColor whiteColor];
     self.wid = IsPhone?0.5:0.65;
+    self.cou = 2;
     [self loadBaseCustomView];
 }
 
@@ -308,6 +313,7 @@ UITableViewDataSource,MWPhotoBrowserDelegate>
     int i=0;
     for (NSArray *arr in self.detailArr) {
         if (i==0&&self.mutArr.count==0) {
+            self.cou = [self boolWithNoArr:arr]?2:3;
             [self setMutAWith:arr];
         }else{
             if (![self boolWithNoArr:arr]) {
@@ -463,14 +469,10 @@ UITableViewDataSource,MWPhotoBrowserDelegate>
         DetailTypeInfo *info = [dict allValues][0];
         if (staue==2){
             self.handStr = info.title;
-            NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
-            [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
         }else if (staue==4){
             self.lastMess = [NSString stringWithFormat:@"%@%@",self.lastMess,info.title];
-            NSIndexPath *indexPath = [NSIndexPath indexPathForRow:self.mutArr.count+1 inSection:0];
-            [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:
-             UITableViewRowAnimationNone];
         }
+        [self.tableView reloadData];
         [self dismissCustomPopView];
     };
     [self.view addSubview:popV];
@@ -494,9 +496,8 @@ UITableViewDataSource,MWPhotoBrowserDelegate>
     return 1;
 }
 
-- (NSInteger)tableView:(UITableView *)tableView
- numberOfRowsInSection:(NSInteger)section{
-    return self.mutArr.count+2;
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    return self.mutArr.count+self.cou;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView
@@ -518,7 +519,10 @@ UITableViewDataSource,MWPhotoBrowserDelegate>
         firstCell.messArr = self.proNum;
         firstCell.handSize = self.handStr;
         return firstCell;
-    }else if (indexPath.row==self.mutArr.count+1){
+    }else if (indexPath.row==1&&self.cou==3){
+        CustomDrListiTableCell *listCell = [CustomDrListiTableCell cellWithTableView:tableView];
+        return listCell;
+    } else if (indexPath.row==self.mutArr.count+_cou-1){
         CustomLastCell *lastCell = [CustomLastCell cellWithTableView:tableView];
         [lastCell.btn addTarget:self action:@selector(openRemark:)
                forControlEvents:UIControlEventTouchUpInside];
@@ -531,8 +535,8 @@ UITableViewDataSource,MWPhotoBrowserDelegate>
         return lastCell;
     }else{
         NewCustomProCell *proCell = [NewCustomProCell cellWithTableView:tableView];
-        proCell.titleStr = self.typeArr[indexPath.row-1];
-        proCell.list = self.mutArr[indexPath.row-1];
+        proCell.titleStr = self.typeArr[indexPath.row-_cou+1];
+        proCell.list = self.mutArr[indexPath.row-_cou+1];
         if (self.driCode) {
             proCell.certCode = self.driCode;
         }
@@ -541,7 +545,7 @@ UITableViewDataSource,MWPhotoBrowserDelegate>
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    if (indexPath.row==1) {
+    if (indexPath.row==_cou-1) {
         [self gotoNakedDriLib];
     }
 }

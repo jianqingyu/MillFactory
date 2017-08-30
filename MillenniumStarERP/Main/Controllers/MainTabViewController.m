@@ -38,8 +38,8 @@
     [self addChildVcWithVC:libVc Title:@"裸石库" imageName:@"icon_dm"
                selectImage:@"icon_dm_2"];
     
-    HelpMenuVC *helpVc = [[HelpMenuVC alloc]init];
-    [self addChildVcWithVC:helpVc Title:@"设计师" imageName:@"icon_index_s"
+    InformationVC *infoVc = [[InformationVC alloc]init];
+    [self addChildVcWithVC:infoVc Title:@"设计师" imageName:@"icon_index_s"
                selectImage:@"icon_index"];
     
     EditUserInfoVC *userVC = [[EditUserInfoVC alloc]init];

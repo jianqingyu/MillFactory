@@ -120,6 +120,9 @@
         }
     }];
     [_dictB addEntriesFromDictionary:params];
+    for (WeightInfo *info in self.values) {
+        _dictB[info.name] = info.value;
+    }
     if (self.tableBack) {
         self.tableBack(_dictB,params.count);
     }
@@ -150,13 +153,18 @@
                     }
                 }
             }
-            CGFloat labH = 40;
-            CGFloat height = 24;
+            for (WeightInfo *wInfo in self.values) {
+                if (wInfo.txt.length>0) {
+                    [mutA addObject:wInfo];
+                }
+            }
+            CGFloat height = 20+ROWSPACE;
             int row = 0;
             if (mutA.count>0) {
-                row = (int)(mutA.count-1)/4+1;
+                row = (int)(mutA.count-1)/HCOLUMN+1;
             }
-            CGFloat topH = labH+(height+5)*row;
+            CGFloat topH = height+(HROWHEIHT+HROWSPACE)*row;
+            _topView.values = _values;
             _topView.goods = _goods;
             [_topView mas_updateConstraints:^(MASConstraintMaker *make) {
                 make.height.mas_equalTo(topH);
@@ -217,11 +225,13 @@
     ScreeningInfo *info = self.goods[indexPath.section];
     ScreeningTableCell *mulCell = [ScreeningTableCell cellWithTableView:tableView];
     mulCell.info = info;
-    mulCell.clickblock = ^(id dict){
-        if ([dict isKindOfClass:[NSString class]]&&self.tableBack) {
-            _dictB[info.groupKey] = dict;
+    if (!info.mulSelect) {
+        for (WeightInfo *wInfo in self.values) {
+            if ([wInfo.name isEqualToString:info.groupKey]) {
+                mulCell.wInfo = wInfo;
+            }
         }
-    };
+    }
     return mulCell;
 }
 

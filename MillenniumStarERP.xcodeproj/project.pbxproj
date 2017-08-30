@@ -40,6 +40,8 @@
 		7912BC6E1F41C15C00D22EBA /* CustomDriWordCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7912BC6D1F41C15C00D22EBA /* CustomDriWordCell.xib */; };
 		7912BC711F41C20E00D22EBA /* CustomShowView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7912BC701F41C20E00D22EBA /* CustomShowView.m */; };
 		7912BC731F41C21300D22EBA /* CustomShowView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7912BC721F41C21300D22EBA /* CustomShowView.xib */; };
+		79146F541F56494100C5170E /* CustomDrListiTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 79146F521F56494100C5170E /* CustomDrListiTableCell.m */; };
+		79146F551F56494100C5170E /* CustomDrListiTableCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 79146F531F56494100C5170E /* CustomDrListiTableCell.xib */; };
 		7915BCE01E7A6F0100407927 /* ProductionDetailView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7915BCDF1E7A6F0100407927 /* ProductionDetailView.m */; };
 		7915BCE31E7A6F5100407927 /* SettlementDetailView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7915BCE21E7A6F5100407927 /* SettlementDetailView.m */; };
 		7915BCE61E7A6F9B00407927 /* FinishedDetailView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7915BCE51E7A6F9B00407927 /* FinishedDetailView.m */; };
@@ -53,6 +55,8 @@
 		7926B62B1E6952D60022B4A3 /* SettlementHeadView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7926B62A1E6952D60022B4A3 /* SettlementHeadView.m */; };
 		7926B62D1E6952E70022B4A3 /* SettlementHeadView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7926B62C1E6952E70022B4A3 /* SettlementHeadView.xib */; };
 		7926B6301E6955A30022B4A3 /* SettlementTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7926B62F1E6955A30022B4A3 /* SettlementTableCell.m */; };
+		792AEB171F44169500F9F747 /* NewEasyConfirmOrderVc.m in Sources */ = {isa = PBXBuildFile; fileRef = 792AEB151F44169500F9F747 /* NewEasyConfirmOrderVc.m */; };
+		792AEB181F44169500F9F747 /* NewEasyConfirmOrderVc.xib in Resources */ = {isa = PBXBuildFile; fileRef = 792AEB161F44169500F9F747 /* NewEasyConfirmOrderVc.xib */; };
 		792B85D81DBEF20E00A71635 /* OrderListInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 792B85D71DBEF20E00A71635 /* OrderListInfo.m */; };
 		792B85DC1DBEFFAF00A71635 /* SearchCustomerVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 792B85DA1DBEFFAF00A71635 /* SearchCustomerVC.m */; };
 		792B85DD1DBEFFAF00A71635 /* SearchCustomerVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 792B85DB1DBEFFAF00A71635 /* SearchCustomerVC.xib */; };
@@ -479,6 +483,9 @@
 		7912BC6F1F41C20A00D22EBA /* CustomShowView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CustomShowView.h; sourceTree = "<group>"; };
 		7912BC701F41C20E00D22EBA /* CustomShowView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomShowView.m; sourceTree = "<group>"; };
 		7912BC721F41C21300D22EBA /* CustomShowView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CustomShowView.xib; sourceTree = "<group>"; };
+		79146F511F56494100C5170E /* CustomDrListiTableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomDrListiTableCell.h; sourceTree = "<group>"; };
+		79146F521F56494100C5170E /* CustomDrListiTableCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomDrListiTableCell.m; sourceTree = "<group>"; };
+		79146F531F56494100C5170E /* CustomDrListiTableCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CustomDrListiTableCell.xib; sourceTree = "<group>"; };
 		7915BCDE1E7A6F0100407927 /* ProductionDetailView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProductionDetailView.h; sourceTree = "<group>"; };
 		7915BCDF1E7A6F0100407927 /* ProductionDetailView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProductionDetailView.m; sourceTree = "<group>"; };
 		7915BCE11E7A6F5100407927 /* SettlementDetailView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettlementDetailView.h; sourceTree = "<group>"; };
@@ -503,6 +510,9 @@
 		7926B62C1E6952E70022B4A3 /* SettlementHeadView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SettlementHeadView.xib; sourceTree = "<group>"; };
 		7926B62E1E6955A30022B4A3 /* SettlementTableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettlementTableCell.h; sourceTree = "<group>"; };
 		7926B62F1E6955A30022B4A3 /* SettlementTableCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettlementTableCell.m; sourceTree = "<group>"; };
+		792AEB141F44169500F9F747 /* NewEasyConfirmOrderVc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewEasyConfirmOrderVc.h; sourceTree = "<group>"; };
+		792AEB151F44169500F9F747 /* NewEasyConfirmOrderVc.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewEasyConfirmOrderVc.m; sourceTree = "<group>"; };
+		792AEB161F44169500F9F747 /* NewEasyConfirmOrderVc.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NewEasyConfirmOrderVc.xib; sourceTree = "<group>"; };
 		792B85D61DBEF20E00A71635 /* OrderListInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrderListInfo.h; sourceTree = "<group>"; wrapsLines = 0; };
 		792B85D71DBEF20E00A71635 /* OrderListInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrderListInfo.m; sourceTree = "<group>"; };
 		792B85D91DBEFFAF00A71635 /* SearchCustomerVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchCustomerVC.h; sourceTree = "<group>"; };
@@ -1740,6 +1750,9 @@
 				798C96631F26E496002DE7A5 /* NewChooseDriDetailVc.h */,
 				798C96641F26E496002DE7A5 /* NewChooseDriDetailVc.m */,
 				798C96651F26E496002DE7A5 /* NewChooseDriDetailVc.xib */,
+				792AEB141F44169500F9F747 /* NewEasyConfirmOrderVc.h */,
+				792AEB151F44169500F9F747 /* NewEasyConfirmOrderVc.m */,
+				792AEB161F44169500F9F747 /* NewEasyConfirmOrderVc.xib */,
 				792C01B91D89043B005943AE /* ConfirmOrderVC.h */,
 				792C01BA1D89043B005943AE /* ConfirmOrderVC.m */,
 				792C01BB1D89043B005943AE /* ConfirmOrderVC.xib */,
@@ -2026,6 +2039,9 @@
 				7912BC6A1F41C14A00D22EBA /* CustomDriWordCell.h */,
 				7912BC6B1F41C15200D22EBA /* CustomDriWordCell.m */,
 				7912BC6D1F41C15C00D22EBA /* CustomDriWordCell.xib */,
+				79146F511F56494100C5170E /* CustomDrListiTableCell.h */,
+				79146F521F56494100C5170E /* CustomDrListiTableCell.m */,
+				79146F531F56494100C5170E /* CustomDrListiTableCell.xib */,
 				7958EF291D87DB0C009084B5 /* CustomProCell.h */,
 				7958EF2A1D87DB0C009084B5 /* CustomProCell.m */,
 				7958EF2B1D87DB0C009084B5 /* CustomProCell.xib */,
@@ -2373,6 +2389,7 @@
 				7959A8C41D810CC5009CAA02 /* ProductListVC.xib in Resources */,
 				790D22491EE1161B00EB6450 /* NakedDriConfirmHeadV.xib in Resources */,
 				79A0D81E1F1CAE8600CBBCE6 /* NewCustomProCell.xib in Resources */,
+				79146F551F56494100C5170E /* CustomDrListiTableCell.xib in Resources */,
 				794F28971EDEB68F003EC54D /* NakedDriDetailOrderVc.xib in Resources */,
 				799235E51DB766BE0003379B /* ClassListController.xib in Resources */,
 				79FF7A8E1E6D3A81003EF5E7 /* OrderSettlementTableCell.xib in Resources */,
@@ -2420,6 +2437,7 @@
 				79E177921E6910AA00318916 /* DeliveryOrderHeadView.xib in Resources */,
 				79B4B8311DA8C5F100B97070 /* OrderBottomTableCell.xib in Resources */,
 				7926B62D1E6952E70022B4A3 /* SettlementHeadView.xib in Resources */,
+				792AEB181F44169500F9F747 /* NewEasyConfirmOrderVc.xib in Resources */,
 				7979F1301F354D710080D2CE /* HomeListWebViewVc.xib in Resources */,
 				7957D86E1EFCAF9300A8AA82 /* HomeSeriesDetailVC.xib in Resources */,
 				79B2549B1EE6946300BBD7A5 /* TencentOpenApi_IOS_Bundle.bundle in Resources */,
@@ -2509,6 +2527,7 @@
 				79CD81A51D9E073F00B7BC84 /* CustomInvoice.m in Sources */,
 				79E8B2241D7FC15B009D7296 /* HomeHeadView.m in Sources */,
 				7959A8D11D814897009CAA02 /* ProductListView.m in Sources */,
+				792AEB171F44169500F9F747 /* NewEasyConfirmOrderVc.m in Sources */,
 				79E8B2361D7FF9B8009D7296 /* MessageInfo.m in Sources */,
 				796793F31D93A74B005AEBFB /* ScreeningTableCell.m in Sources */,
 				794EDBEB1DDD38CD0018DDF3 /* IQUIWindow+Hierarchy.m in Sources */,
@@ -2684,6 +2703,7 @@
 				794F28AA1EDEF903003EC54D /* NakedDriLibBLabCell.m in Sources */,
 				79E177871E690F6400318916 /* DeliveryOrderVC.m in Sources */,
 				797556421EE6457F004BD417 /* UIAlertController+supportedinterface.m in Sources */,
+				79146F541F56494100C5170E /* CustomDrListiTableCell.m in Sources */,
 				79B4B83C1DA8F0B100B97070 /* StrWithIntTool.m in Sources */,
 				794F28911EDEB647003EC54D /* NakedDriConfirmOrderVc.m in Sources */,
 				792C01BC1D89043B005943AE /* ConfirmOrderVC.m in Sources */,

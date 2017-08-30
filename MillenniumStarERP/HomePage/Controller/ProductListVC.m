@@ -23,7 +23,9 @@
 #import "ClassListController.h"
 #import "OrderListController.h"
 #import "ConfirmOrderVC.h"
+#import "WeightInfo.h"
 #import "CustomTextField.h"
+#import "NewEasyConfirmOrderVc.h"
 #import "NewCustomProDetailVC.h"
 @interface ProductListVC ()<UICollectionViewDataSource,UICollectionViewDelegate,
                              UITextFieldDelegate,CDRTranslucentSideBarDelegate>{
@@ -38,15 +40,16 @@
 @property (weak, nonatomic) IBOutlet UILabel *orderNumLab;
 @property (weak, nonatomic) IBOutlet UIButton *hisBtn;
 @property (copy, nonatomic) NSString *keyWord;
-@property (nonatomic, assign) int index;
-@property (nonatomic, assign) int idxPage;
-@property (nonatomic,   weak) UIView *baView;
-@property (nonatomic,   weak) UILabel *numLab;
-@property (nonatomic, strong) NSMutableArray *dataArray;
-@property (nonatomic, strong) AllListPopView *popClassView;
-@property (nonatomic, strong) CDRTranslucentSideBar *rightSideBar;
-@property (nonatomic, strong) ScreeningRightView *slideRightTab;
-@property (nonatomic, assign)BOOL isShowPrice;
+@property (nonatomic,assign) int index;
+@property (nonatomic,assign) int idxPage;
+@property (nonatomic,  weak) UIView *baView;
+@property (nonatomic,  weak) UILabel *numLab;
+@property (nonatomic,strong) NSMutableArray *dataArray;
+@property (nonatomic,strong) AllListPopView *popClassView;
+@property (nonatomic,strong) CDRTranslucentSideBar *rightSideBar;
+@property (nonatomic,strong) ScreeningRightView *slideRightTab;
+@property (nonatomic,assign) BOOL isShowPrice;
+@property (nonatomic,  copy) NSArray *values;
 @end
 
 @implementation ProductListVC
@@ -87,10 +90,13 @@
     self.isShowPrice = ![[AccountTool account].isNoShow intValue];
     self.hisBtn.enabled = ![[AccountTool account].isNoShow intValue];
     [self.rightCollection reloadData];
-    App;
-    [OrderNumTool orderWithNum:app.shopNum andView:self.orderNumLab];
+    if ([[AccountTool account].isNorm intValue]==0) {
+        self.orderNumLab.hidden = YES;
+    }else{
+        App;
+        [OrderNumTool orderWithNum:app.shopNum andView:self.orderNumLab];
+    }
 }
-
 #pragma mark -- 创建导航按钮-头视图
 - (void)setProTableView{
     UICollectionViewFlowLayout *flowLayout = [[UICollectionViewFlowLayout alloc]init];
@@ -102,7 +108,6 @@
     self.rightCollection.backgroundColor = [UIColor whiteColor];
     self.rightCollection.delegate = self;
     self.rightCollection.dataSource = self;
-//    self.rightCollection.pagingEnabled = YES;
     [self.view addSubview:_rightCollection];
     [_rightCollection mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.view).offset(40.5);
@@ -157,13 +162,16 @@
     int toPage = totalCount%12==0?totalCount/12:totalCount/12+1;
     if (self.idxPage!=currentPage&&totalCount!=0) {
         self.idxPage = currentPage;
-        self.numLab.text = [NSString stringWithFormat:@"%d/%d",self.idxPage/2+1,toPage];
+        int num = self.idxPage/3+1;
+        if (num>toPage) {
+            num = toPage;
+        }
+        self.numLab.text = [NSString stringWithFormat:@"%d/%d",num,toPage];
         if(self.numLab.hidden){
             self.numLab.hidden = NO;
         }
     }
 }
-
 //- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView{
 //    self.numLab.hidden = YES;
 //}
@@ -300,8 +308,13 @@
 }
 
 - (IBAction)currentOrder:(id)sender {
-    ConfirmOrderVC *orderVC = [ConfirmOrderVC new];
-    [self.navigationController pushViewController:orderVC animated:YES];
+    if ([[AccountTool account].isNorm intValue]==0) {
+        NewEasyConfirmOrderVc *easyVc = [NewEasyConfirmOrderVc new];
+        [self.navigationController pushViewController:easyVc animated:YES];
+    }else{
+        ConfirmOrderVC *orderVC = [ConfirmOrderVC new];
+        [self.navigationController pushViewController:orderVC animated:YES];
+    }
 }
 
 - (IBAction)historyOrder:(id)sender {
@@ -314,6 +327,7 @@
 
 - (IBAction)classifyQuery:(id)sender {
     ClassListController *classVc = [ClassListController new];
+    classVc.values = self.values;
     classVc.listBack = ^(BOOL isYes){
         if (isYes) {
             [self.rightCollection.header beginRefreshing];
@@ -385,6 +399,7 @@
 - (void)loadNewRequestWith:(BOOL)isPullRefresh{
     if (isPullRefresh){
         curPage = 1;
+        self.numLab.hidden = YES;
         [self.dataArray removeAllObjects];
     }
     NSMutableDictionary *params = [self dictForLoadData];
@@ -418,9 +433,13 @@
                 [self setupListDataWithDict:response.data];
                 [self.rightCollection reloadData];
                 if ([YQObjectBool boolForObject:response.data[@"waitOrderCount"]]) {
-                    App;
+                        App;
                     app.shopNum = [response.data[@"waitOrderCount"]intValue];
-                    [OrderNumTool orderWithNum:app.shopNum andView:self.orderNumLab];
+                    if ([[AccountTool account].isNorm intValue]==0) {
+                        self.orderNumLab.hidden = YES;
+                    }else{
+                       [OrderNumTool orderWithNum:app.shopNum andView:self.orderNumLab];
+                    }
                 }
             }
             [SVProgressHUD dismiss];
@@ -429,6 +448,11 @@
 }
 //初始化数据
 - (void)setupDataWithData:(NSDictionary *)data{
+    if([YQObjectBool boolForObject:data[@"searchValue"]]){
+        self.values = [WeightInfo
+                       objectArrayWithKeyValuesArray:data[@"searchValue"]];
+        self.slideRightTab.values = self.values;
+    }
     if([YQObjectBool boolForObject:data[@"typeList"]]){
         self.slideRightTab.goods = [ScreeningInfo
                               objectArrayWithKeyValuesArray:data[@"typeList"]];

@@ -10,4 +10,5 @@
 typedef void (^ClassBack)(BOOL isSel);
 @interface ClassListController : BaseViewController
 @property (nonatomic,copy)ClassBack listBack;
+@property (nonatomic,copy)NSArray *values;
 @end

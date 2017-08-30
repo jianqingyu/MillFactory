@@ -10,6 +10,7 @@
 @class CDRTranslucentSideBar;
 typedef void (^ProRightViewBack)(NSDictionary *dic,BOOL isSel);
 @interface ScreeningRightView : UIView
+@property (nonatomic,  copy) NSArray*values;
 @property (nonatomic,  copy) NSArray*goods;
 @property (nonatomic,strong)CDRTranslucentSideBar *rightSideBar;
 @property (nonatomic,  copy)ProRightViewBack tableBack;

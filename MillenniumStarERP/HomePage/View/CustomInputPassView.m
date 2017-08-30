@@ -54,6 +54,7 @@
     }];
     
     _message = [UITextField new];
+    _message.secureTextEntry = YES;
     _message.borderStyle = UITextBorderStyleNone;
     _message.font = [UIFont systemFontOfSize:14];
     _message.placeholder = @"请输入账户密码";

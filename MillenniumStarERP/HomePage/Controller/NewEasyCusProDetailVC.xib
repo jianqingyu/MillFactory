@@ -10,7 +10,6 @@
                 <outlet property="addBtn" destination="dqA-vz-V2W" id="pML-BD-Cg9"/>
                 <outlet property="allLab" destination="m6x-fO-SFK" id="Dgo-x5-aM4"/>
                 <outlet property="lookBtn" destination="wAa-Rs-slN" id="uby-rb-UYo"/>
-                <outlet property="numLab" destination="ASz-sk-flP" id="GwN-XW-99A"/>
                 <outlet property="priceLab" destination="ZnS-Wa-xcZ" id="xmf-Ra-Nmd"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
@@ -27,9 +26,12 @@
                             <rect key="frame" x="120" y="8" width="90" height="35"/>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                            <state key="normal" title="当前订单">
+                            <state key="normal" title="取消">
                                 <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
+                            <connections>
+                                <action selector="lookOrder:" destination="-1" eventType="touchUpInside" id="MJH-Sm-eMY"/>
+                            </connections>
                         </button>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dqA-vz-V2W">
                             <rect key="frame" x="220" y="8" width="90" height="35"/>
@@ -39,21 +41,13 @@
                                 <constraint firstAttribute="height" constant="35" id="Me9-bI-VcA"/>
                             </constraints>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                            <state key="normal" title="添加到订单">
+                            <state key="normal" title="确定">
                                 <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
+                            <connections>
+                                <action selector="addOrder:" destination="-1" eventType="touchUpInside" id="pgY-ai-Ue5"/>
+                            </connections>
                         </button>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="109" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ASz-sk-flP">
-                            <rect key="frame" x="194" y="8" width="16" height="16"/>
-                            <color key="backgroundColor" red="0.93725490199999995" green="0.51764705879999995" blue="0.36078431370000003" alpha="1" colorSpace="calibratedRGB"/>
-                            <constraints>
-                                <constraint firstAttribute="width" constant="16" id="mA5-TR-kX4"/>
-                                <constraint firstAttribute="height" constant="16" id="wFM-pg-ba0"/>
-                            </constraints>
-                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            <nil key="highlightedColor"/>
-                        </label>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="合计:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="m6x-fO-SFK">
                             <rect key="frame" x="15" y="17" width="30" height="16"/>
                             <fontDescription key="fontDescription" type="system" pointSize="13"/>
@@ -76,12 +70,10 @@
                         <constraint firstAttribute="height" constant="50" id="E7c-SR-UsP"/>
                         <constraint firstItem="ZnS-Wa-xcZ" firstAttribute="centerY" secondItem="QHb-2V-Up9" secondAttribute="centerY" id="TWx-EW-sB2"/>
                         <constraint firstItem="wAa-Rs-slN" firstAttribute="centerY" secondItem="QHb-2V-Up9" secondAttribute="centerY" id="XZ5-QW-3Zx"/>
-                        <constraint firstItem="ASz-sk-flP" firstAttribute="trailing" secondItem="wAa-Rs-slN" secondAttribute="trailing" id="a8Y-AH-zcc"/>
                         <constraint firstItem="dqA-vz-V2W" firstAttribute="width" secondItem="wAa-Rs-slN" secondAttribute="width" id="eyO-be-O4Z"/>
                         <constraint firstItem="m6x-fO-SFK" firstAttribute="leading" secondItem="QHb-2V-Up9" secondAttribute="leading" constant="15" id="pMP-qk-Ve9"/>
                         <constraint firstItem="m6x-fO-SFK" firstAttribute="centerY" secondItem="QHb-2V-Up9" secondAttribute="centerY" id="qCj-pv-1Ok"/>
                         <constraint firstItem="dqA-vz-V2W" firstAttribute="centerY" secondItem="QHb-2V-Up9" secondAttribute="centerY" id="qhu-bM-UgG"/>
-                        <constraint firstItem="ASz-sk-flP" firstAttribute="top" secondItem="wAa-Rs-slN" secondAttribute="top" id="xRa-xT-438"/>
                         <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="50" id="y6H-Yg-Dis"/>
                     </constraints>
                 </view>
@@ -92,7 +84,7 @@
                 <constraint firstAttribute="trailing" secondItem="QHb-2V-Up9" secondAttribute="trailing" id="uW4-14-6ji"/>
                 <constraint firstItem="QHb-2V-Up9" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="zUn-CZ-stn"/>
             </constraints>
-            <point key="canvasLocation" x="551" y="361"/>
+            <point key="canvasLocation" x="403" y="342"/>
         </view>
     </objects>
 </document>

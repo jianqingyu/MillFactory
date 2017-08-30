@@ -7,7 +7,7 @@
 //
 
 #import "NewEasyCusProDetailVC.h"
-#import "ConfirmOrderVC.h"
+#import "NewEasyConfirmOrderVc.h"
 #import "CustomFirstCell.h"
 #import "NewCustomProCell.h"
 #import "CustomLastCell.h"
@@ -27,16 +27,17 @@
 #import "HYBLoopScrollView.h"
 #import "NakedDriSeaListInfo.h"
 #import "NewChooseDriDetailVc.h"
+#import "CustomDrListiTableCell.h"
 @interface NewEasyCusProDetailVC ()<UINavigationControllerDelegate,UITableViewDelegate,
 UITableViewDataSource,MWPhotoBrowserDelegate>
 @property (nonatomic,  weak) UITableView *tableView;
 @property (nonatomic,  weak) IBOutlet UIButton *lookBtn;
 @property (nonatomic,  weak) IBOutlet UIButton *addBtn;
-@property (nonatomic,  weak) IBOutlet UILabel *numLab;
 @property (weak, nonatomic) IBOutlet UILabel *allLab;
 @property (weak, nonatomic) IBOutlet UILabel *priceLab;
 
 @property (nonatomic,assign)float wid;
+@property (nonatomic,assign)int cou;
 @property (nonatomic,  copy)NSString*proNum;
 @property (nonatomic,  copy)NSString*handStr;
 @property (nonatomic,  copy)NSString*lastMess;
@@ -73,22 +74,18 @@ UITableViewDataSource,MWPhotoBrowserDelegate>
     self.title = @"定制信息";
     self.view.backgroundColor = [UIColor whiteColor];
     self.wid = IsPhone?0.5:0.65;
+    self.cou = 3;
     [self loadBaseCustomView];
 }
 
 - (void)loadBaseCustomView{
     self.proNum = @"1";
-    [self.numLab setLayerWithW:8 andColor:BordColor andBackW:0.001];
     [self.lookBtn setLayerWithW:5 andColor:BordColor andBackW:0.5];
     [self.addBtn setLayerWithW:5 andColor:BordColor andBackW:0.001];
     self.priceLab.hidden = [[AccountTool account].isNoShow intValue];
     self.allLab.hidden = [[AccountTool account].isNoShow intValue];
     [self.priceLab setAdjustsFontSizeToFitWidth:YES];
-    [self.numLab setAdjustsFontSizeToFitWidth:YES];
-    if (self.isEdit) {
-        [self.lookBtn setTitle:@"取消" forState:UIControlStateNormal];
-        [self.addBtn setTitle:@"确定" forState:UIControlStateNormal];
-    }
+    self.lookBtn.hidden = !self.isEdit;
     self.typeArr = @[@"主   石",@"副石A",@"副石B",@"副石C"];
     self.typeSArr = @[@"stone",@"stoneA",@"stoneB",@"stoneC"];
     self.mutArr = @[].mutableCopy;
@@ -126,7 +123,8 @@ UITableViewDataSource,MWPhotoBrowserDelegate>
         return;
     }
     NakedDriSeaListInfo *listInfo = self.seaInfo;
-    NSArray *infoArr = @[@"钻石",listInfo.Weight,[self modelWith:2 and:listInfo.Shape],[self modelWith:3 and:listInfo.Color],[self modelWith:4 and:listInfo.Purity]];
+    NSArray *infoArr = @[@"钻石",listInfo.Weight,[self modelWith:2 and:listInfo.Shape],
+        [self modelWith:3 and:listInfo.Color],[self modelWith:4 and:listInfo.Purity]];
     NSArray *arr = self.mutArr[0];
     for (int i=0; i<arr.count; i++) {
         DetailTypeInfo *info = arr[i];
@@ -226,8 +224,6 @@ UITableViewDataSource,MWPhotoBrowserDelegate>
 
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-    App;
-    [OrderNumTool orderWithNum:app.shopNum andView:self.numLab];
     self.navigationController.delegate = self;
 }
 
@@ -272,7 +268,7 @@ UITableViewDataSource,MWPhotoBrowserDelegate>
             }
             if ([YQObjectBool boolForObject:response.data[@"modelPuritys"]]) {
                 self.puritys = response.data[@"modelPuritys"];
-                if (self.puritys.count==0) {
+                if (self.puritys.count==1) {
                     self.colorInfo = [DetailTypeInfo objectWithKeyValues:self.puritys[0]];
                 }
             }
@@ -281,6 +277,7 @@ UITableViewDataSource,MWPhotoBrowserDelegate>
                                         response.data[@"model"]];
                 [self setupBaseListData:modelIn];
                 [self creatCusTomHeadView];
+                [self setupModelPur:response.data[@"model"]];
                 [self.tableView reloadData];
             }
             if ([YQObjectBool boolForObject:response.data[@"stoneType"]]) {
@@ -320,10 +317,23 @@ UITableViewDataSource,MWPhotoBrowserDelegate>
     [self setBaseMutArr];
 }
 
+- (void)setupModelPur:(NSDictionary *)dic{
+    if (dic[@"modelPurityTitle"]) {
+        DetailTypeInfo *info = [DetailTypeInfo new];
+        info.title = dic[@"modelPurityTitle"];
+        info.id = [dic[@"modelPurityId"]intValue];
+        self.colorInfo = info;
+    }
+    if (dic[@"word"]) {
+        self.driWord = dic[@"word"];
+    }
+}
+
 - (void)setBaseMutArr{
     int i=0;
     for (NSArray *arr in self.detailArr) {
         if (i==0&&self.mutArr.count==0) {
+            self.cou = [self boolWithNoArr:arr]?3:4;
             [self setMutAWith:arr];
         }else{
             if (![self boolWithNoArr:arr]) {
@@ -384,15 +394,15 @@ UITableViewDataSource,MWPhotoBrowserDelegate>
     NSMutableArray *mPic = @[].mutableCopy;
     NSMutableArray *bPic = @[].mutableCopy;
     for (NSDictionary*dict in self.modelInfo.pics) {
-        NSString *str = [dict[@"pic"]stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+        NSString *str = [self strWithNSUTF8:dict[@"pic"]];
         if (str.length>0) {
             [pic addObject:str];
         }
-        NSString *strm = [dict[@"picm"]stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+        NSString *strm = [self strWithNSUTF8:dict[@"picm"]];
         if (strm.length>0) {
             [mPic addObject:strm];
         }
-        NSString *strb = [dict[@"picb"]stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+        NSString *strb = [self strWithNSUTF8:dict[@"picb"]];
         if (strb.length>0) {
             [bPic addObject:strb];
         }
@@ -409,6 +419,10 @@ UITableViewDataSource,MWPhotoBrowserDelegate>
     self.headImg = headArr;
     self.IDarray = [bPic copy];
     [self changeTableHeadView];
+}
+
+- (NSString *)strWithNSUTF8:(NSString *)str{
+    return [str stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
 }
 
 - (void)setupHeadView:(NSArray *)headArr and:(BOOL)isHead{
@@ -490,18 +504,12 @@ UITableViewDataSource,MWPhotoBrowserDelegate>
         DetailTypeInfo *info = [dict allValues][0];
         if (staue==1) {
             self.colorInfo = info;
-            NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
-            [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
         }else if (staue==2){
             self.handStr = info.title;
-            NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
-            [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
         }else if (staue==4){
             self.lastMess = [NSString stringWithFormat:@"%@%@",self.lastMess,info.title];
-            NSIndexPath *indexPath = [NSIndexPath indexPathForRow:self.mutArr.count+2 inSection:0];
-            [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:
-             UITableViewRowAnimationNone];
         }
+        [self.tableView reloadData];
         [self dismissCustomPopView];
     };
     [self.view addSubview:popV];
@@ -527,7 +535,7 @@ UITableViewDataSource,MWPhotoBrowserDelegate>
 
 - (NSInteger)tableView:(UITableView *)tableView
  numberOfRowsInSection:(NSInteger)section{
-    return self.mutArr.count+3;
+    return self.mutArr.count+self.cou;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView
@@ -553,7 +561,7 @@ UITableViewDataSource,MWPhotoBrowserDelegate>
         firstCell.messArr = self.proNum;
         firstCell.handSize = self.handStr;
         return firstCell;
-    }else if (indexPath.row==self.mutArr.count+2){
+    }else if (indexPath.row==self.mutArr.count+_cou-1){
         CustomLastCell *lastCell = [CustomLastCell cellWithTableView:tableView];
         [lastCell.btn addTarget:self action:@selector(openRemark:)
                forControlEvents:UIControlEventTouchUpInside];
@@ -565,7 +573,7 @@ UITableViewDataSource,MWPhotoBrowserDelegate>
         lastCell.message = self.lastMess;
         return lastCell;
     }else{
-        NSInteger index = indexPath.row-2;
+        NSInteger index = indexPath.row-_cou+1;
         if (indexPath.row==1) {
             CustomDriWordCell *driCell = [CustomDriWordCell cellWithTableView:tableView];
             driCell.word = self.driWord;
@@ -578,6 +586,9 @@ UITableViewDataSource,MWPhotoBrowserDelegate>
                 }
             };
             return driCell;
+        }else if (indexPath.row==2&&self.cou==4){
+            CustomDrListiTableCell *listCell = [CustomDrListiTableCell cellWithTableView:tableView];
+            return listCell;
         }else{
             NewCustomProCell *proCell = [NewCustomProCell cellWithTableView:tableView];
             proCell.titleStr = self.typeArr[index];
@@ -591,7 +602,7 @@ UITableViewDataSource,MWPhotoBrowserDelegate>
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    if (indexPath.row==2) {
+    if (indexPath.row==_cou-1) {
         [self gotoNakedDriLib];
     }
 }
@@ -638,12 +649,7 @@ UITableViewDataSource,MWPhotoBrowserDelegate>
 }
 
 - (IBAction)lookOrder:(id)sender {
-    if (self.isEdit) {
-        [self.navigationController popViewControllerAnimated:YES];
-        return;
-    }
-    ConfirmOrderVC *orderVC = [ConfirmOrderVC new];
-    [self.navigationController pushViewController:orderVC animated:YES];
+    [self.navigationController popViewControllerAnimated:YES];
 }
 #pragma mark -- 提交订单
 - (IBAction)addOrder:(id)sender {
@@ -686,11 +692,11 @@ UITableViewDataSource,MWPhotoBrowserDelegate>
 - (void)addOrderWithDict:(NSMutableDictionary *)params{
     NSString *detail;
     if (self.isEdit==1) {
-        detail = @"OrderCurrentEditModelItemDo";
+        detail = @"OrderCurrentEditModelItemForDefaultNowDo";
     }else if (self.isEdit==2){
         detail = @"ModelOrderWaitCheckOrderCurrentEditModelItemDo";
     }else{
-        detail = @"OrderDoCurrentModelItemDo";
+        detail = @"OrderCurrentDoModelItemForDefaultNowDo";
     }
     NSString *regiUrl = [NSString stringWithFormat:@"%@%@",baseUrl,detail];
     NSString *proId = self.isEdit?@"itemId":@"productId";
@@ -709,6 +715,12 @@ UITableViewDataSource,MWPhotoBrowserDelegate>
     if (self.lastMess.length>0) {
         params[@"remarks"] = self.lastMess;
     }
+    params[@"productId"] = @(self.proId);
+    params[@"modelQualityId"] = @1;
+    if (self.driWord.length>0) {
+        params[@"word"] = self.driWord;
+    }
+    params[@"modelPurityId"] = @(self.colorInfo.id);
     [self addOrderData:params andUrl:regiUrl];
 }
 
@@ -720,13 +732,9 @@ UITableViewDataSource,MWPhotoBrowserDelegate>
                 [self loadEditType:response.data];
                 return;
             }
-            if ([YQObjectBool boolForObject:response.data]&&
-                [YQObjectBool boolForObject:response.data[@"waitOrderCount"]]) {
-                App;
-                app.shopNum = [response.data[@"waitOrderCount"]intValue];
-                [OrderNumTool orderWithNum:app.shopNum andView:self.numLab];
-            }
             [MBProgressHUD showSuccess:@"添加订单成功"];
+            NewEasyConfirmOrderVc *conVc = [NewEasyConfirmOrderVc new];
+            [self.navigationController pushViewController:conVc animated:YES];
         }else{
             [MBProgressHUD showError:response.message];
         }

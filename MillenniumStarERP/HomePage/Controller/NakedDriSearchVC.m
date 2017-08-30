@@ -282,7 +282,11 @@
     NakedDriSeaTableCell *cell = [NakedDriSeaTableCell cellWithTableView:tableView];
     cell.isShow = self.isShow;
     cell.back = ^(BOOL isSel){
-        [self cellBackWithIndex:indexPath.row];
+        if (isSel) {
+            [self cellBackWithIndex:indexPath.row];
+        }else{
+           [self.tableView reloadData];
+        }
     };
     NakedDriSeaListInfo *listInfo;
     if (indexPath.row<self.dataArray.count) {
@@ -300,6 +304,15 @@
     NakedDriPriceVC *nakedVc = [NakedDriPriceVC new];
     nakedVc.orderId = listInfo.id;
     [self.navigationController pushViewController:nakedVc animated:YES];
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    NakedDriSeaListInfo *listInfo;
+    if (indexPath.row<_dataArray.count) {
+        listInfo = _dataArray[indexPath.row];
+    }
+    listInfo.isSel = !listInfo.isSel;
+    [self.tableView reloadData];
 }
 
 - (IBAction)resetClik:(id)sender {
@@ -369,7 +382,8 @@
     }
     ProductListVC *listVc = [ProductListVC new];
     listVc.driInfo = listInfo;
-//    listVc.backDict = @{@"weight":listInfo.Weight}.mutableCopy;
+    NSDictionary *dic = listInfo.modelWeightRange;
+    listVc.backDict = @{dic[@"key"]:dic[@"value"]}.mutableCopy;
     [self.navigationController pushViewController:listVc animated:YES];
 }
 //工厂没有裸石下单

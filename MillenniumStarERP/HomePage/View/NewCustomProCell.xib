@@ -15,7 +15,7 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="0.0" translatesAutoresizingMaskIntoConstraints="NO" id="LZX-yx-kUG">
-                        <rect key="frame" x="90" y="15" width="38" height="28"/>
+                        <rect key="frame" x="72" y="15" width="38" height="28"/>
                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
@@ -62,6 +62,7 @@
                     <constraint firstItem="rZY-X1-Hip" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="FbZ-uG-jhT"/>
                     <constraint firstItem="6Hb-Bc-okg" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="G9f-k6-Nn4"/>
                     <constraint firstAttribute="trailing" secondItem="6Hb-Bc-okg" secondAttribute="trailing" id="GAb-7z-85h"/>
+                    <constraint firstItem="LZX-yx-kUG" firstAttribute="leading" secondItem="rZY-X1-Hip" secondAttribute="trailing" constant="15" id="GdW-pR-iWP"/>
                     <constraint firstItem="OWY-oz-egJ" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="IZh-9h-HfK"/>
                     <constraint firstItem="6Hb-Bc-okg" firstAttribute="top" secondItem="LZX-yx-kUG" secondAttribute="bottom" constant="15" id="LGi-An-eTN"/>
                     <constraint firstItem="ViZ-qD-T0z" firstAttribute="centerX" secondItem="H2p-sc-9uM" secondAttribute="centerX" id="T6B-qk-aSm"/>
@@ -77,6 +78,7 @@
                         <exclude reference="1HA-29-EuR"/>
                         <exclude reference="7C4-He-hLN"/>
                         <exclude reference="LGi-An-eTN"/>
+                        <exclude reference="13b-9J-xjg"/>
                         <exclude reference="k2c-qp-9g3"/>
                     </mask>
                 </variation>

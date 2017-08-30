@@ -78,7 +78,7 @@
 }
 
 - (void)creatBaseView:(NSArray *)arr isYes:(BOOL)isFirst{
-    CGFloat space = 10;
+    CGFloat space = 0;
     CGFloat height = 30;
     CGFloat curX = 0;
     CGFloat width = 0;
@@ -93,6 +93,7 @@
             }else{
                 btnL = self.mutB[i-1];
             }
+            space = 10;
         }
         curX = CGRectGetMaxX(btnL.frame)+space;
         btn.tag = i;
@@ -116,10 +117,11 @@
     btn.backgroundColor = [UIColor whiteColor];
     btn.titleLabel.font = [UIFont systemFontOfSize:12.0];
     [btn setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
-    [btn setTitleColor:[UIColor redColor] forState:UIControlStateSelected];
+    [btn setTitleColor:[UIColor whiteColor] forState:UIControlStateSelected];
     [btn setBackgroundImage:[CommonUtils createImageWithColor:DefaultColor]
                    forState:UIControlStateNormal];
-    [btn setBackgroundImage:[CommonUtils createImageWithColor:CUSTOM_COLOR(248, 205, 207)] forState:UIControlStateSelected];
+    [btn setBackgroundImage:[CommonUtils createImageWithColor:MAIN_COLOR]
+                   forState:UIControlStateSelected];
     [btn setLayerWithW:5 andColor:BordColor andBackW:0.0001];
     if (isFirst) {
         [btn addTarget:self action:@selector(btnClick:) forControlEvents:UIControlEventTouchUpInside];

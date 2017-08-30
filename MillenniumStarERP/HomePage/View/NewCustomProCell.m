@@ -14,7 +14,6 @@
 @property (weak, nonatomic) IBOutlet UILabel *infoLab;
 @property (weak, nonatomic) IBOutlet UIButton *addBtn;
 @property (weak, nonatomic) IBOutlet UIImageView *nextBtn;
-@property (weak, nonatomic) IBOutlet UIView *backView;
 @end
 @implementation NewCustomProCell
 

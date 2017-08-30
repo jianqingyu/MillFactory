@@ -9,7 +9,6 @@
 #import "ConfirmOrderVC.h"
 #import "ConfirmOrdHeadView.h"
 #import "ConfirmOrdCell.h"
-#import "ConfirmOrderVC.h"
 #import "PayViewController.h"
 #import "ChooseAddressVC.h"
 #import "OrderListInfo.h"
@@ -19,7 +18,6 @@
 #import "CustomerInfo.h"
 #import "StrWithIntTool.h"
 #import "CustomProDetailVC.h"
-#import "NewEasyCusProDetailVC.h"
 #import "OrderPriceInfo.h"
 #import "OrderNewInfo.h"
 #import "ConfirmEditHeadView.h"
@@ -772,22 +770,13 @@
 - (void)editIndex:(NSInteger)index{
     //高级定制
     OrderListInfo *collectInfo = self.dataArray[index];
-    if ([[AccountTool account].isNorm intValue]==0) {
-        NewEasyCusProDetailVC *easyVc = [NewEasyCusProDetailVC new];
-        easyVc.isEdit = self.editId?2:1;
-        easyVc.proId = collectInfo.id;
-        easyVc.orderBack = ^(OrderListInfo *dict){
-            [self detailOrderBack:dict andIdx:index];
-        };
-        [self.navigationController pushViewController:easyVc animated:YES];
-    }else{
-        NewCustomProDetailVC *newVc = [NewCustomProDetailVC new];
-        newVc.isEdit = self.editId?2:1;
-        newVc.proId = collectInfo.id;
-        newVc.orderBack = ^(OrderListInfo *dict){
-            [self detailOrderBack:dict andIdx:index];
-        };
-        [self.navigationController pushViewController:newVc animated:YES];
+    NewCustomProDetailVC *newVc = [NewCustomProDetailVC new];
+    newVc.isEdit = self.editId?2:1;
+    newVc.proId = collectInfo.id;
+    newVc.orderBack = ^(OrderListInfo *dict){
+        [self detailOrderBack:dict andIdx:index];
+    };
+    [self.navigationController pushViewController:newVc animated:YES];
 //        CustomProDetailVC *detailVc = [CustomProDetailVC new];
 //        detailVc.isEdit = self.editId?2:1;
 //        detailVc.proId = collectInfo.id;
@@ -795,7 +784,6 @@
 //            [self detailOrderBack:dict andIdx:index];
 //        };
 //        [self.navigationController pushViewController:detailVc animated:YES];
-    }
 }
 
 - (void)detailOrderBack:(OrderListInfo *)dict andIdx:(NSInteger)index{
@@ -813,7 +801,6 @@
     }
     [self syncPriceLabel];
 }
-
 //删除
 - (void)deleteIndex:(NSInteger)index{
     OrderListInfo *collectInfo = [self.dataArray objectAtIndex:index];

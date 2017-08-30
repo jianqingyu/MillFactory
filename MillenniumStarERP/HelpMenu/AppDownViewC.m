@@ -9,7 +9,6 @@
 #import "AppDownViewC.h"
 
 @interface AppDownViewC ()
-@property (weak, nonatomic) IBOutlet UILabel *titleLab;
 @property (weak, nonatomic) IBOutlet UIImageView *codeImg;
 @end
 
@@ -17,8 +16,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.title = @"苹果最新版下载";
-    self.titleLab.text = self.dict[@"title"];
+    self.title = @"版本详情";
+    self.dict = @{@"image":@"iOSCode",@"url":@"https://www.pgyer.com/nufA"};
     self.codeImg.image = [UIImage imageNamed:self.dict[@"image"]];
 }
 

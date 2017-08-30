@@ -19,8 +19,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self setBaseViewData];
-    [self loadInfoData];
+//    [self setBaseViewData];
+//    [self loadInfoData];
 }
 
 - (void)setBaseViewData{
