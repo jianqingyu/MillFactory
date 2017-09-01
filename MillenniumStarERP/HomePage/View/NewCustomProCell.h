@@ -7,10 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
-
+typedef void (^newDriEditBack)(BOOL isSel);
 @interface NewCustomProCell : UITableViewCell
+@property (nonatomic,assign)BOOL isSel;
+@property (nonatomic,strong)NSArray *list;
 @property (nonatomic,  copy)NSString *titleStr;
 @property (nonatomic,  copy)NSString *certCode;
-@property (nonatomic,strong)NSArray *list;
+@property (nonatomic,  copy)newDriEditBack back;
 + (id)cellWithTableView:(UITableView *)tableView;
 @end

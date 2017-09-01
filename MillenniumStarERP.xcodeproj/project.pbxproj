@@ -194,6 +194,7 @@
 		795B5FBF1DD5B0F10031FF00 /* OrderListNewInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 795B5FBE1DD5B0F10031FF00 /* OrderListNewInfo.m */; };
 		795E25491DF11E9000DC0A88 /* YQCustomBtn.m in Sources */ = {isa = PBXBuildFile; fileRef = 795E25481DF11E9000DC0A88 /* YQCustomBtn.m */; };
 		79606B431DFE5AE100491E9B /* GCDAfterDone.m in Sources */ = {isa = PBXBuildFile; fileRef = 79606B421DFE5AE100491E9B /* GCDAfterDone.m */; };
+		79615BF71F57E15A000F7CA2 /* DetailStoneInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 79615BF61F57E15A000F7CA2 /* DetailStoneInfo.m */; };
 		796218ED1D98DAFB00FE01D6 /* ScreenPopView.m in Sources */ = {isa = PBXBuildFile; fileRef = 796218EC1D98DAFB00FE01D6 /* ScreenPopView.m */; };
 		796218F11D98F53200FE01D6 /* FinishedProInfoVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 796218EF1D98F53200FE01D6 /* FinishedProInfoVC.m */; };
 		796218F21D98F53200FE01D6 /* FinishedProInfoVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 796218F01D98F53200FE01D6 /* FinishedProInfoVC.xib */; };
@@ -756,6 +757,8 @@
 		795E25481DF11E9000DC0A88 /* YQCustomBtn.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YQCustomBtn.m; sourceTree = "<group>"; };
 		79606B411DFE5AE100491E9B /* GCDAfterDone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GCDAfterDone.h; sourceTree = "<group>"; };
 		79606B421DFE5AE100491E9B /* GCDAfterDone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GCDAfterDone.m; sourceTree = "<group>"; };
+		79615BF51F57E15A000F7CA2 /* DetailStoneInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailStoneInfo.h; sourceTree = "<group>"; };
+		79615BF61F57E15A000F7CA2 /* DetailStoneInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailStoneInfo.m; sourceTree = "<group>"; };
 		796218EB1D98DAFB00FE01D6 /* ScreenPopView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScreenPopView.h; sourceTree = "<group>"; };
 		796218EC1D98DAFB00FE01D6 /* ScreenPopView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScreenPopView.m; sourceTree = "<group>"; };
 		796218EE1D98F53200FE01D6 /* FinishedProInfoVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FinishedProInfoVC.h; sourceTree = "<group>"; };
@@ -1867,6 +1870,8 @@
 				79F1C7CC1D9D06CF00C58335 /* ProductInfo.m */,
 				796F548D1DAA384E00AD7AB2 /* DetailTypeInfo.h */,
 				796F548E1DAA384E00AD7AB2 /* DetailTypeInfo.m */,
+				79615BF51F57E15A000F7CA2 /* DetailStoneInfo.h */,
+				79615BF61F57E15A000F7CA2 /* DetailStoneInfo.m */,
 				7962BEA71DB5D6B000459245 /* DetailModel.h */,
 				7962BEA81DB5D6B000459245 /* DetailModel.m */,
 				7962BEAA1DB5D7C500459245 /* DetailStone.h */,
@@ -2608,6 +2613,7 @@
 				7936D5461E0BC0240056A540 /* ProOrderInfo.m in Sources */,
 				7957D86D1EFCAF9300A8AA82 /* HomeSeriesDetailVC.m in Sources */,
 				797688A01EE023B7001C6711 /* NakedDriPirceTableCell.m in Sources */,
+				79615BF71F57E15A000F7CA2 /* DetailStoneInfo.m in Sources */,
 				797958821EF8AEB9004EF7B7 /* NewHomePageVC.m in Sources */,
 				792C01AB1D88E41B005943AE /* CustomDetailView.m in Sources */,
 				7933D9281D9CA942006C0356 /* Citys.m in Sources */,
@@ -2940,7 +2946,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.millenniumStar.factory;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "96a9caf5-5bf8-4281-97d5-b2abe19976ad";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -2978,7 +2984,7 @@
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = com.millenniumStar.factory;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "96a9caf5-5bf8-4281-97d5-b2abe19976ad";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;

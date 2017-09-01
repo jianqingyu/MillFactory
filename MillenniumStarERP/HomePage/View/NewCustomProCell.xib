@@ -45,55 +45,48 @@
                             <constraint firstAttribute="height" constant="1" id="YmT-qb-HIz"/>
                         </constraints>
                     </view>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="800" verticalCompressionResistancePriority="800" image="icon_right" translatesAutoresizingMaskIntoConstraints="NO" id="OWY-oz-egJ">
-                        <rect key="frame" x="296" y="22" width="9" height="16"/>
-                        <constraints>
-                            <constraint firstAttribute="height" constant="16" id="mxF-1x-Da0"/>
-                            <constraint firstAttribute="width" constant="9" id="rSh-IL-q8Y"/>
-                        </constraints>
-                    </imageView>
+                    <button opaque="NO" contentMode="scaleToFill" horizontalCompressionResistancePriority="800" verticalCompressionResistancePriority="800" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hki-ph-GnL">
+                        <rect key="frame" x="262" y="21" width="48" height="17"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                        <state key="normal" title="封石" image="icon_select4">
+                            <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                        </state>
+                        <state key="disabled" title=" " image="icon_right"/>
+                        <state key="selected" title="封石" image="icon_select3"/>
+                        <connections>
+                            <action selector="stoneClick:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="LvR-qa-qOq"/>
+                        </connections>
+                    </button>
                 </subviews>
                 <constraints>
-                    <constraint firstItem="LZX-yx-kUG" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="90" id="13b-9J-xjg"/>
-                    <constraint firstAttribute="bottom" secondItem="rZY-X1-Hip" secondAttribute="bottom" constant="24" id="1HA-29-EuR"/>
-                    <constraint firstItem="rZY-X1-Hip" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="24" id="7C4-He-hLN"/>
+                    <constraint firstItem="hki-ph-GnL" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="LZX-yx-kUG" secondAttribute="trailing" priority="900" constant="15" id="0C8-ER-xsz"/>
                     <constraint firstItem="LZX-yx-kUG" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="15" id="9Ua-41-v2i"/>
                     <constraint firstAttribute="bottom" secondItem="6Hb-Bc-okg" secondAttribute="bottom" id="DwJ-l3-NqJ"/>
                     <constraint firstItem="rZY-X1-Hip" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="FbZ-uG-jhT"/>
                     <constraint firstItem="6Hb-Bc-okg" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="G9f-k6-Nn4"/>
                     <constraint firstAttribute="trailing" secondItem="6Hb-Bc-okg" secondAttribute="trailing" id="GAb-7z-85h"/>
                     <constraint firstItem="LZX-yx-kUG" firstAttribute="leading" secondItem="rZY-X1-Hip" secondAttribute="trailing" constant="15" id="GdW-pR-iWP"/>
-                    <constraint firstItem="OWY-oz-egJ" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="IZh-9h-HfK"/>
-                    <constraint firstItem="6Hb-Bc-okg" firstAttribute="top" secondItem="LZX-yx-kUG" secondAttribute="bottom" constant="15" id="LGi-An-eTN"/>
                     <constraint firstItem="ViZ-qD-T0z" firstAttribute="centerX" secondItem="H2p-sc-9uM" secondAttribute="centerX" id="T6B-qk-aSm"/>
                     <constraint firstItem="rZY-X1-Hip" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="V3a-6n-7SJ"/>
-                    <constraint firstItem="OWY-oz-egJ" firstAttribute="centerY" secondItem="LZX-yx-kUG" secondAttribute="centerY" id="k2c-qp-9g3"/>
+                    <constraint firstAttribute="trailing" secondItem="hki-ph-GnL" secondAttribute="trailing" constant="10" id="gA1-vt-Jvi"/>
+                    <constraint firstItem="hki-ph-GnL" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="he2-VV-ZLt"/>
                     <constraint firstItem="LZX-yx-kUG" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="pue-Xt-SMl"/>
                     <constraint firstItem="ViZ-qD-T0z" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="qx9-3o-R3A"/>
-                    <constraint firstAttribute="trailing" secondItem="OWY-oz-egJ" secondAttribute="trailing" constant="15" id="rws-kx-3bW"/>
-                    <constraint firstItem="OWY-oz-egJ" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="LZX-yx-kUG" secondAttribute="trailing" constant="5" id="tbY-Fc-pNv"/>
                 </constraints>
-                <variation key="default">
-                    <mask key="constraints">
-                        <exclude reference="1HA-29-EuR"/>
-                        <exclude reference="7C4-He-hLN"/>
-                        <exclude reference="LGi-An-eTN"/>
-                        <exclude reference="13b-9J-xjg"/>
-                        <exclude reference="k2c-qp-9g3"/>
-                    </mask>
-                </variation>
             </tableViewCellContentView>
             <connections>
                 <outlet property="addBtn" destination="ViZ-qD-T0z" id="lDP-Vo-EZD"/>
                 <outlet property="infoLab" destination="LZX-yx-kUG" id="Cfb-Ai-qKB"/>
-                <outlet property="nextBtn" destination="OWY-oz-egJ" id="Zwr-61-iM0"/>
+                <outlet property="nextBtn" destination="hki-ph-GnL" id="EXz-Pm-Lv5"/>
                 <outlet property="titleLab" destination="rZY-X1-Hip" id="7Ln-cR-43r"/>
             </connections>
-            <point key="canvasLocation" x="565" y="324"/>
+            <point key="canvasLocation" x="644" y="324"/>
         </tableViewCell>
     </objects>
     <resources>
         <image name="icon_+" width="17" height="17"/>
         <image name="icon_right" width="9" height="16"/>
+        <image name="icon_select3" width="20" height="16"/>
+        <image name="icon_select4" width="20" height="16"/>
     </resources>
 </document>

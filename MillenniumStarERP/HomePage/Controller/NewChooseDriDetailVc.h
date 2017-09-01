@@ -9,5 +9,5 @@
 #import "BaseViewController.h"
 
 @interface NewChooseDriDetailVc : BaseViewController
-
+@property (nonatomic, copy)NSString *chooseWei;
 @end

@@ -22,6 +22,7 @@
         self.phone    = dict[@"phone"];
         self.isNorm    = dict[@"isNorm"];
         self.isNoShow   = dict[@"isNoShow"];
+        self.isNoDriShow  = dict[@"isNoDriShow"];
     }
     return self;
 }
@@ -35,6 +36,7 @@
     [aCoder encodeObject:self.phone forKey:@"phone"];
     [aCoder encodeObject:self.isNorm forKey:@"isNorm"];
     [aCoder encodeObject:self.isNoShow forKey:@"isNoShow"];
+    [aCoder encodeObject:self.isNoDriShow forKey:@"isNoDriShow"];
 }
 /**
  *当从沙盒中解当时，就会调用这个方法
@@ -47,6 +49,7 @@
         self.phone    = [aDecoder decodeObjectForKey:@"phone"];
         self.isNorm    = [aDecoder decodeObjectForKey:@"isNorm"];
         self.isNoShow   = [aDecoder decodeObjectForKey:@"isNoShow"];
+        self.isNoDriShow  = [aDecoder decodeObjectForKey:@"isNoDriShow"];
     }
     return self;
 }

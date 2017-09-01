@@ -7,8 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
-
+typedef void (^StoneDriBack)(BOOL isSel);
 @interface CustomDrListiTableCell : UITableViewCell
 + (id)cellWithTableView:(UITableView *)tableView;
 @property (nonatomic, copy)NSArray *listArr;
+@property (nonatomic, copy)StoneDriBack stoneBack;
 @end

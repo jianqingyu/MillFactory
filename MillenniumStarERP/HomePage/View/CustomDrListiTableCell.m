@@ -7,9 +7,9 @@
 //
 
 #import "CustomDrListiTableCell.h"
-#import "SearchDateInfo.h"
+#import "DetailStoneInfo.h"
 @interface CustomDrListiTableCell()
-@property (weak, nonatomic) IBOutlet UIScrollView *dirScroll;
+@property (weak,  nonatomic) IBOutlet UIScrollView *dirScroll;
 @property (nonatomic,strong)NSMutableArray *mutA;
 @end
 @implementation CustomDrListiTableCell
@@ -29,22 +29,6 @@
     if (self) {
         self = [[NSBundle mainBundle]loadNibNamed:@"CustomDrListiTableCell" owner:nil options:nil][0];
         self.mutA = @[].mutableCopy;
-        SearchDateInfo *info1 = [SearchDateInfo new];
-        info1.title = @"90分";
-        info1.isDefault = YES;
-        SearchDateInfo *info2 = [SearchDateInfo new];
-        info2.title = @"80分";
-        info2.isDefault = NO;
-        SearchDateInfo *info3 = [SearchDateInfo new];
-        info3.title = @"70分";
-        info3.isDefault = NO;
-        SearchDateInfo *info4 = [SearchDateInfo new];
-        info4.title = @"60分";
-        info4.isDefault = NO;
-        SearchDateInfo *info5 = [SearchDateInfo new];
-        info5.title = @"50分";
-        info5.isDefault = NO;
-        [self creatBaseView:@[info1,info2,info3,info4,info5]];
     }
     return self;
 }
@@ -59,24 +43,15 @@
 - (void)creatBaseView:(NSArray *)arr{
     CGFloat space = 10;
     CGFloat height = 30;
-    CGFloat curX = 0;
-    CGFloat width = 0;
+    CGFloat width = 60;
     CGFloat vW = 0;
     for (int i=0; i<arr.count; i++) {
-        SearchDateInfo *info = arr[i];
+        DetailStoneInfo *info = arr[i];
         UIButton *btn = [self creatBtn];
-        UIButton *btnL;
-        if (i>0) {
-            btnL = self.mutA[i-1];
-        }
-        curX = CGRectGetMaxX(btnL.frame)+space;
+        btn.frame = CGRectMake((space+width)*i, space, width, height);
         btn.tag = i;
-        btn.selected = info.isDefault;
+        btn.selected = info.isSel;
         [btn setTitle:info.title forState:UIControlStateNormal];
-        CGRect rect = CGRectMake(0, 0, SDevWidth-30, 999);
-        rect = [btn.titleLabel textRectForBounds:rect limitedToNumberOfLines:0];
-        width = rect.size.width+10;
-        btn.frame = CGRectMake(curX, 15, width, height);
         vW = CGRectGetMaxX(btn.frame)+15;
     }
     self.dirScroll.contentSize = CGSizeMake(vW, 0);
@@ -102,11 +77,18 @@
 - (void)btnClick:(UIButton *)sender{
     for (int i=0; i<self.mutA.count; i++) {
         UIButton *sBtn = self.mutA[i];
+        DetailStoneInfo *info = self.listArr[i];
         if (i!=(int)sender.tag) {
             sBtn.selected = NO;
+            info.isSel = NO;
         }
     }
+    DetailStoneInfo *info = self.listArr[sender.tag];
     sender.selected = !sender.selected;
+    info.isSel = sender.selected;
+    if (self.stoneBack) {
+        self.stoneBack(YES);
+    }
 }
 
 @end

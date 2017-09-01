@@ -23,6 +23,7 @@
 - (void)creatNakedDriView{
     NakedDriLibCustomView *NakedDriView = [NakedDriLibCustomView creatCustomView];
     NakedDriView.isSel = YES;
+    NakedDriView.chooseWei = self.chooseWei;
     NakedDriView.supNav = self.navigationController;
     [self.view addSubview:NakedDriView];
     [NakedDriView mas_makeConstraints:^(MASConstraintMaker *make) {

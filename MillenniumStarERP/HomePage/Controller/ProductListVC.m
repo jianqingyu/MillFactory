@@ -57,7 +57,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self setBaseAllViewData];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(orientChange:) name:UIApplicationDidChangeStatusBarOrientationNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(orientChange:)
+        name:UIApplicationDidChangeStatusBarOrientationNotification object:nil];
 }
 
 - (void)orientChange:(NSNotification *)notification{
@@ -193,7 +194,8 @@
     titleFie.delegate = self;
 
     UIButton *seaBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    [seaBtn addTarget:self action:@selector(searchClick) forControlEvents:UIControlEventTouchUpInside];
+    [seaBtn addTarget:self action:@selector(searchClick) forControlEvents:
+                                                   UIControlEventTouchUpInside];
     [seaBtn setImage:[UIImage imageNamed:@"icon_search"] forState:UIControlStateNormal];
     [titleView addSubview:seaBtn];
     [seaBtn mas_makeConstraints:^(MASConstraintMaker *make) {

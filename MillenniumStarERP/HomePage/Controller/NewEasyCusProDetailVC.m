@@ -8,6 +8,7 @@
 
 #import "NewEasyCusProDetailVC.h"
 #import "NewEasyConfirmOrderVc.h"
+#import "DetailStoneInfo.h"
 #import "CustomFirstCell.h"
 #import "NewCustomProCell.h"
 #import "CustomLastCell.h"
@@ -46,6 +47,7 @@ UITableViewDataSource,MWPhotoBrowserDelegate>
 @property (nonatomic,  copy)NSString *driId;
 @property (nonatomic,  copy)NSString *driWord;
 
+@property (nonatomic,  copy)NSArray *stoneArr;
 @property (nonatomic,  copy)NSArray *typeArr;
 @property (nonatomic,  copy)NSArray *typeTArr;
 @property (nonatomic,  copy)NSArray *typeSArr;
@@ -58,8 +60,9 @@ UITableViewDataSource,MWPhotoBrowserDelegate>
 @property (nonatomic,  copy)NSArray *handArr;
 @property (nonatomic,  copy)NSArray *numArr;
 @property (nonatomic,  copy)NSArray *chooseArr;
-@property (nonatomic,  strong)NSMutableArray*mutArr;
 
+@property (nonatomic,  strong)NSMutableArray*mutArr;
+@property (nonatomic,  strong)NSMutableArray*bools;
 @property (nonatomic,  strong)DetailTypeInfo *colorInfo;
 @property (nonatomic,  strong)UIView *hView;
 @property (nonatomic,  strong)DetailModel *modelInfo;
@@ -86,6 +89,7 @@ UITableViewDataSource,MWPhotoBrowserDelegate>
     self.allLab.hidden = [[AccountTool account].isNoShow intValue];
     [self.priceLab setAdjustsFontSizeToFitWidth:YES];
     self.lookBtn.hidden = !self.isEdit;
+    self.bools = @[@NO,@NO,@NO,@NO].mutableCopy;
     self.typeArr = @[@"主   石",@"副石A",@"副石B",@"副石C"];
     self.typeSArr = @[@"stone",@"stoneA",@"stoneB",@"stoneC"];
     self.mutArr = @[].mutableCopy;
@@ -278,7 +282,6 @@ UITableViewDataSource,MWPhotoBrowserDelegate>
                 [self setupBaseListData:modelIn];
                 [self creatCusTomHeadView];
                 [self setupModelPur:response.data[@"model"]];
-                [self.tableView reloadData];
             }
             if ([YQObjectBool boolForObject:response.data[@"stoneType"]]) {
                 self.chooseArr = @[response.data[@"stoneType"],
@@ -286,6 +289,15 @@ UITableViewDataSource,MWPhotoBrowserDelegate>
                                    response.data[@"stoneShape"],
                                    response.data[@"stoneColor"],
                                    response.data[@"stonePurity"]];
+            }
+            if ([YQObjectBool boolForObject:response.data[@"stoneSepData"]]) {
+                self.cou = 4;
+                self.stoneArr = [DetailStoneInfo objectArrayWithKeyValuesArray:response.data[@"stoneSepData"]];
+                for (DetailStoneInfo *info in self.stoneArr) {
+                    if ([info.ModeSeqno isEqualToString:self.modelInfo.ModeSeqno]) {
+                        info.isSel = YES;
+                    }
+                }
             }
             if ([YQObjectBool boolForObject:response.data[@"handSizeData"]]) {
                 NSMutableArray *mutA = [NSMutableArray new];
@@ -298,6 +310,7 @@ UITableViewDataSource,MWPhotoBrowserDelegate>
                 self.remakeArr = response.data[@"remarks"];
             }
             [self setBaseNakedDriSeaInfo];
+            [self.tableView reloadData];
         }
         [SVProgressHUD dismiss];
     } requestURL:regiUrl params:params];
@@ -328,12 +341,28 @@ UITableViewDataSource,MWPhotoBrowserDelegate>
         self.driWord = dic[@"word"];
     }
 }
+//选择自带钻石
+- (void)chooseStone{
+    for (DetailStoneInfo *info in self.stoneArr) {
+        if (info.isSel) {
+            self.driPrice = @"";
+            self.driCode = @"";
+            self.driId = @"";
+            [self.mutArr removeAllObjects];
+            self.detailArr = @[[self arrWithDict:info.stone],
+                               [self arrWithDict:info.stoneA],
+                               [self arrWithDict:info.stoneB],
+                               [self arrWithDict:info.stoneC]];
+            [self setBaseMutArr];
+            [self.tableView reloadData];
+        }
+    }
+}
 
 - (void)setBaseMutArr{
     int i=0;
     for (NSArray *arr in self.detailArr) {
         if (i==0&&self.mutArr.count==0) {
-            self.cou = [self boolWithNoArr:arr]?3:4;
             [self setMutAWith:arr];
         }else{
             if (![self boolWithNoArr:arr]) {
@@ -588,6 +617,13 @@ UITableViewDataSource,MWPhotoBrowserDelegate>
             return driCell;
         }else if (indexPath.row==2&&self.cou==4){
             CustomDrListiTableCell *listCell = [CustomDrListiTableCell cellWithTableView:tableView];
+            listCell.listArr = self.stoneArr;
+            listCell.stoneBack = ^(BOOL isSel){
+                //选择自带裸钻
+                if (isSel) {
+                    [self chooseStone];
+                }
+            };
             return listCell;
         }else{
             NewCustomProCell *proCell = [NewCustomProCell cellWithTableView:tableView];
@@ -596,6 +632,10 @@ UITableViewDataSource,MWPhotoBrowserDelegate>
             if (self.driCode) {
                 proCell.certCode = self.driCode;
             }
+            proCell.isSel = [self.bools[index]boolValue];
+            proCell.back = ^(BOOL isSel){
+                [self.bools setObject:@(isSel) atIndexedSubscript:index];
+            };
             return proCell;
         }
     }
@@ -644,7 +684,18 @@ UITableViewDataSource,MWPhotoBrowserDelegate>
 }
 
 - (void)gotoNakedDriLib{
+    NSString *str;
+    for (DetailStoneInfo *info in self.stoneArr) {
+        if (info.isSel) {
+            if (info.minweight.length>0||info.maxweight.length>0) {
+                str = [NSString stringWithFormat:@"%@,%@",info.minweight,info.maxweight];
+            }
+        }
+    }
     NewChooseDriDetailVc *libVc = [NewChooseDriDetailVc new];
+    if (str.length>0) {
+        libVc.chooseWei = str;
+    }
     [self.navigationController pushViewController:libVc animated:YES];
 }
 
@@ -659,6 +710,10 @@ UITableViewDataSource,MWPhotoBrowserDelegate>
     }
     NSMutableDictionary *params = [NSMutableDictionary new];
     for (int i=0; i<self.mutArr.count; i++) {
+        if ([self.bools[i]boolValue]) {
+            params[self.typeSArr[i]] = @"||||||1";
+            continue;
+        }
         NSMutableArray *arr = self.mutArr[i];
         if ([self boolWithNoArr:arr]) {
             continue;
@@ -681,6 +736,7 @@ UITableViewDataSource,MWPhotoBrowserDelegate>
             }
         }
     }
+    [mutA addObject:@"1"];
     NSString *str = [StrWithIntTool strWithIntOrStrArr:mutA];
     NSString *key = self.typeSArr[i];
     if (![key isEqualToString:@"stone"]) {

@@ -15,5 +15,6 @@
 @property (nonatomic,copy)NSString *tokenKey;
 @property (nonatomic,copy)NSNumber *isNorm;
 @property (nonatomic,copy)NSNumber *isNoShow;
+@property (nonatomic,copy)NSNumber *isNoDriShow;
 + (instancetype)accountWithDict:(NSDictionary *)dict;
 @end

@@ -7,7 +7,7 @@
 //
 
 #import "OrderNumTool.h"
-
+#import "StrWithIntTool.h"
 @implementation OrderNumTool
 
 + (void)orderWithNum:(int)number andView:(UILabel *)sLab{
@@ -25,4 +25,15 @@
 + (NSString *)strWithPrice:(float)price{
     return [NSString stringWithFormat:@"￥%0.0f",price];
 }
+
++ (void)NSLoginWithStr:(NSString *)str andDic:(NSDictionary *)dic{
+    NSMutableArray *mutA = @[].mutableCopy;
+    [dic enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
+        NSString *str = [NSString stringWithFormat:@"%@=%@",key,obj];
+        [mutA addObject:str];
+    }];
+    NSString *mes = [StrWithIntTool strWithArr:mutA With:@"&"];
+    NSLog(@"%@?%@",str,mes);
+}
+
 @end

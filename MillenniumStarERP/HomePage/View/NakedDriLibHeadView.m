@@ -52,6 +52,25 @@
     return self;
 }
 
+- (void)setChooseWei:(NSString *)chooseWei{
+    if (chooseWei) {
+        _chooseWei = chooseWei;
+        NSArray *arr;
+        if ([_chooseWei containsString:@","]) {
+            arr = [_chooseWei componentsSeparatedByString:@","];
+        }
+        if (arr.count!=0) {
+            self.driFie1.text = arr[0];
+            self.driFie2.text = arr[1];
+        }
+        NSDictionary *dict = _topArr[0];
+        self.mutDic[dict[@"keyword"]] = _chooseWei;
+        if (self.back) {
+            self.back(self.mutDic);
+        }
+    }
+}
+
 - (void)setInfo:(NakedDriLiblistInfo *)info{
     if (info) {
         _info = info;

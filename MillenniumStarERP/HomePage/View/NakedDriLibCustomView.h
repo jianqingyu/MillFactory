@@ -11,5 +11,6 @@
 @interface NakedDriLibCustomView : UIView
 + (NakedDriLibCustomView *)creatCustomView;
 @property (nonatomic,assign)BOOL isSel;
+@property (nonatomic,  copy)NSString *chooseWei;
 @property (nonatomic,strong)UINavigationController *supNav;
 @end
