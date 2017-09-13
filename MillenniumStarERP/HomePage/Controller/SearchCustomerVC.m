@@ -115,6 +115,7 @@
 
 - (void)getCommodityData{
     [SVProgressHUD show];
+    self.view.userInteractionEnabled = NO;
     NSString *url = [NSString stringWithFormat:@"%@GetCustomerList",baseUrl];
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     params[@"tokenKey"] = [AccountTool account].tokenKey;
@@ -129,6 +130,7 @@
                 [self setupListDataWithDict:response.data];
             }
             [self.searchTab reloadData];
+            self.view.userInteractionEnabled = YES;
             [SVProgressHUD dismiss];
         }
     } requestURL:url params:params];

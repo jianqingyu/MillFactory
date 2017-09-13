@@ -281,8 +281,6 @@
 		7979588C1EF8B1FA004EF7B7 /* NewHomePageHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7979588A1EF8B1FA004EF7B7 /* NewHomePageHeaderView.m */; };
 		7979588D1EF8B1FA004EF7B7 /* NewHomePageHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7979588B1EF8B1FA004EF7B7 /* NewHomePageHeaderView.xib */; };
 		7979A0291E5BCFAF00604BD5 /* CommonUsedTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 7979A0281E5BCFAF00604BD5 /* CommonUsedTool.m */; };
-		7979F12A1F354D460080D2CE /* DetailWebViewVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 7979F1281F354D460080D2CE /* DetailWebViewVC.m */; };
-		7979F12B1F354D460080D2CE /* DetailWebViewVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7979F1291F354D460080D2CE /* DetailWebViewVC.xib */; };
 		7979F12F1F354D710080D2CE /* HomeListWebViewVc.m in Sources */ = {isa = PBXBuildFile; fileRef = 7979F12D1F354D710080D2CE /* HomeListWebViewVc.m */; };
 		7979F1301F354D710080D2CE /* HomeListWebViewVc.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7979F12E1F354D710080D2CE /* HomeListWebViewVc.xib */; };
 		797E5EA71DAB34D70017F6A2 /* AllListHeadView.m in Sources */ = {isa = PBXBuildFile; fileRef = 797E5EA61DAB34D70017F6A2 /* AllListHeadView.m */; };
@@ -913,9 +911,6 @@
 		7979588B1EF8B1FA004EF7B7 /* NewHomePageHeaderView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NewHomePageHeaderView.xib; sourceTree = "<group>"; };
 		7979A0271E5BCFAF00604BD5 /* CommonUsedTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommonUsedTool.h; sourceTree = "<group>"; };
 		7979A0281E5BCFAF00604BD5 /* CommonUsedTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommonUsedTool.m; sourceTree = "<group>"; };
-		7979F1271F354D460080D2CE /* DetailWebViewVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailWebViewVC.h; sourceTree = "<group>"; };
-		7979F1281F354D460080D2CE /* DetailWebViewVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailWebViewVC.m; sourceTree = "<group>"; };
-		7979F1291F354D460080D2CE /* DetailWebViewVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DetailWebViewVC.xib; sourceTree = "<group>"; };
 		7979F12C1F354D710080D2CE /* HomeListWebViewVc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HomeListWebViewVc.h; sourceTree = "<group>"; };
 		7979F12D1F354D710080D2CE /* HomeListWebViewVc.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HomeListWebViewVc.m; sourceTree = "<group>"; };
 		7979F12E1F354D710080D2CE /* HomeListWebViewVc.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HomeListWebViewVc.xib; sourceTree = "<group>"; };
@@ -1726,9 +1721,6 @@
 				7979F12C1F354D710080D2CE /* HomeListWebViewVc.h */,
 				7979F12D1F354D710080D2CE /* HomeListWebViewVc.m */,
 				7979F12E1F354D710080D2CE /* HomeListWebViewVc.xib */,
-				7979F1271F354D460080D2CE /* DetailWebViewVC.h */,
-				7979F1281F354D460080D2CE /* DetailWebViewVC.m */,
-				7979F1291F354D460080D2CE /* DetailWebViewVC.xib */,
 				7959A8C01D810CC5009CAA02 /* ProductListVC.h */,
 				7959A8C11D810CC5009CAA02 /* ProductListVC.m */,
 				7959A8C21D810CC5009CAA02 /* ProductListVC.xib */,
@@ -2373,7 +2365,6 @@
 				797958881EF8B084004EF7B7 /* NewHomePageCollCell.xib in Resources */,
 				79E177971E6917F200318916 /* DeliveryOrderTableCell.xib in Resources */,
 				7933E2E11EE00B5600C6247F /* NakedDriDetailHeadV.xib in Resources */,
-				7979F12B1F354D460080D2CE /* DetailWebViewVC.xib in Resources */,
 				7969FB731DBE05FF00139681 /* ChooseAddressVC.xib in Resources */,
 				79655E1C1D7D0F06006B90FC /* InformationVC.xib in Resources */,
 				79E177881E690F6400318916 /* DeliveryOrderVC.xib in Resources */,
@@ -2751,7 +2742,6 @@
 				7989B5D41D824BD600706F5E /* NSArray+PureLayout.m in Sources */,
 				79655DF01D7D0AAA006B90FC /* MainTabViewController.m in Sources */,
 				7926B6301E6955A30022B4A3 /* SettlementTableCell.m in Sources */,
-				7979F12A1F354D460080D2CE /* DetailWebViewVC.m in Sources */,
 				79A0D8181F1C630900CBBCE6 /* CustomEditTableCell.m in Sources */,
 				7933D9241D9CA879006C0356 /* DistrictTableVc.m in Sources */,
 				7933E2EB1EE012A600C6247F /* NakedDriOrderDetailCell.m in Sources */,
@@ -2935,7 +2925,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/MillenniumStarERP/ERPfile.pch";
 				INFOPLIST_FILE = MillenniumStarERP/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2946,7 +2936,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.millenniumStar.factory;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "96a9caf5-5bf8-4281-97d5-b2abe19976ad";
+				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -2973,7 +2963,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/MillenniumStarERP/ERPfile.pch";
 				INFOPLIST_FILE = MillenniumStarERP/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2984,7 +2974,7 @@
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = com.millenniumStar.factory;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "96a9caf5-5bf8-4281-97d5-b2abe19976ad";
+				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;

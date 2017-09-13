@@ -111,6 +111,8 @@
 }
 
 - (IBAction)gotoPay:(id)sender {
+    [MBProgressHUD showError:@"暂未开通支付"];
+    return;
     PayViewController *payVc = [PayViewController new];
     payVc.orderId = self.orderId;
     payVc.isStone = YES;

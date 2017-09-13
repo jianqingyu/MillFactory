@@ -37,8 +37,9 @@ UITableViewDataSource,MWPhotoBrowserDelegate>
 @property (weak, nonatomic) IBOutlet UILabel *allLab;
 @property (weak, nonatomic) IBOutlet UILabel *priceLab;
 
-@property (nonatomic,assign)float wid;
 @property (nonatomic,assign)int cou;
+@property (nonatomic,assign)float wid;
+@property (nonatomic,assign)float proPrice;
 @property (nonatomic,  copy)NSString*proNum;
 @property (nonatomic,  copy)NSString*handStr;
 @property (nonatomic,  copy)NSString*lastMess;
@@ -46,6 +47,8 @@ UITableViewDataSource,MWPhotoBrowserDelegate>
 @property (nonatomic,  copy)NSString *driPrice;
 @property (nonatomic,  copy)NSString *driId;
 @property (nonatomic,  copy)NSString *driWord;
+@property (nonatomic,  copy)NSString *driWei;
+@property (nonatomic,  copy)NSString *ModeSeqno;
 
 @property (nonatomic,  copy)NSArray *stoneArr;
 @property (nonatomic,  copy)NSArray *typeArr;
@@ -119,6 +122,18 @@ UITableViewDataSource,MWPhotoBrowserDelegate>
     self.driPrice = listInfo.Price;
     self.driId = listInfo.id;
     self.proNum = @"1";
+    for (DetailStoneInfo *info in self.stoneArr) {
+        info.isSel = NO;
+    }
+    for (DetailStoneInfo *info in self.stoneArr) {
+        if ([listInfo.Weight floatValue]>=[info.minweight floatValue]&&
+            [listInfo.Weight floatValue]<=[info.maxweight floatValue]) {
+            info.isSel = YES;
+            self.ModeSeqno = info.ModeSeqno;
+            self.driWei = info.TrayModelWeight;
+            self.proPrice = info.TrayModelPrice;
+        }
+    }
     [self.tableView reloadData];
 }
 
@@ -297,6 +312,7 @@ UITableViewDataSource,MWPhotoBrowserDelegate>
                     if ([info.ModeSeqno isEqualToString:self.modelInfo.ModeSeqno]) {
                         info.isSel = YES;
                     }
+                    self.ModeSeqno = self.modelInfo.ModeSeqno;
                 }
             }
             if ([YQObjectBool boolForObject:response.data[@"handSizeData"]]) {
@@ -321,7 +337,9 @@ UITableViewDataSource,MWPhotoBrowserDelegate>
     self.lastMess = modelIn.remark;
     if (self.isEdit) {
         self.proNum = modelIn.number;
-        self.handStr = modelIn.handSize;
+        if (![modelIn.handSize isEqualToString:@"0"]) {
+            self.handStr = modelIn.handSize;
+        }
     }
     self.detailArr  = @[[self arrWithDict:modelIn.stone],
                         [self arrWithDict:modelIn.stoneA],
@@ -348,6 +366,9 @@ UITableViewDataSource,MWPhotoBrowserDelegate>
             self.driPrice = @"";
             self.driCode = @"";
             self.driId = @"";
+            self.ModeSeqno = info.ModeSeqno;
+            self.driWei = info.TrayModelWeight;
+            self.proPrice = info.TrayModelPrice;
             [self.mutArr removeAllObjects];
             self.detailArr = @[[self arrWithDict:info.stone],
                                [self arrWithDict:info.stoneA],
@@ -589,6 +610,9 @@ UITableViewDataSource,MWPhotoBrowserDelegate>
         firstCell.modelInfo = self.modelInfo;
         firstCell.messArr = self.proNum;
         firstCell.handSize = self.handStr;
+        if (_driWei.length>0) {
+            firstCell.driWei = _driWei;
+        }
         return firstCell;
     }else if (indexPath.row==self.mutArr.count+_cou-1){
         CustomLastCell *lastCell = [CustomLastCell cellWithTableView:tableView];
@@ -750,7 +774,7 @@ UITableViewDataSource,MWPhotoBrowserDelegate>
     if (self.isEdit==1) {
         detail = @"OrderCurrentEditModelItemForDefaultNowDo";
     }else if (self.isEdit==2){
-        detail = @"ModelOrderWaitCheckOrderCurrentEditModelItemDo";
+        detail = @"ModelOrderWaitCheckOrderCurrentEditModelItemForDefaultDo";
     }else{
         detail = @"OrderCurrentDoModelItemForDefaultNowDo";
     }
@@ -764,6 +788,10 @@ UITableViewDataSource,MWPhotoBrowserDelegate>
     }
     if (self.driId.length>0) {
         params[@"jewelStoneId"] = self.driId;
+        params[@"stone"] = @"";
+    }
+    if (self.ModeSeqno.length>0) {
+        params[@"ModeSeqno"] = self.ModeSeqno;
     }
     if (!self.isEdit) {
         params[@"categoryId"] = @(self.modelInfo.categoryId);
@@ -806,7 +834,7 @@ UITableViewDataSource,MWPhotoBrowserDelegate>
 }
 
 - (void)updateBottomPrice{
-    float price = _modelInfo.price;
+    float price = _proPrice;
     if (self.driPrice.length>0) {
         price = price + [self.driPrice floatValue];
     }

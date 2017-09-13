@@ -48,11 +48,13 @@
         _titleStr = titleStr;
         self.titleLab.text = _titleStr;
         if ([_titleStr isEqualToString:@"主   石"]) {
+            self.nextBtn.hidden = NO;
             self.nextBtn.enabled = NO;
         }else{
             self.nextBtn.enabled = YES;
             self.infoLab.hidden = _isSel;
             self.nextBtn.selected = _isSel;
+            self.nextBtn.hidden = YES;;
         }
     }
 }
@@ -60,7 +62,7 @@
 - (void)setList:(NSArray *)list{
     if (list) {
         _list = list;
-        NSArray *titleArr = @[@"类型",@"规格",@"形状",@"颜色",@"净度"];
+        NSArray *titleArr = @[@"类型",@"重量",@"形状",@"颜色",@"净度"];
         NSMutableArray *mutA = [NSMutableArray new];
         if ([self boolWithOneArr]) {
             self.addBtn.hidden = YES;

@@ -8,6 +8,8 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="LauchimageCustomVC">
             <connections>
                 <outlet property="btn" destination="34h-nK-uqD" id="8m9-fi-NhN"/>
+                <outlet property="home1" destination="f7h-Z2-uCc" id="i7X-uY-hsF"/>
+                <outlet property="home2" destination="thg-mn-IQc" id="kx0-vv-a9y"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -16,7 +18,7 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="loading" translatesAutoresizingMaskIntoConstraints="NO" id="f7h-Z2-uCc">
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="home1" translatesAutoresizingMaskIntoConstraints="NO" id="f7h-Z2-uCc">
                     <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                 </imageView>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="34h-nK-uqD">
@@ -34,20 +36,28 @@
                         <action selector="openClick:" destination="-1" eventType="touchUpInside" id="KLF-P7-B0U"/>
                     </connections>
                 </button>
+                <imageView userInteractionEnabled="NO" alpha="0.0" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="home2" translatesAutoresizingMaskIntoConstraints="NO" id="thg-mn-IQc">
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                </imageView>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstItem="f7h-Z2-uCc" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="0jE-r5-rAY"/>
+                <constraint firstItem="thg-mn-IQc" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="21L-f0-Kvm"/>
                 <constraint firstItem="f7h-Z2-uCc" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="8DU-Uv-6Xq"/>
                 <constraint firstAttribute="trailing" secondItem="34h-nK-uqD" secondAttribute="trailing" constant="5" id="AYU-x1-YWP"/>
+                <constraint firstItem="thg-mn-IQc" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="JrP-bj-Ssr"/>
                 <constraint firstAttribute="bottom" secondItem="f7h-Z2-uCc" secondAttribute="bottom" id="S2H-in-Drb"/>
                 <constraint firstAttribute="trailing" secondItem="f7h-Z2-uCc" secondAttribute="trailing" id="XpJ-4q-afL"/>
                 <constraint firstAttribute="bottom" secondItem="34h-nK-uqD" secondAttribute="bottom" constant="10" id="eze-ZV-QS3"/>
+                <constraint firstAttribute="bottom" secondItem="thg-mn-IQc" secondAttribute="bottom" id="jAD-s8-yGQ"/>
+                <constraint firstAttribute="trailing" secondItem="thg-mn-IQc" secondAttribute="trailing" id="mwZ-ib-1sO"/>
             </constraints>
-            <point key="canvasLocation" x="537" y="318"/>
+            <point key="canvasLocation" x="219" y="352"/>
         </view>
     </objects>
     <resources>
-        <image name="loading" width="750" height="1334"/>
+        <image name="home1" width="1080" height="1689"/>
+        <image name="home2" width="1080" height="1689"/>
     </resources>
 </document>

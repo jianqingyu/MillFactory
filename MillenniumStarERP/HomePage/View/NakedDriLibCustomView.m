@@ -177,6 +177,9 @@
             if (mutB.count>0) {
                 [self.NakedArr addObject:mutB];
             }
+            if (_chooseWei.length>0) {
+                _headView.chooseWei = _chooseWei;
+            }
             [self.tableView reloadData];
         }else{
             [MBProgressHUD showError:response.message];
@@ -250,34 +253,40 @@
 - (void)searchClick:(id)sender {
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     NSMutableArray *mutA = @[].mutableCopy;
-    for (id info in _hedInfo.values) {
-        BOOL isSel = [[info valueForKey:@"isSel"]boolValue];
-        NSString *name = [info valueForKey:@"name"];
-        if (isSel) {
-            [mutA addObject:name];
-        }
-    }
-    params[_hedInfo.keyword] = mutA.copy;
-    for (NSArray *arr in self.NakedArr) {
-        for (NakedDriLiblistInfo *linfo in arr) {
-            NSMutableArray *mutA = @[].mutableCopy;
-            for (id info in linfo.values) {
-                BOOL isSel = [[info valueForKey:@"isSel"]boolValue];
-                NSString *name = [info valueForKey:@"name"];
-                if (isSel) {
-                    [mutA addObject:name];
-                }
+    if (_hedInfo.values.count>0) {
+        for (id info in _hedInfo.values) {
+            BOOL isSel = [[info valueForKey:@"isSel"]boolValue];
+            NSString *name = [info valueForKey:@"name"];
+            if (isSel) {
+                [mutA addObject:name];
             }
-            params[linfo.keyword] = mutA.copy;
+        }
+        params[_hedInfo.keyword] = mutA.copy;
+    }
+    if (self.NakedArr.count>0) {
+        for (NSArray *arr in self.NakedArr) {
+            for (NakedDriLiblistInfo *linfo in arr) {
+                NSMutableArray *mutA = @[].mutableCopy;
+                for (id info in linfo.values) {
+                    BOOL isSel = [[info valueForKey:@"isSel"]boolValue];
+                    NSString *name = [info valueForKey:@"name"];
+                    if (isSel) {
+                        [mutA addObject:name];
+                    }
+                }
+                params[linfo.keyword] = mutA.copy;
+            }
         }
     }
-    [params enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
-        if ([obj count]>0) {
-            params[key] = [StrWithIntTool strWithArr:obj With:@","];
-        }else{
-            [params removeObjectForKey:key];
-        }
-    }];
+    if (params.count>0) {
+        [params enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
+            if ([obj count]>0) {
+                params[key] = [StrWithIntTool strWithArr:obj With:@","];
+            }else{
+                [params removeObjectForKey:key];
+            }
+        }];
+    }
     [params addEntriesFromDictionary:self.dict];
     NakedDriSearchVC *seaVc = [NakedDriSearchVC new];
     seaVc.isSel = self.isSel;

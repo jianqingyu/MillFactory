@@ -190,6 +190,7 @@
 //通过搜索关键词查找信息
 - (void)getCommodityData:(NSMutableDictionary *)params{
     [SVProgressHUD show];
+    self.view.userInteractionEnabled = NO;
     NSString *url = [NSString stringWithFormat:@"%@stoneList",baseUrl];
     [BaseApi getGeneralData:^(BaseResponse *response, NSError *error) {
         [self.tableView.header endRefreshing];
@@ -200,6 +201,7 @@
                 [self setupDataWithData:response.data];
                 [self setupListDataWithDict:response.data];
                 [self.tableView reloadData];
+                self.view.userInteractionEnabled = YES;
             }
             [SVProgressHUD dismiss];
         }
@@ -300,7 +302,10 @@
     if (!self.isShow) {
         return;
     }
-    NakedDriSeaListInfo *listInfo = self.dataArray[index];
+    NakedDriSeaListInfo *listInfo;
+    if (index<self.dataArray.count) {
+        listInfo = self.dataArray[index];
+    }
     NakedDriPriceVC *nakedVc = [NakedDriPriceVC new];
     nakedVc.orderId = listInfo.id;
     [self.navigationController pushViewController:nakedVc animated:YES];

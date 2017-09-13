@@ -100,6 +100,7 @@
     }
     isFir = YES;
     [SVProgressHUD show];
+    self.userInteractionEnabled = NO;
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     params[@"tokenKey"] = [AccountTool account].tokenKey;
     params[@"cpage"] = @(curPage);
@@ -110,10 +111,11 @@
         if ([response.error intValue]==0) {
             [self setupFootRefresh];
             if ([YQObjectBool boolForObject:response.data]){
-                    [self setListData:response.data[@"list"] and:response.data[@"list_count"]];
-                }
+                [self setListData:response.data[@"list"] and:response.data[@"list_count"]];
                 [_mTableView reloadData];
+                self.userInteractionEnabled = YES;
             }
+        }
     } requestURL:url params:params];
 }
 
@@ -171,8 +173,8 @@
             [self cancelOrder:indexPath.section];
         }
     };
-    NakedDriOListInfo *info;
     cell.staue = _dict[@"title"];
+    NakedDriOListInfo *info;
     if (indexPath.section<_dataArray.count) {
         info = _dataArray[indexPath.section];
     }
@@ -181,7 +183,12 @@
 }
 
 - (void)gotoPayViewController:(NSInteger)index{
-    NakedDriOListInfo *info = _dataArray[index];
+    NakedDriOListInfo *info;
+    if (index<_dataArray.count) {
+        info = _dataArray[index];
+    }
+    [MBProgressHUD showError:@"暂未开通支付"];
+    return;
     PayViewController *payVc = [PayViewController new];
     payVc.isStone = YES;
     payVc.orderId = info.id;
@@ -189,7 +196,10 @@
 }
 
 - (void)cancelOrder:(NSInteger)index{
-    NakedDriOListInfo *info = _dataArray[index];
+    NakedDriOListInfo *info;
+    if (index<_dataArray.count) {
+        info = _dataArray[index];
+    }
     NSString *url = [NSString stringWithFormat:@"%@stoneCancelOrderDo",baseUrl];
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     params[@"orderId"] = info.id;
@@ -203,7 +213,10 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    NakedDriOListInfo *info = _dataArray[indexPath.section];
+    NakedDriOListInfo *info;
+    if (indexPath.section<_dataArray.count) {
+        info = _dataArray[indexPath.section];
+    }
     NakedDriDetailOrderVc *orderVc = [NakedDriDetailOrderVc new];
     orderVc.orderId = info.id;
     [self.superNav pushViewController:orderVc animated:YES];

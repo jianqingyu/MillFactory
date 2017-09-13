@@ -13,6 +13,8 @@
 @property (nonatomic,  copy)NSString *minweight;
 @property (nonatomic,  copy)NSString *maxweight;
 @property (nonatomic,  copy)NSString *ModeSeqno;
+@property (nonatomic,assign)float TrayModelPrice;
+@property (nonatomic,  copy)NSString *TrayModelWeight;
 @property (nonatomic,assign)BOOL isSel;
 @property (nonatomic,strong)NSDictionary *stone;
 @property (nonatomic,strong)NSDictionary *stoneA;

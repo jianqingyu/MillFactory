@@ -231,26 +231,15 @@
 
 - (void)getCode:(UIButton *)btn {
     [self resignViewResponder];
-    if (self.nameFie.text.length==0||self.passWordFie.text==0){
-        [NewUIAlertTool show:@"请输入用户名和密码" with:self];
-        return;
-    }
     [self requestCheckWord];
 }
 
-- (void)textFieldDidBeginEditing:(UITextField *)textField{
-    [self.loginView mas_updateConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self).offset(SDevWidth/1.2-35);
-    }];
-}
-
-- (void)textFieldDidEndEditing:(UITextField *)textField{
-    [self.loginView mas_updateConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self).offset(SDevWidth/1.2);
-    }];
-}
-
 - (void)requestCheckWord{
+    if (self.nameFie.text.length==0||self.passWordFie.text==0){
+        [self.codeBtn resetBtn];
+        [NewUIAlertTool show:@"请输入用户名和密码" okBack:nil andView:self yes:NO];
+        return;
+    }
     NSString *codeUrl = [NSString stringWithFormat:@"%@GetLoginVerifyCodeDo",baseUrl];
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     params[@"userName"] = self.nameFie.text;

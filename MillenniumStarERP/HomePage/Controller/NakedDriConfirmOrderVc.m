@@ -26,8 +26,8 @@
 @property (nonatomic,strong)AddressInfo *addressInfo;
 @property (nonatomic,strong)DetailTypeInfo *invoInfo;
 @property (nonatomic,assign)BOOL isSelBtn;
-@property (weak, nonatomic) IBOutlet UILabel *bottomLab;
-@property (weak, nonatomic) IBOutlet UIButton *bottomBtn;
+@property (weak,  nonatomic)IBOutlet UILabel *bottomLab;
+@property (weak,  nonatomic)IBOutlet UIButton *bottomBtn;
 @end
 
 @implementation NakedDriConfirmOrderVc

@@ -319,7 +319,9 @@
     self.lastMess = modelIn.remark;
     if (self.isEdit) {
         self.proNum = modelIn.number;
-        self.handStr = modelIn.handSize;
+        if (![modelIn.handSize isEqualToString:@"0"]) {
+            self.handStr = modelIn.handSize;
+        }
     }
     [self setupNumbers:@[modelIn.stone,modelIn.stoneA,
                          modelIn.stoneB,modelIn.stoneC]];
@@ -851,6 +853,7 @@
     }
     if (self.driId.length>0) {
         params[@"jewelStoneId"] = self.driId;
+        params[@"stone"] = @"";
     }
     params[@"isSelfStone"] = self.bools[0];
     if (!self.isEdit) {

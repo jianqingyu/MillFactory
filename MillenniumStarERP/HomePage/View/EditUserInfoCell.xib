@@ -149,7 +149,7 @@
                 <outlet property="shopFie" destination="jfx-Ki-VtG" id="ktn-pZ-EVb"/>
                 <outlet property="showBtn" destination="Zeh-Lj-NPh" id="BZF-Vd-FQT"/>
             </connections>
-            <point key="canvasLocation" x="586" y="533.5"/>
+            <point key="canvasLocation" x="417" y="342.5"/>
         </tableViewCell>
     </objects>
     <resources>

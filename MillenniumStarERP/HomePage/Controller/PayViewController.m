@@ -8,10 +8,10 @@
 
 #import "PayViewController.h"
 #import "WXApi.h"
-#import <AlipaySDK/AlipaySDK.h>
 #import "PayTableCell.h"
 #import "CustomInvoice.h"
 #import "PayReturnPageVC.h"
+#import <AlipaySDK/AlipaySDK.h>
 @interface PayViewController ()<UITableViewDataSource, UITableViewDelegate>
 @property (nonatomic, strong) UITableView *payTable;
 @property (nonatomic,   weak) UILabel *titleLab;

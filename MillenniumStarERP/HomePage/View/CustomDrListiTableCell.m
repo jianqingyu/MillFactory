@@ -50,7 +50,7 @@
         UIButton *btn = [self creatBtn];
         btn.frame = CGRectMake((space+width)*i, space, width, height);
         btn.tag = i;
-        btn.selected = info.isSel;
+        btn.enabled = !info.isSel;
         [btn setTitle:info.title forState:UIControlStateNormal];
         vW = CGRectGetMaxX(btn.frame)+15;
     }
@@ -62,11 +62,11 @@
     btn.backgroundColor = [UIColor whiteColor];
     btn.titleLabel.font = [UIFont systemFontOfSize:12.0];
     [btn setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
-    [btn setTitleColor:[UIColor whiteColor] forState:UIControlStateSelected];
+    [btn setTitleColor:[UIColor whiteColor] forState:UIControlStateDisabled];
     [btn setBackgroundImage:[CommonUtils createImageWithColor:DefaultColor]
                    forState:UIControlStateNormal];
     [btn setBackgroundImage:[CommonUtils createImageWithColor:MAIN_COLOR]
-                   forState:UIControlStateSelected];
+                   forState:UIControlStateDisabled];
     [btn setLayerWithW:5 andColor:BordColor andBackW:0.0001];
     [btn addTarget:self action:@selector(btnClick:)forControlEvents:UIControlEventTouchUpInside];
     [self.dirScroll addSubview:btn];
@@ -79,13 +79,13 @@
         UIButton *sBtn = self.mutA[i];
         DetailStoneInfo *info = self.listArr[i];
         if (i!=(int)sender.tag) {
-            sBtn.selected = NO;
+            sBtn.enabled = YES;
             info.isSel = NO;
         }
     }
     DetailStoneInfo *info = self.listArr[sender.tag];
-    sender.selected = !sender.selected;
-    info.isSel = sender.selected;
+    sender.enabled = !sender.enabled;
+    info.isSel = !sender.enabled;
     if (self.stoneBack) {
         self.stoneBack(YES);
     }

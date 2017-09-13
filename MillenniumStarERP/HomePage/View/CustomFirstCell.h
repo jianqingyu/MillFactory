@@ -15,6 +15,7 @@ typedef void (^CustomFirBack)(BOOL isSel,NSString*messArr);
 @property (nonatomic, copy) NSString *messArr;
 @property (nonatomic, copy) NSString *handSize;
 @property (nonatomic, copy) NSString *certCode;
+@property (nonatomic, copy) NSString *driWei;
 @property (nonatomic,assign)BOOL isNew;
 @property (nonatomic, copy) CustomFirBack MessBack;
 + (id)cellWithTableView:(UITableView *)tableView;

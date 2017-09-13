@@ -257,7 +257,10 @@
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
     //高级定制
-    ProductInfo *info = self.dataArray[indexPath.row];
+    ProductInfo *info;
+    if (indexPath.row<self.dataArray.count) {
+        info = self.dataArray[indexPath.row];
+    }
     if ([[AccountTool account].isNorm intValue]==0) {
         NewEasyCusProDetailVC *easyVc = [NewEasyCusProDetailVC new];
         easyVc.proId = info.id;

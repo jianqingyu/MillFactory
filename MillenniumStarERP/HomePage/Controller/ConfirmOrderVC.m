@@ -246,6 +246,9 @@
 - (void)chooseHeadView:(NSDictionary *)dict{
     NSIndexPath *path = [dict allKeys][0];
     DetailTypeInfo *info = [dict allValues][0];
+    if (info.title.length==0) {
+        return;
+    }
     if (path.section==2) {
         self.qualityInfo = info;
         self.headView.qualityMes = info.title;
@@ -398,6 +401,7 @@
 #pragma mark - 网络数据
 - (void)getCommodityData{
     [SVProgressHUD show];
+    self.view.userInteractionEnabled = NO;
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     params[@"tokenKey"] = [AccountTool account].tokenKey;
     params[@"cpage"] = @(curPage);
@@ -417,6 +421,7 @@
                 [self setupDataWithDict:response.data];
                 [self setupListDataWithDict:response.data[@"currentOrderlList"]];
                 [self.tableView reloadData];
+                self.view.userInteractionEnabled = YES;
             }
             [SVProgressHUD dismiss];
         }
@@ -439,12 +444,16 @@
         self.qualityArr = dict[@"modelQuality"];
     }
     if ([YQObjectBool boolForObject:dict[@"defaultValue"]]) {
-        self.qualityInfo = [DetailTypeInfo objectWithKeyValues:
-                            dict[@"defaultValue"][@"modelColor"]];
-        self.colorInfo = [DetailTypeInfo objectWithKeyValues:
-                          dict[@"defaultValue"][@"modelQuality"]];
-        self.headView.qualityMes = self.qualityInfo.title;
-        self.headView.colorMes = self.colorInfo.title;
+        if (!self.qualityInfo) {
+            self.qualityInfo = [DetailTypeInfo objectWithKeyValues:
+                                dict[@"defaultValue"][@"modelQuality"]];
+            self.headView.qualityMes = self.qualityInfo.title;
+        }
+        if (!self.colorInfo) {
+            self.colorInfo = [DetailTypeInfo objectWithKeyValues:
+                              dict[@"defaultValue"][@"modelColor"]];
+            self.headView.colorMes = self.colorInfo.title;
+        }
     }
     if (self.editId&&dict[@"orderInfo"]&&dict[@"totalPrice"]&&dict[@"totalNeedPayPrice"]) {
         OrderNewInfo *orderInfo = [OrderNewInfo objectWithKeyValues:dict[@"orderInfo"]];
@@ -588,10 +597,18 @@
 
 - (void)openPopTableWithInPath:(NSInteger)index{
     if (index==2) {
+        if (self.qualityArr.count==0) {
+            [MBProgressHUD showError:@"暂无数据"];
+            return;
+        }
         self.pickView.titleStr = @"质量等级";
         self.pickView.selTitle = self.qualityInfo.title;
         self.pickView.typeList = self.qualityArr;
     }else{
+        if (self.colorArr.count==0) {
+            [MBProgressHUD showError:@"暂无数据"];
+            return;
+        }
         self.pickView.titleStr = @"成色";
         self.pickView.selTitle = self.colorInfo.title;
         self.pickView.typeList = self.colorArr;
@@ -769,10 +786,14 @@
 //编辑
 - (void)editIndex:(NSInteger)index{
     //高级定制
-    OrderListInfo *collectInfo = self.dataArray[index];
+    OrderListInfo *listI;
+    if (index < self.dataArray.count)
+    {
+        listI = self.dataArray[index];
+    }
     NewCustomProDetailVC *newVc = [NewCustomProDetailVC new];
     newVc.isEdit = self.editId?2:1;
-    newVc.proId = collectInfo.id;
+    newVc.proId = listI.id;
     newVc.orderBack = ^(OrderListInfo *dict){
         [self detailOrderBack:dict andIdx:index];
     };
@@ -787,7 +808,11 @@
 }
 
 - (void)detailOrderBack:(OrderListInfo *)dict andIdx:(NSInteger)index{
-    OrderListInfo *collectInfo = self.dataArray[index];
+    OrderListInfo *listI;
+    if (index < self.dataArray.count)
+    {
+        listI = self.dataArray[index];
+    }
     if (![dict isKindOfClass:[OrderListInfo class]]) {
         return;
     }
@@ -796,14 +821,18 @@
     [self.tableView reloadRowsAtIndexPaths:@[indexPath]
                           withRowAnimation:UITableViewRowAnimationNone];
     self.allBtn.selected = NO;
-    if ([self.selectDataArray containsObject:collectInfo]){
-        [self.selectDataArray removeObject:collectInfo];
+    if ([self.selectDataArray containsObject:listI]){
+        [self.selectDataArray removeObject:listI];
     }
     [self syncPriceLabel];
 }
 //删除
 - (void)deleteIndex:(NSInteger)index{
-    OrderListInfo *collectInfo = [self.dataArray objectAtIndex:index];
+    OrderListInfo *listI;
+    if (index < self.dataArray.count)
+    {
+        listI = self.dataArray[index];
+    }
     NSString *httpStr;
     if (self.editId) {
         httpStr = @"ModelOrderWaitCheckDetailDeleteModelItemDo";
@@ -817,7 +846,7 @@
     NSString *url = [NSString stringWithFormat:@"%@%@",baseUrl,httpStr];
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     params[@"tokenKey"] = [AccountTool account].tokenKey;
-    params[@"itemId"] = @(collectInfo.id);
+    params[@"itemId"] = @(listI.id);
     [BaseApi getGeneralData:^(BaseResponse *response, NSError *error) {
         if ([response.error intValue]==0) {
             [MBProgressHUD showSuccess:response.message];
@@ -831,9 +860,9 @@
         }
     } requestURL:url params:params];
     [self.dataArray removeObjectAtIndex:index];
-    if ([self.selectDataArray containsObject:collectInfo])
+    if ([self.selectDataArray containsObject:listI])
     {
-        [self.selectDataArray removeObject:collectInfo];
+        [self.selectDataArray removeObject:listI];
     }
     [self syncPriceLabel];
     [self.tableView reloadData];
@@ -891,9 +920,7 @@
 }
 
 - (IBAction)payPrice:(id)sender {
-    PayViewController *payVc = [PayViewController new];
-    payVc.orderId = [NSString stringWithFormat:@"%d",self.editId];
-    [self.navigationController pushViewController:payVc animated:YES];
+    [self gotoPayPriceVc:[NSString stringWithFormat:@"%d",self.editId]];
 }
 
 - (IBAction)confirmClick:(id)sender {
@@ -915,8 +942,22 @@
         }
         return;
     }
-    if (!(self.colorInfo&&self.qualityInfo&&self.cusInfo.customerID)) {
-        [MBProgressHUD showError:@"请选择相关数据"];
+    if (self.cusInfo.customerID==0) {
+        [MBProgressHUD showError:@"请客户信息"];
+        if (self.topBtn.selected) {
+            [self showHeadView];
+        }
+        return;
+    }
+    if (self.qualityInfo.id==0) {
+        [MBProgressHUD showError:@"请选择质量等级"];
+        if (self.topBtn.selected) {
+            [self showHeadView];
+        }
+        return;
+    }
+    if (self.colorInfo.id==0) {
+        [MBProgressHUD showError:@"请选择成色"];
         if (self.topBtn.selected) {
             [self showHeadView];
         }
@@ -970,9 +1011,7 @@
 //是否需要付款 是否下单ERP
 - (void)gotoNextViewConter:(id)dic{
     if ([dic[@"isNeetPay"]intValue]==1) {
-        PayViewController *payVc = [PayViewController new];
-        payVc.orderId = dic[@"orderNum"];
-        [self.navigationController pushViewController:payVc animated:YES];
+        [self gotoPayPriceVc:dic[@"orderNum"]];
     }else{
         if ([dic[@"isErpOrder"]intValue]==0) {
             ConfirmOrderVC *oDetailVc = [ConfirmOrderVC new];
@@ -1007,6 +1046,14 @@
             [MBProgressHUD showError:response.message];
         }
     } requestURL:url params:params];
+}
+
+- (void)gotoPayPriceVc:(NSString *)proId{
+    [MBProgressHUD showError:@"暂未开通支付"];
+    return;
+    PayViewController *payVc = [PayViewController new];
+    payVc.orderId = proId;
+    [self.navigationController pushViewController:payVc animated:YES];
 }
 
 - (void)dealloc {

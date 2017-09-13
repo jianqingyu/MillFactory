@@ -14,11 +14,11 @@
 #import "MWPhotoBrowser.h"
 #import "DetailTypeInfo.h"
 #import "DetailModel.h"
-#import "DetailTypeInfo.h"
 #import "OrderListInfo.h"
 #import "DetailHeadInfo.h"
 #import "StrWithIntTool.h"
 #import "CommonUtils.h"
+#import "OrderNumTool.h"
 #import "DetailStoneInfo.h"
 #import "CustomJewelInfo.h"
 #import "CustomPickView.h"
@@ -35,6 +35,7 @@ UITableViewDataSource,MWPhotoBrowserDelegate>
 @property (nonatomic,  weak) IBOutlet UILabel *priceLab;
 @property (nonatomic,  weak) IBOutlet UILabel *allLab;
 @property (nonatomic,assign)float wid;
+@property (nonatomic,assign)float proPrice;
 @property (nonatomic,assign)int cou;
 @property (nonatomic,  copy)NSArray *stoneArr;
 @property (nonatomic,  copy)NSArray *typeArr;
@@ -47,14 +48,17 @@ UITableViewDataSource,MWPhotoBrowserDelegate>
 @property (nonatomic,  copy)NSArray*IDarray;
 @property (nonatomic,  copy)NSArray*headImg;
 @property (nonatomic,  copy)NSArray*photos;
-@property (nonatomic,  copy)NSString*lastMess;
 @property (nonatomic,  copy)NSArray *handArr;
 @property (nonatomic,  copy)NSArray *numArr;
 @property (nonatomic,  copy)NSArray *chooseArr;
 
+@property (nonatomic,  copy)NSString *lastMess;
+@property (nonatomic,  copy)NSString *driWei;
+@property (nonatomic,  copy)NSString *ModeSeqno;
 @property (nonatomic,  copy)NSString *driCode;
 @property (nonatomic,  copy)NSString *driPrice;
 @property (nonatomic,  copy)NSString *driId;
+@property (nonatomic,strong)NSDictionary *stoneDic;
 @property (nonatomic,strong)NSMutableArray*bools;
 @property (nonatomic,strong)NSMutableArray*mutArr;
 @property (nonatomic,strong)UIView *hView;
@@ -119,6 +123,15 @@ UITableViewDataSource,MWPhotoBrowserDelegate>
     self.proNum = @"1";
     for (DetailStoneInfo *info in self.stoneArr) {
         info.isSel = NO;
+    }
+    for (DetailStoneInfo *info in self.stoneArr) {
+        if ([listInfo.Weight floatValue]>=[info.minweight floatValue]&&
+            [listInfo.Weight floatValue]<=[info.maxweight floatValue]) {
+            info.isSel = YES;
+            self.ModeSeqno = info.ModeSeqno;
+            self.driWei = info.TrayModelWeight;
+            self.proPrice = info.TrayModelPrice;
+        }
     }
     [self.tableView reloadData];
 }
@@ -275,8 +288,12 @@ UITableViewDataSource,MWPhotoBrowserDelegate>
             if ([YQObjectBool boolForObject:response.data[@"model"]]) {
                 DetailModel *modelIn = [DetailModel objectWithKeyValues:
                                         response.data[@"model"]];
+                self.proPrice = modelIn.price;
                 [self setupBaseListData:modelIn];
                 [self creatCusTomHeadView];
+                if (([YQObjectBool boolForObject:response.data[@"model"][@"stoneWeightRange"]]) ) {
+                    self.stoneDic = response.data[@"model"][@"stoneWeightRange"];
+                }
             }
             if ([YQObjectBool boolForObject:response.data[@"stoneType"]]) {
                 self.chooseArr = @[response.data[@"stoneType"],
@@ -292,6 +309,7 @@ UITableViewDataSource,MWPhotoBrowserDelegate>
                     if ([info.ModeSeqno isEqualToString:self.modelInfo.ModeSeqno]) {
                         info.isSel = YES;
                     }
+                    self.ModeSeqno = self.modelInfo.ModeSeqno;
                 }
             }
             if ([YQObjectBool boolForObject:response.data[@"handSizeData"]]) {
@@ -316,7 +334,9 @@ UITableViewDataSource,MWPhotoBrowserDelegate>
     self.lastMess = modelIn.remark;
     if (self.isEdit) {
         self.proNum = modelIn.number;
-        self.handStr = modelIn.handSize;
+        if (![modelIn.handSize isEqualToString:@"0"]) {
+            self.handStr = modelIn.handSize;
+        }
     }
     self.detailArr  = @[[self arrWithDict:modelIn.stone],
                         [self arrWithDict:modelIn.stoneA],
@@ -331,6 +351,9 @@ UITableViewDataSource,MWPhotoBrowserDelegate>
             self.driPrice = @"";
             self.driCode = @"";
             self.driId = @"";
+            self.ModeSeqno = info.ModeSeqno;
+            self.driWei = info.TrayModelWeight;
+            self.proPrice = info.TrayModelPrice;
             [self.mutArr removeAllObjects];
             self.detailArr = @[[self arrWithDict:info.stone],
                                [self arrWithDict:info.stoneA],
@@ -550,6 +573,9 @@ UITableViewDataSource,MWPhotoBrowserDelegate>
         firstCell.modelInfo = self.modelInfo;
         firstCell.messArr = self.proNum;
         firstCell.handSize = self.handStr;
+        if (_driWei.length>0) {
+            firstCell.driWei = _driWei;
+        }
         return firstCell;
     }else if (indexPath.row==1&&self.cou==3){
         CustomDrListiTableCell *listCell = [CustomDrListiTableCell cellWithTableView:tableView];
@@ -712,6 +738,10 @@ UITableViewDataSource,MWPhotoBrowserDelegate>
     }
     if (self.driId.length>0) {
         params[@"jewelStoneId"] = self.driId;
+        params[@"stone"] = @"";
+    }
+    if (self.ModeSeqno.length>0) {
+        params[@"ModeSeqno"] = self.ModeSeqno;
     }
     if (!self.isEdit) {
         params[@"categoryId"] = @(self.modelInfo.categoryId);
@@ -752,7 +782,7 @@ UITableViewDataSource,MWPhotoBrowserDelegate>
 }
 
 - (void)updateBottomPrice{
-    float price = _modelInfo.price;
+    float price = _proPrice;
     if (self.driPrice.length>0) {
         price = price + [self.driPrice floatValue];
     }

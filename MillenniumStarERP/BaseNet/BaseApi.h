@@ -24,5 +24,7 @@
 /*
 取消所有队列
  */
++ (void)getNewVerData:(REQUEST_CALLBACK)callback requestURL:(NSString*)requestURL
+               params:(NSMutableDictionary*)params;
 +(void)cancelAllOperation;
 @end

@@ -232,6 +232,7 @@
 #pragma mark - 网络数据
 - (void)getCommodityData{
     [SVProgressHUD show];
+    self.view.userInteractionEnabled = NO;
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     params[@"tokenKey"] = [AccountTool account].tokenKey;
     params[@"cpage"] = @(curPage);
@@ -245,6 +246,7 @@
                 [self setupDataWithDict:response.data];
                 [self setupListDataWithDict:response.data[@"currentOrderlList"]];
                 [self.tableView reloadData];
+                self.view.userInteractionEnabled = YES;
             }
             [SVProgressHUD dismiss];
         }
@@ -310,12 +312,12 @@
     ConfirmOrdCell *ordCell = [ConfirmOrdCell cellWithTableView:tableView];
     ordCell.tag = indexPath.section;
     ordCell.delegate = self;
-    OrderListInfo *listI;
+    OrderListInfo *collectInfo;
     if (indexPath.section < self.dataArray.count)
     {
-        listI = self.dataArray[indexPath.section];
+        collectInfo= self.dataArray[indexPath.section];
     }
-    ordCell.listInfo = listI;
+    ordCell.listInfo = collectInfo;
     return ordCell;
 }
 
@@ -375,7 +377,11 @@
 //编辑
 - (void)editIndex:(NSInteger)index{
     //高级定制
-    OrderListInfo *collectInfo = self.dataArray[index];
+    OrderListInfo *collectInfo;
+    if (index < self.dataArray.count)
+    {
+        collectInfo= self.dataArray[index];
+    }
     NewEasyCusProDetailVC *easyVc = [NewEasyCusProDetailVC new];
     easyVc.proId = collectInfo.id;
     easyVc.isEdit = 1;
@@ -386,7 +392,11 @@
 }
 
 - (void)detailOrderBack:(OrderListInfo *)dict andIdx:(NSInteger)index{
-    OrderListInfo *collectInfo = self.dataArray[index];
+    OrderListInfo *collectInfo;
+    if (index < self.dataArray.count)
+    {
+        collectInfo= self.dataArray[index];
+    }
     if (![dict isKindOfClass:[OrderListInfo class]]) {
         return;
     }
@@ -402,7 +412,11 @@
 }
 //删除
 - (void)deleteIndex:(NSInteger)index{
-    OrderListInfo *collectInfo = [self.dataArray objectAtIndex:index];
+    OrderListInfo *collectInfo;
+    if (index < self.dataArray.count)
+    {
+        collectInfo= self.dataArray[index];
+    }
     NSString *httpStr = @"OrderCurrentDeleteModelItemDo";
     NSString *url = [NSString stringWithFormat:@"%@%@",baseUrl,httpStr];
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
@@ -518,6 +532,8 @@
 //是否需要付款 是否下单ERP
 - (void)gotoNextViewConter:(id)dic{
     if ([dic[@"isNeetPay"]intValue]==1) {
+        [MBProgressHUD showError:@"暂未开通支付"];
+        return;
         PayViewController *payVc = [PayViewController new];
         payVc.orderId = dic[@"orderNum"];
         [self.navigationController pushViewController:payVc animated:YES];

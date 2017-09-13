@@ -46,16 +46,16 @@
 }
 
 - (IBAction)getCode:(id)sender {
-    if (self.phoneFie.text.length!=11) {
-        SHOWALERTVIEW(@"您输入的手机号有误");
-        return;
-    }
     //发送命令
     [self requestCheckWord];
 }
 
-- (void)requestCheckWord
-{
+- (void)requestCheckWord{
+    if (self.phoneFie.text.length!=11) {
+        [self.codeBtn resetBtn];
+        SHOWALERTVIEW(@"您输入的手机号有误");
+        return;
+    }
     NSString *codeUrl;
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     if (self.isForgot) {
@@ -76,26 +76,30 @@
 }
 
 - (IBAction)confirmClick:(id)sender {
-    if (self.codeFie.text==0) {
-        SHOWALERTVIEW(@"验证码输入有误");
-    }else if (![self.passWord.text isEqualToString:self.passWord2.text]||self.passWord.text.length<5){
-        SHOWALERTVIEW(@"密码输入错误");
-    }else{
-        NSMutableDictionary *params = [NSMutableDictionary dictionary];
-        NSString *passUrl;
-        if (self.isForgot) {
-            params[@"password"] = self.passWord.text;
-            params[@"phoneCode"] = self.codeFie.text;
-            params[@"phone"] = self.phoneFie.text;
-            passUrl = [NSString stringWithFormat:@"%@userForgetPasswordDo",baseUrl];
-        }else{
-            params[@"password"] = self.passWord.text;
-            params[@"phoneCode"] = self.codeFie.text;
-            params[@"tokenKey"] = [AccountTool account].tokenKey;
-            passUrl = [NSString stringWithFormat:@"%@userModifyPasswordDo",baseUrl];
-        }
-        [self loadNetEditPassWithDic:params andUrl:passUrl];
+    if (self.codeFie.text.length==0){
+        [MBProgressHUD showError:@"请输入验证码"];
     }
+    if (self.passWord.text.length<6) {
+        [MBProgressHUD showError:@"密码不足6位"];
+    }
+    if (![self.passWord.text isEqualToString:self.passWord2.text]){
+        SHOWALERTVIEW(@"两次密码输入不符");
+        return;
+    }
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    NSString *passUrl;
+    if (self.isForgot) {
+        params[@"password"] = self.passWord.text;
+        params[@"phoneCode"] = self.codeFie.text;
+        params[@"phone"] = self.phoneFie.text;
+        passUrl = [NSString stringWithFormat:@"%@userForgetPasswordDo",baseUrl];
+    }else{
+        params[@"password"] = self.passWord.text;
+        params[@"phoneCode"] = self.codeFie.text;
+        params[@"tokenKey"] = [AccountTool account].tokenKey;
+        passUrl = [NSString stringWithFormat:@"%@userModifyPasswordDo",baseUrl];
+    }
+    [self loadNetEditPassWithDic:params andUrl:passUrl];
 }
 //修改密码与忘记密码
 - (void)loadNetEditPassWithDic:(NSMutableDictionary*)params andUrl:(NSString *)passUrl{

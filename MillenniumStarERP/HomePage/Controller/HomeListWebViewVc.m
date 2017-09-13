@@ -7,7 +7,6 @@
 //
 
 #import "HomeListWebViewVc.h"
-#import "DetailWebViewVC.h"
 #import <JavaScriptCore/JavaScriptCore.h>
 @interface HomeListWebViewVc ()<UINavigationControllerDelegate,UIWebViewDelegate>
 @property (weak, nonatomic) IBOutlet UIWebView *webView;

@@ -102,7 +102,7 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    if (indexPath.row==2) {
+    if (indexPath.row==3) {
         return 145;
     }
     return 44;
@@ -114,6 +114,7 @@
         tableCell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleValue1
                                           reuseIdentifier:@"myCell"];
         tableCell.textLabel.font = [UIFont systemFontOfSize:15];
+        tableCell.selectionStyle = UITableViewCellSelectionStyleNone;
     }
     NSString *key = self.textArr[indexPath.row];
     tableCell.textLabel.text = key;

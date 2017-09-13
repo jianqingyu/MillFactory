@@ -14,14 +14,14 @@
                 <rect key="frame" x="0.0" y="0.0" width="320" height="139"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="40" translatesAutoresizingMaskIntoConstraints="NO" id="NRy-Od-SUQ">
-                        <rect key="frame" x="15" y="10" width="40" height="20"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="证书" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="40" translatesAutoresizingMaskIntoConstraints="NO" id="NRy-Od-SUQ">
+                        <rect key="frame" x="15" y="10" width="32" height="20"/>
                         <fontDescription key="fontDescription" type="system" pointSize="16"/>
                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="290" translatesAutoresizingMaskIntoConstraints="NO" id="d6K-DC-K7n">
-                        <rect key="frame" x="15" y="47" width="290" height="20"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="证书信息" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="290" translatesAutoresizingMaskIntoConstraints="NO" id="d6K-DC-K7n">
+                        <rect key="frame" x="15" y="47" width="64" height="20"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="40" id="Dn4-8X-uNG"/>
                         </constraints>
@@ -61,7 +61,7 @@
                     <constraint firstAttribute="trailing" secondItem="n8w-Xg-BQm" secondAttribute="trailing" id="Pyj-Jx-nER"/>
                     <constraint firstItem="n8w-Xg-BQm" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="WAV-xe-OkG"/>
                     <constraint firstItem="n8w-Xg-BQm" firstAttribute="top" secondItem="NRy-Od-SUQ" secondAttribute="bottom" constant="8" id="buC-8m-YEf"/>
-                    <constraint firstAttribute="trailing" secondItem="d6K-DC-K7n" secondAttribute="trailing" constant="15" id="fVX-ra-Zdk"/>
+                    <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="d6K-DC-K7n" secondAttribute="trailing" constant="15" id="fVX-ra-Zdk"/>
                     <constraint firstItem="NRy-Od-SUQ" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="fWW-0I-LCP"/>
                     <constraint firstItem="NRy-Od-SUQ" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="10" id="sfw-yT-1PO"/>
                     <constraint firstItem="d6K-DC-K7n" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="sjo-yR-bqg"/>

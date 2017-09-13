@@ -49,16 +49,17 @@
 }
 
 - (IBAction)getCode:(UIButton *)btn{
-    if (self.phonefie.text.length!=11) {
-        SHOWALERTVIEW(@"您输入的手机号有误");
-        return;
-    }
     //发送命令
     [self requestCheckWord];
 }
 
 - (void)requestCheckWord
 {
+    if (self.phonefie.text.length!=11) {
+        [self.codeBtn resetBtn];
+        SHOWALERTVIEW(@"您输入的手机号有误");
+        return;
+    }
     NSString *codeUrl = [NSString stringWithFormat:@"%@GetRegisterVerifyCodeDo",baseUrl];
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     params[@"phone"] = self.phonefie.text;
@@ -78,12 +79,18 @@
 }
 
 - (IBAction)nextClick:(id)sender {
+    if (self.codefie.text.length==0){
+        [MBProgressHUD showError:@"请输入验证码"];
+    }
     if ([PackagingTool stringContainsEmoji:self.userFie.text]) {
         SHOWALERTVIEW(@"不能输入特殊符号");
         return;
     }
-    if (![self.keyfie.text isEqualToString:self.keyfie2.text]||self.keyfie.text.length<5){
-        SHOWALERTVIEW(@"密码输入错误");
+    if (self.keyfie.text.length<6) {
+        [MBProgressHUD showError:@"密码不足6位"];
+    }
+    if (![self.keyfie.text isEqualToString:self.keyfie2.text]){
+        SHOWALERTVIEW(@"两次密码输入不符");
         return;
     }
     [SVProgressHUD show];

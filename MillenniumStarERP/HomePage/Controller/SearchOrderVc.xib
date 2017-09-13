@@ -220,7 +220,7 @@
                 <constraint firstAttribute="trailing" secondItem="Mpx-9t-bES" secondAttribute="trailing" id="tEk-Ml-xA1"/>
             </constraints>
             <nil key="simulatedStatusBarMetrics"/>
-            <point key="canvasLocation" x="-30" y="-49"/>
+            <point key="canvasLocation" x="63" y="-43"/>
         </view>
     </objects>
     <resources>

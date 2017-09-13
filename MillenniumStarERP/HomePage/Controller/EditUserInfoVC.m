@@ -27,10 +27,11 @@
 @property (nonatomic,strong)UIImage *image;
 @property (nonatomic,  copy)NSArray *textArr;
 @property (nonatomic,  copy)NSString *url;
+@property (nonatomic,  copy)NSDictionary *shareDic;
+@property (nonatomic,strong)MasterCountInfo *masterInfo;
 @property (nonatomic,  weak)CustomInputPassView *putView;
 @property (nonatomic,strong)NSMutableDictionary *mutDic;
-@property (nonatomic,strong)MasterCountInfo *masterInfo;
-@property (nonatomic,  copy)NSDictionary *shareDic;
+
 @end
 
 @implementation EditUserInfoVC
@@ -222,8 +223,9 @@
             if (indexPath.row==0){
                 self.putView.hidden = NO;
             }else if (indexPath.row==1) {
-                AppDownViewC *appVc = [[AppDownViewC alloc]init];
-                [self.navigationController pushViewController:appVc animated:YES];
+                [MBProgressHUD showSuccess:@"功能暂未开放"];
+//                AppDownViewC *appVc = [[AppDownViewC alloc]init];
+//                [self.navigationController pushViewController:appVc animated:YES];
             }else if (indexPath.row==2) {
                 PassWordViewController *passVc = [[PassWordViewController alloc]init];
                 passVc.title = @"修改密码";

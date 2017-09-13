@@ -205,6 +205,15 @@
     self.driFie1.text = @"";
     self.driFie2.text = @"";
     SearchDateInfo *info = _weightArr[sender.tag];
+    if (sender.selected) {
+        NSArray *arr = [info.key componentsSeparatedByString:@","];
+        self.driFie1.text = arr[0];
+        BOOL isZero = [arr[1] isEqualToString:@"0"];
+        self.driFie2.text = isZero?@"":arr[1];
+    }else{
+        self.driFie1.text = @"";
+        self.driFie2.text = @"";
+    }
     NSDictionary *dic = _topArr[0];
     NSString *key = sender.selected?info.key:@"";
     self.mutDic[dic[@"keyword"]] = key;
@@ -224,6 +233,15 @@
     self.priceFie1.text = @"";
     self.priceFie2.text = @"";
     SearchDateInfo *info = _priceArr[sender.tag];
+    if (sender.selected) {
+        NSArray *arr = [info.key componentsSeparatedByString:@","];
+        self.priceFie1.text = arr[0];
+        BOOL isZero = [arr[1] isEqualToString:@"0"];
+        self.priceFie2.text = isZero?@"":arr[1];
+    }else{
+        self.priceFie1.text = @"";
+        self.priceFie2.text = @"";
+    }
     NSDictionary *dic = _topArr[1];
     NSString *key = sender.selected?info.key:@"";
     self.mutDic[dic[@"keyword"]] = key;

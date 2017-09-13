@@ -360,7 +360,7 @@
         }
         [_backDict removeAllObjects];
         _titleLab.text = [dict allValues][0];
-        _backDict[@"category"] = [dict allKeys][0];
+        _backDict[@"custom"] = [dict allKeys][0];
         [self changeTextFieKeyWord:@""];
     };
     self.popClassView = allPop;
@@ -424,6 +424,7 @@
 //通过搜索关键词查找信息
 - (void)getCommodityData:(NSMutableDictionary *)params{
     [SVProgressHUD show];
+    self.view.userInteractionEnabled = NO;
     NSString *url = [NSString stringWithFormat:@"%@modelListPage",baseUrl];
     [BaseApi getGeneralData:^(BaseResponse *response, NSError *error) {
         [self.rightCollection.header endRefreshing];
@@ -434,6 +435,7 @@
                 [self setupDataWithData:response.data];
                 [self setupListDataWithDict:response.data];
                 [self.rightCollection reloadData];
+                self.view.userInteractionEnabled = YES;
                 if ([YQObjectBool boolForObject:response.data[@"waitOrderCount"]]) {
                         App;
                     app.shopNum = [response.data[@"waitOrderCount"]intValue];
@@ -516,7 +518,10 @@
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
     //高级定制
-    ProductInfo *info = self.dataArray[indexPath.row];
+    ProductInfo *info;
+    if (indexPath.row<self.dataArray.count) {
+        info = self.dataArray[indexPath.row];
+    }
     if ([[AccountTool account].isNorm intValue]==0) {
         NewEasyCusProDetailVC *easyVc = [NewEasyCusProDetailVC new];
         easyVc.seaInfo = self.driInfo;

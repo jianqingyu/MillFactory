@@ -132,13 +132,16 @@
 }
 
 - (void)cancelClick{
-    [_sildeTableView reloadData];
-    if (self.tableBack) {
-        self.tableBack(@{},NO);
+    for (ScreeningInfo *info in self.goods) {
+        for (ScreenDetailInfo *dInfo in info.attributeList) {
+            dInfo.isSelect = NO;
+        }
     }
-    if (self.rightSideBar) {
-        [self.rightSideBar dismiss];
+    for (WeightInfo *info in self.values) {
+        info.value = @"";
+        info.txt = @"";
     }
+    [self setGoods:_goods];
 }
 
 - (void)setGoods:(NSArray *)goods{
