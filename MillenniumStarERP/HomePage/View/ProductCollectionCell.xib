@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10117" systemVersion="15G1510" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10117" systemVersion="15G1611" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment version="1792" identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
@@ -25,12 +25,12 @@
                                 </constraints>
                             </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="相爱一生" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="0.0" translatesAutoresizingMaskIntoConstraints="NO" id="snY-wr-1z7">
-                                <rect key="frame" x="85" y="1" width="48" height="15"/>
+                                <rect key="frame" x="51" y="1" width="48" height="15"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                 <color key="textColor" red="0.93725490196078431" green="0.52941176470588236" blue="0.38431372549019605" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="光沙心型" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WTk-rH-JYi">
+                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="光沙心型" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WTk-rH-JYi">
                                 <rect key="frame" x="12" y="0.0" width="52" height="16"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -44,7 +44,9 @@
                             <constraint firstAttribute="bottom" secondItem="P54-Mo-e34" secondAttribute="bottom" id="GEp-nT-1vc"/>
                             <constraint firstItem="snY-wr-1z7" firstAttribute="centerY" secondItem="T5s-QJ-g0V" secondAttribute="centerY" id="Z7g-bM-Gf3"/>
                             <constraint firstItem="snY-wr-1z7" firstAttribute="leading" secondItem="P54-Mo-e34" secondAttribute="trailing" constant="10" id="auA-Si-pL6"/>
+                            <constraint firstItem="snY-wr-1z7" firstAttribute="centerX" secondItem="T5s-QJ-g0V" secondAttribute="centerX" id="dxY-bD-hQJ"/>
                             <constraint firstItem="snY-wr-1z7" firstAttribute="centerY" secondItem="WTk-rH-JYi" secondAttribute="centerY" id="e2G-oq-NKp"/>
+                            <constraint firstItem="snY-wr-1z7" firstAttribute="top" secondItem="T5s-QJ-g0V" secondAttribute="top" constant="1" id="kbR-7Z-Aj7"/>
                             <constraint firstItem="WTk-rH-JYi" firstAttribute="centerY" secondItem="T5s-QJ-g0V" secondAttribute="centerY" id="nwn-0e-a8C"/>
                             <constraint firstItem="P54-Mo-e34" firstAttribute="top" secondItem="T5s-QJ-g0V" secondAttribute="top" id="r2K-nx-l7b"/>
                             <constraint firstItem="WTk-rH-JYi" firstAttribute="top" secondItem="T5s-QJ-g0V" secondAttribute="top" constant="3" id="t0w-vV-Ctn"/>
@@ -53,6 +55,8 @@
                         <variation key="default">
                             <mask key="constraints">
                                 <exclude reference="t0w-vV-Ctn"/>
+                                <exclude reference="Z7g-bM-Gf3"/>
+                                <exclude reference="auA-Si-pL6"/>
                                 <exclude reference="e2G-oq-NKp"/>
                             </mask>
                         </variation>
@@ -69,7 +73,7 @@
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Gec-qA-UH4">
                         <rect key="frame" x="0.0" y="128" width="150" height="22"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="￥0" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="so4-rN-7sr">
+                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="￥0" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="so4-rN-7sr">
                                 <rect key="frame" x="64" y="3" width="22" height="16"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                 <color key="textColor" red="0.20000000000000001" green="0.17254901960784313" blue="0.16862745098039217" alpha="1" colorSpace="calibratedRGB"/>

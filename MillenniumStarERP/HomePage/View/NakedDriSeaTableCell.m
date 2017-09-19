@@ -7,6 +7,7 @@
 //
 
 #import "NakedDriSeaTableCell.h"
+#import "OrderNumTool.h"
 #import "CustomShapeBtn.h"
 @interface NakedDriSeaTableCell()
 @property (nonatomic,strong)NSMutableArray *mutBtns;
@@ -72,7 +73,7 @@
 }
 
 - (NSArray *)arrWithModel{
-    NSArray *arr = @[@"",[self str:_seaInfo.Weight],[self str:_seaInfo.Price],[self str:_seaInfo.Shape],
+    NSArray *arr = @[@"",[self str:_seaInfo.Weight],[self price:_seaInfo.Price],[self str:_seaInfo.Shape],
                      [self str:_seaInfo.Color],[self str:_seaInfo.Purity],[self str:_seaInfo.Cut],
                      [self str:_seaInfo.Polishing],[self str:_seaInfo.Symmetric],[self str:_seaInfo.Fluorescence],
                      [self str:_seaInfo.CertAuth],[self str:_seaInfo.CertCode],@"报价"];
@@ -84,19 +85,18 @@
     return arr;
 }
 
+- (NSString *)price:(NSString *)mes{
+    float price = [mes floatValue];
+    NSString *priStr = [OrderNumTool strWithPrice:price];
+    return priStr;
+}
+
 - (NSString *)str:(NSString *)mes{
     NSString *arrStr;
     if (mes.length>0) {
         arrStr = mes;
     }else{
         arrStr = @"";
-    }
-    if ([mes containsString:@"."]) {
-        NSRange range = [mes rangeOfString:@"."];
-        if (mes.length>range.location+2) {
-            mes = [mes substringToIndex:range.location+3];
-        }
-        arrStr = mes;
     }
     return arrStr;
 }

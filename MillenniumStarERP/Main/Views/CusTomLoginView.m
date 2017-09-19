@@ -195,20 +195,22 @@
             fie.keyboardType = UIKeyboardTypeNumberPad;
             self.codeField = fie;
             ZBButten *btn = [ZBButten buttonWithType:UIButtonTypeCustom];
+            btn.backgroundColor = BordColor;
             [btn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-            [btn setLayerWithW:8 andColor:BordColor andBackW:0.0001];
+            [btn setLayerWithW:5 andColor:BordColor andBackW:0.0001];
             btn.titleLabel.font = [UIFont systemFontOfSize:12];
             [btn setTitle:@"获取验证码" forState:UIControlStateNormal];
             [btn setbuttenfrontTitle:@"" backtitle:@"s后获取"];
             [btn addTarget:self action:@selector(getCode:)
                                   forControlEvents:UIControlEventTouchUpInside];
+            
             [view addSubview:btn];
-            self.codeBtn = btn;
             [btn mas_makeConstraints:^(MASConstraintMaker *make) {
                 make.top.equalTo(view).offset(heightMar);
                 make.right.equalTo(view).offset(0);
-                make.size.mas_equalTo(CGSizeMake(80, fieH));
+                make.size.mas_equalTo(CGSizeMake(100, 24));
             }];
+            self.codeBtn = btn;
         }
             break;
     }

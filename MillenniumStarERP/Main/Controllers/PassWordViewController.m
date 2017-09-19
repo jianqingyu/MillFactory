@@ -30,10 +30,8 @@
 }
 
 - (void)setBaseView{
-    self.codeBtn.layer.cornerRadius = 5;
-    self.codeBtn.layer.masksToBounds = YES;
-    self.confirmBtn.layer.cornerRadius = 5;
-    self.confirmBtn.layer.masksToBounds = YES;
+    [self.codeBtn setLayerWithW:5 andColor:BordColor andBackW:0.0001];
+    [self.confirmBtn setLayerWithW:5 andColor:BordColor andBackW:0.0001];
     [self.codeBtn setbuttenfrontTitle:@"" backtitle:@"s后获取"];
 }
 

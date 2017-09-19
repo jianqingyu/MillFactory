@@ -24,7 +24,7 @@
             [self setLayerWithW:0.001 andColor:BordColor andBackW:0.5];
         }
         _proInfo = proInfo;
-        self.bottomV.hidden = self.isShow;
+        self.bottomV.hidden = YES;
         self.titleLab.text = _proInfo.title;
         self.modeLab.text = _proInfo.modelNum;
         self.desLab.text = _proInfo.describe;

@@ -7,17 +7,17 @@
 //
 
 #import "LoginViewController.h"
-#import <LocalAuthentication/LocalAuthentication.h>
+#import "CusTomLoginView.h"
+#import "IQKeyboardManager.h"
 #import "MainTabViewController.h"
 #import "MainNavViewController.h"
 #import "RegisterViewController.h"
 #import "PassWordViewController.h"
-#import "IQKeyboardManager.h"
-#import "CusTomLoginView.h"
+#import <LocalAuthentication/LocalAuthentication.h>
 @interface LoginViewController ()
-@property (nonatomic,weak)CusTomLoginView *loginView;
-@property (nonatomic,copy)NSString *openUrl;
-@property (nonatomic,copy)NSDictionary *versionDic;
+@property (nonatomic,  weak)CusTomLoginView *loginView;
+@property (nonatomic,  copy)NSString *openUrl;
+@property (nonatomic,  copy)NSDictionary *versionDic;
 @property (nonatomic,assign)BOOL isVer;
 @end
 
@@ -47,14 +47,14 @@
     [BaseApi getNewVerData:^(BaseResponse *response, NSError *error) {
         if ([YQObjectBool boolForObject:response.data]&&[response.error intValue]==0) {
             if ([response.data[@"value"]intValue]==0) {
-                static dispatch_once_t onceToken;
-                dispatch_once(&onceToken, ^{
-                    NSString *token = [AccountTool account].tokenKey;
-                    if (token.length>0&&!_noLogin) {
-                        //指纹验证
+                NSString *token = [AccountTool account].tokenKey;
+                if (token.length>0&&!_noLogin) {
+                    static dispatch_once_t onceToken;
+                    dispatch_once(&onceToken, ^{
+                            //指纹验证
                         [self authenticateUser];
-                    }
-                });
+                    });
+                }
             }else{
                 self.versionDic = response.data;
                 [self loadAlertView:response.data];
@@ -92,12 +92,9 @@
               if (success) {
                   //验证成功，主线程处理UI
                   [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-                      UIWindow *window = [UIApplication sharedApplication].keyWindow;
-                      window.rootViewController = [[MainTabViewController alloc]init];
+                      [self changeHomeView];
                   }];
                   return;
-              }else{
-                  
               }
         }];
     }else{
@@ -119,8 +116,7 @@
                 [MBProgressHUD showMessage:self.versionDic[@"message"]];
                 return;
             }
-            UIWindow *window = [UIApplication sharedApplication].keyWindow;
-            window.rootViewController = [[MainTabViewController alloc]init];
+            [self changeHomeView];
         }else if (staue==2){
             [self registerClick];
         }else{
@@ -133,6 +129,11 @@
         make.right.equalTo(self.view).offset(0);
         make.bottom.equalTo(self.view).offset(0);
     }];
+}
+
+- (void)changeHomeView{
+    UIWindow *window = [UIApplication sharedApplication].keyWindow;
+    window.rootViewController = [[MainTabViewController alloc]init];
 }
 
 - (void)registerClick{

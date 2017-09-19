@@ -73,15 +73,13 @@
     [self creatHeadView];
     self.dataArray = @[].mutableCopy;
     self.selectDataArray = @[].mutableCopy;
-    self.conBtn.layer.cornerRadius = 5;
-    self.conBtn.layer.masksToBounds = YES;
+    [self.conBtn setLayerWithW:5 andColor:BordColor andBackW:0.0001];
     [self setupPopView];
     if (self.editId) {
         self.title = @"订单详情";
         self.bottomView.hidden = YES;
-        self.depositBtn.layer.cornerRadius = 5;
-        self.depositBtn.layer.masksToBounds = YES;
-        [self.conBtn setTitle:@"取消订单" forState:UIControlStateNormal];
+        self.conBtn.hidden = YES;
+        self.depositBtn.hidden = YES;
         [self loadEditData];
         [self setupTableHeadView];
     }else{
@@ -102,7 +100,7 @@
 }
 
 - (void)changeHeightWithDev{
-    self.headH = 375;
+    self.headH = 375-99;
     BOOL isDev = SDevWidth>SDevHeight;
     if (isDev&&IsPhone) {
         self.headH = 200;

@@ -28,23 +28,23 @@
     self.delegate = self;
     NewHomePageVC *newPage = [[NewHomePageVC alloc]init];
     [self addChildVcWithVC:newPage Title:@"首页"imageName:@"icon_ho"
-            selectImage:@"icon_ho2"];
+            selectImage:@"icon_ho2-1"];
     
     ProductListVC *listVc = [[ProductListVC alloc]init];
     [self addChildVcWithVC:listVc Title:@"产品"imageName:@"icon_cps1"
-               selectImage:@"icon_cps_2"];
+               selectImage:@"icon_cps_2-1"];
     
     NakedDriLibViewController *libVc = [[NakedDriLibViewController alloc]init];
     [self addChildVcWithVC:libVc Title:@"裸石库" imageName:@"icon_dm"
-               selectImage:@"icon_dm_2"];
+               selectImage:@"icon_dm_2-1"];
     
     InformationVC *infoVc = [[InformationVC alloc]init];
     [self addChildVcWithVC:infoVc Title:@"设计师" imageName:@"icon_index_s"
-               selectImage:@"icon_index"];
+               selectImage:@"icon_index-1"];
     
     EditUserInfoVC *userVC = [[EditUserInfoVC alloc]init];
     [self addChildVcWithVC:userVC Title:@"我的" imageName:@"icon_set"
-               selectImage:@"icon_set2"];
+               selectImage:@"icon_set2-1"];
      UIImage *backImg = [CommonUtils createImageWithColor:BarColor];
      [self.tabBar setBackgroundImage:backImg];
 }

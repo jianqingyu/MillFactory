@@ -26,29 +26,25 @@
         self.home1.alpha = 0;
         self.home2.alpha = 1;
     }];
-//    _webView.scrollView.bounces = NO;
-//    _webView.scrollView.showsHorizontalScrollIndicator = NO;
-//    _webView.scrollView.showsVerticalScrollIndicator = NO;
-//    _webView.delegate = self;
-//    NSString *str = @"http://c.eqxiu.com/s/lPiERT7d?eqrcode=1&from=timeline&isappinstalled=0";
-//    NSURLRequest *urlRe = [NSURLRequest requestWithURL:[NSURL URLWithString:str]];
-//    [self.webView loadRequest:urlRe];
 }
 
 - (void)timeClick:(id)user{
     if (self.i==1) {
-        UIWindow *window = [UIApplication sharedApplication].keyWindow;
-        window.rootViewController = [[LoginViewController alloc]init];
-         [_timer invalidate];
-        _timer = nil;
+        [self changeLoginView];
     }
     self.i--;
     [self.btn setTitle:[NSString stringWithFormat:@"跳过 %d",self.i] forState:UIControlStateNormal];
 }
 
 - (IBAction)openClick:(id)sender {
+    [self changeLoginView];
+}
+
+- (void)changeLoginView{
     UIWindow *window = [UIApplication sharedApplication].keyWindow;
     window.rootViewController = [[LoginViewController alloc]init];
+    [_timer invalidate];
+    _timer = nil;
 }
 
 @end

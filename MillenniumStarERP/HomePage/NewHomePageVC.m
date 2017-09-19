@@ -25,7 +25,9 @@
     [super viewDidLoad];
     [self setCollectionView];
     [self loadNewHomeData];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(orientChange:) name:UIApplicationDidChangeStatusBarOrientationNotification object:nil];
+//    self.picUrl = @"http://appapi2.fanerweb.com/html/pages/xl/banner.jpg";
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(orientChange:)
+        name:UIApplicationDidChangeStatusBarOrientationNotification object:nil];
 }
 
 - (void)orientChange:(NSNotification *)notification{
@@ -46,6 +48,7 @@
     [SVProgressHUD show];
     NSString *url = [NSString stringWithFormat:@"%@IndexPageForYoour",baseUrl];
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    params[@"tokenKey"] = [AccountTool account].tokenKey;
     [BaseApi getGeneralData:^(BaseResponse *response, NSError *error) {
         if ([response.error intValue]==0) {
             if ([YQObjectBool boolForObject:response.data]) {
@@ -144,7 +147,7 @@
     NewHomeShopInfo *info = arr[indexPath.row];
     if (indexPath.section%2==0) {
         HomeSeriesDetailVC *detailVc = [HomeSeriesDetailVC new];
-        detailVc.seaKey = info.key;
+        detailVc.deInfo = info;
         [self.navigationController pushViewController:detailVc animated:YES];
     }else{
         HomeListWebViewVc *webVc = [HomeListWebViewVc new];

@@ -598,6 +598,7 @@ UITableViewDataSource,MWPhotoBrowserDelegate>
                     [self openNumberAndhandSize:1 and:indexPath];
                 }else{
                     self.proNum = messArr;
+                    [self updateBottomPrice];
                 }
             }else{
                 [self openNumberAndhandSize:2 and:indexPath];
@@ -834,7 +835,7 @@ UITableViewDataSource,MWPhotoBrowserDelegate>
 }
 
 - (void)updateBottomPrice{
-    float price = _proPrice;
+    float price = _proPrice*[self.proNum intValue];
     if (self.driPrice.length>0) {
         price = price + [self.driPrice floatValue];
     }

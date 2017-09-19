@@ -79,7 +79,7 @@
 }
 
 - (void)setupTableHeadView{
-    UIView *headView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, SDevWidth, 235)];
+    UIView *headView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, SDevWidth, 235-96)];
     headView.backgroundColor = DefaultColor;
     NakedDriConfirmHeadV *headV = [[NakedDriConfirmHeadV alloc]initWithFrame:CGRectZero];
     headV.delegate = self;

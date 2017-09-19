@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10117" systemVersion="15G1510" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10117" systemVersion="15G1611" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
@@ -79,17 +79,17 @@
                             </constraints>
                         </view>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZuT-UA-CIP">
-                            <rect key="frame" x="0.0" y="0.0" width="225" height="50"/>
+                            <rect key="frame" x="0.0" y="0.0" width="320" height="50"/>
                             <subviews>
-                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vCh-oB-GPx">
-                                    <rect key="frame" x="145" y="10" width="80" height="30"/>
+                                <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vCh-oB-GPx">
+                                    <rect key="frame" x="225" y="10" width="80" height="30"/>
                                     <color key="backgroundColor" red="0.93725490199999995" green="0.51764705879999995" blue="0.36078431370000003" alpha="1" colorSpace="calibratedRGB"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="30" id="pdZ-vk-wrm"/>
                                         <constraint firstAttribute="width" constant="80" id="sCx-t7-IRH"/>
                                     </constraints>
                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                    <state key="normal" title="支付定金"/>
+                                    <state key="normal" title="确认订单"/>
                                     <connections>
                                         <action selector="payPrice:" destination="-1" eventType="touchUpInside" id="4Zx-ui-mGF"/>
                                     </connections>
@@ -109,12 +109,12 @@
                             </subviews>
                             <constraints>
                                 <constraint firstItem="QBT-PV-lJx" firstAttribute="top" secondItem="ZuT-UA-CIP" secondAttribute="top" constant="8" id="F7M-xY-GKC"/>
-                                <constraint firstAttribute="trailing" secondItem="vCh-oB-GPx" secondAttribute="trailing" id="H94-KO-iEf"/>
                                 <constraint firstItem="vCh-oB-GPx" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="QBT-PV-lJx" secondAttribute="trailing" constant="5" id="Hs6-uc-3Y7"/>
                                 <constraint firstItem="sfA-rF-Vtz" firstAttribute="leading" secondItem="ZuT-UA-CIP" secondAttribute="leading" constant="10" id="NUm-bR-hjh"/>
                                 <constraint firstItem="QBT-PV-lJx" firstAttribute="leading" secondItem="ZuT-UA-CIP" secondAttribute="leading" constant="10" id="Qo9-jN-cps"/>
                                 <constraint firstItem="vCh-oB-GPx" firstAttribute="centerY" secondItem="ZuT-UA-CIP" secondAttribute="centerY" id="QwJ-aP-VoS"/>
                                 <constraint firstItem="vCh-oB-GPx" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="sfA-rF-Vtz" secondAttribute="trailing" constant="5" id="jvJ-Yg-tRk"/>
+                                <constraint firstAttribute="trailing" secondItem="vCh-oB-GPx" secondAttribute="trailing" constant="15" id="qtA-jI-sxu"/>
                                 <constraint firstAttribute="bottom" secondItem="sfA-rF-Vtz" secondAttribute="bottom" constant="8" id="vb7-au-ZfF"/>
                             </constraints>
                         </view>
@@ -126,11 +126,11 @@
                         <constraint firstItem="kEy-eF-dz8" firstAttribute="leading" secondItem="jWV-I2-XAz" secondAttribute="leading" id="7X8-NT-8g4"/>
                         <constraint firstAttribute="bottom" secondItem="kEy-eF-dz8" secondAttribute="bottom" id="AWb-p1-iwe"/>
                         <constraint firstItem="BRQ-i5-vYF" firstAttribute="leading" secondItem="kEy-eF-dz8" secondAttribute="trailing" id="FNg-gF-NRu"/>
-                        <constraint firstItem="BRQ-i5-vYF" firstAttribute="leading" secondItem="ZuT-UA-CIP" secondAttribute="trailing" constant="5" id="HRW-na-SRM"/>
                         <constraint firstItem="kEy-eF-dz8" firstAttribute="top" secondItem="jWV-I2-XAz" secondAttribute="top" id="KPv-6u-0CT"/>
                         <constraint firstItem="ZuT-UA-CIP" firstAttribute="leading" secondItem="jWV-I2-XAz" secondAttribute="leading" id="Y9R-aS-XlJ"/>
                         <constraint firstAttribute="trailing" secondItem="BRQ-i5-vYF" secondAttribute="trailing" constant="10" id="gqA-Tn-eff"/>
                         <constraint firstAttribute="bottom" secondItem="ZuT-UA-CIP" secondAttribute="bottom" id="mqM-hF-oiQ"/>
+                        <constraint firstAttribute="trailing" secondItem="ZuT-UA-CIP" secondAttribute="trailing" id="pcS-59-nhD"/>
                         <constraint firstAttribute="height" constant="50" id="yIJ-Rm-c6O"/>
                     </constraints>
                 </view>

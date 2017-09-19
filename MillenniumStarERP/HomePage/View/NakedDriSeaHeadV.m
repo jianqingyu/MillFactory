@@ -35,7 +35,7 @@
             if (i==2&&[[AccountTool account].isNoShow intValue]==0) {
                 UIButton *img = [UIButton buttonWithType:UIButtonTypeCustom];
                 img.frame = CGRectMake(40, 0, 20, 30);
-                [img setImage:[UIImage imageNamed:@"icon_sort"] forState:UIControlStateNormal];
+                [img setImage:[UIImage imageNamed:@"icon_sort_u"] forState:UIControlStateNormal];
                 [img addTarget:self action:@selector(priceClick:) forControlEvents:UIControlEventTouchUpInside];
                 [btn addTarget:self action:@selector(priceClick:) forControlEvents:UIControlEventTouchUpInside];
                 [btn addSubview:img];

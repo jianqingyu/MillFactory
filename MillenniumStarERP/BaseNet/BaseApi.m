@@ -54,7 +54,7 @@
 + (void)getGeneralData:(REQUEST_CALLBACK)callback requestURL:(NSString*)requestURL
                                              params:(NSMutableDictionary*)params{
     params[@"QxVersion"] = version;
-    [OrderNumTool NSLoginWithStr:requestURL andDic:params];
+//    [OrderNumTool NSLoginWithStr:requestURL andDic:params];
     [[RequestClient sharedClient] GET:requestURL parameters:params success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
         BaseResponse*result = [[BaseResponse alloc]init];
         result.error = responseObject[@"error"];
@@ -102,7 +102,6 @@
  */
 + (void)getNewVerData:(REQUEST_CALLBACK)callback requestURL:(NSString*)requestURL
                params:(NSMutableDictionary*)params{
-    //    [OrderNumTool NSLoginWithStr:requestURL andDic:params];
     [[RequestClient sharedClient] GET:requestURL parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
         BaseResponse*result = [[BaseResponse alloc]init];
         result.error = responseObject[@"error"];

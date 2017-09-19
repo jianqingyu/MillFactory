@@ -50,8 +50,7 @@
     self.searchTab.tableFooterView = [[UIView alloc]initWithFrame:CGRectZero];
 }
 
-- (BOOL)textFieldShouldReturn:(UITextField *)textField
-{
+- (BOOL)textFieldShouldReturn:(UITextField *)textField{
     [self searchClick];
     return YES;
 }

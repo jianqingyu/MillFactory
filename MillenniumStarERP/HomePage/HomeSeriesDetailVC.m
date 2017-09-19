@@ -23,7 +23,6 @@
 @property (nonatomic,assign)int idxPage;
 @property (nonatomic,  weak)UILabel *numLab;
 @property (nonatomic,assign)BOOL isShowPrice;
-@property (nonatomic,strong)NSString *picUrl;
 @property (nonatomic,strong)NSMutableArray *dataArray;
 @property (strong,nonatomic)UICollectionView *homeCollection;
 @end
@@ -37,7 +36,6 @@
     [self setupHeaderRefresh];
     [self creatNaviBtn];
     self.isShowPrice = ![[AccountTool account].isNoShow intValue];
-    self.picUrl = @"http://appapi2.fanerweb.com/html/pages/xl/banner.jpg";
     self.view.backgroundColor = DefaultColor;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(orientChange:) name:UIApplicationDidChangeStatusBarOrientationNotification object:nil];
 }
@@ -114,7 +112,7 @@
     NSString *url = [NSString stringWithFormat:@"%@modelListPage",baseUrl];
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     params[@"tokenKey"] = [AccountTool account].tokenKey;
-    params[@"category"] = _seaKey;
+    params[@"category"] = _deInfo.key;
     params[@"cpage"] = @(curPage);
     [BaseApi getGeneralData:^(BaseResponse *response, NSError *error) {
         [self.homeCollection.header endRefreshing];
@@ -242,7 +240,7 @@
     UICollectionReusableView *reusableView = nil;
     if (kind == UICollectionElementKindSectionHeader) {
         HomeSeriesHeadView *headV = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"Header" forIndexPath:indexPath];
-        [headV.image sd_setImageWithURL:[NSURL URLWithString:self.picUrl] placeholderImage:DefaultImage];
+        [headV.image sd_setImageWithURL:[NSURL URLWithString:_deInfo.pic] placeholderImage:DefaultImage];
         reusableView = headV;
     }
     return reusableView;

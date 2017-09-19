@@ -7,7 +7,7 @@
 //
 
 #import "BaseViewController.h"
-
+#import "NewHomeShopInfo.h"
 @interface HomeSeriesDetailVC : BaseViewController
-@property (nonatomic, copy)NSString *seaKey;
+@property (nonatomic,strong)NewHomeShopInfo *deInfo;
 @end

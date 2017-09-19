@@ -24,8 +24,8 @@
 @property (nonatomic,assign)BOOL isShow;
 @property (nonatomic,assign) int idxPage;
 @property (nonatomic,  weak) UILabel *numLab;
-@property (nonatomic,strong)UITableView *tableView;
-@property (nonatomic,strong)NSMutableArray *dataArray;
+@property (nonatomic,strong) UITableView *tableView;
+@property (nonatomic,strong) NSMutableArray *dataArray;
 @property (weak,  nonatomic) IBOutlet UIView *bottomV;
 @property (weak,  nonatomic) IBOutlet UIButton *sureBtn;
 @property (weak,  nonatomic) IBOutlet UILabel *headLab;
@@ -39,6 +39,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = @"搜索结果";
+    self.sortStr = @"price_asc";
     self.isShow = ![[AccountTool account].isNoDriShow intValue];
     self.dataArray = @[].mutableCopy;
     [self setupBaseTableView];
@@ -233,6 +234,7 @@
 
 - (void)setTableViewHeadView:(NSArray *)arr{
     NakedDriSeaHeadV *head = [[NakedDriSeaHeadV alloc]initWithFrame:CGRectMake(0, 0, arr.count*60+100, 30)];
+    head.string = _sortStr;
     head.back = ^(NSString *mess){
         _sortStr = mess;
         [self.tableView.header beginRefreshing];

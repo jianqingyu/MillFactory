@@ -562,6 +562,7 @@ UITableViewDataSource,MWPhotoBrowserDelegate>
         firstCell.MessBack = ^(BOOL isSel,NSString *messArr){
             if (isSel) {
                 self.proNum = messArr;
+                [self updateBottomPrice];
             }else{
                 [self openNumberAndhandSize:2 and:indexPath];
             }
@@ -782,7 +783,7 @@ UITableViewDataSource,MWPhotoBrowserDelegate>
 }
 
 - (void)updateBottomPrice{
-    float price = _proPrice;
+    float price = _proPrice*[self.proNum intValue];
     if (self.driPrice.length>0) {
         price = price + [self.driPrice floatValue];
     }

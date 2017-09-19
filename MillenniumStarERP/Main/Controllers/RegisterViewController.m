@@ -7,9 +7,10 @@
 //
 
 #import "RegisterViewController.h"
-#import "LoginViewController.h"
-#import "PackagingTool.h"
 #import "ZBButten.h"
+#import "PackagingTool.h"
+#import "LoginViewController.h"
+
 @interface RegisterViewController ()<UITextFieldDelegate>
 @property (weak, nonatomic) IBOutlet UIView *bgView;
 @property (weak, nonatomic) IBOutlet UITextField *userFie;
@@ -41,10 +42,8 @@
 }
 
 - (void)setBaseView{
-    self.registerBtn.layer.cornerRadius = 5;
-    self.registerBtn.layer.masksToBounds = YES;
-    self.codeBtn.layer.cornerRadius = 2;
-    self.codeBtn.layer.masksToBounds = YES;
+    [self.registerBtn setLayerWithW:5 andColor:BordColor andBackW:0.0001];
+    [self.codeBtn setLayerWithW:5 andColor:BordColor andBackW:0.0001];
     [self.codeBtn setbuttenfrontTitle:@"" backtitle:@"s后获取"];
 }
 

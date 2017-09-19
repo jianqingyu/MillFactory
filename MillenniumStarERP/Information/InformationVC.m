@@ -10,17 +10,53 @@
 #import "InformationCell.h"
 #import "MessageInfo.h"
 #import "ZBButten.h"
-@interface InformationVC ()<UITableViewDelegate,UITableViewDataSource>
-@property (nonatomic,strong)UITableView *tableView;
-@property (nonatomic,copy)NSArray *listArr;
+@interface InformationVC ()<UITableViewDelegate,UITableViewDataSource,UIWebViewDelegate,UINavigationControllerDelegate>
+@property (weak,  nonatomic) IBOutlet UIWebView *webView;
+@property (nonatomic,strong) UITableView *tableView;
+@property (nonatomic,  copy) NSArray *listArr;
+@property (nonatomic,  copy) NSString *url;
 @end
 
 @implementation InformationVC
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-//    [self setBaseViewData];
-//    [self loadInfoData];
+    [SVProgressHUD show];
+    _webView.scrollView.bounces = NO;
+    _webView.scrollView.showsHorizontalScrollIndicator = NO;
+    _webView.scrollView.showsVerticalScrollIndicator = NO;
+    _webView.delegate = self;
+    
+    self.url = @"http://appapi2.fanerweb.com/html/pages/ds/";
+    NSURLRequest *urlRe = [NSURLRequest requestWithURL:[NSURL URLWithString:self.url]];
+    [self.webView loadRequest:urlRe];
+    self.navigationController.delegate = self;
+    [self creatNaviBtn];
+}
+
+- (void)webViewDidFinishLoad:(UIWebView *)webView{
+    [SVProgressHUD dismiss];
+}
+
+- (void)navigationController:(UINavigationController *)navigationController willShowViewController:(UIViewController *)viewController animated:(BOOL)animated {
+    BOOL isShowHomePage = [viewController isKindOfClass:[self class]];
+    [self.navigationController setNavigationBarHidden:isShowHomePage animated:YES];
+}
+
+- (void)creatNaviBtn{
+    UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
+    btn.frame = CGRectMake(10, 20, 54, 54);
+    btn.backgroundColor = [UIColor clearColor];
+    [btn addTarget:self action:@selector(backClick) forControlEvents:UIControlEventTouchUpInside];
+    [btn setImage:[UIImage imageNamed:@"icon_back"] forState:UIControlStateNormal];
+    [self.view addSubview:btn];
+}
+
+- (void)backClick{
+    if ([_webView canGoBack]) {
+        [_webView goBack];
+        return;
+    }
 }
 
 - (void)setBaseViewData{
