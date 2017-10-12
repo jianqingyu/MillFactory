@@ -108,10 +108,15 @@ UITableViewDataSource,MWPhotoBrowserDelegate>
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(changeNakedDri:)
                                                 name:NotificationDriName object:nil];
 }
-//改变裸石
+
 - (void)changeNakedDri:(NSNotification *)notification{
     NakedDriSeaListInfo *listInfo = notification.userInfo[UserInfoDriName];
-    NSArray *infoArr = @[@"钻石",listInfo.Weight,[self modelWith:2 and:listInfo.Shape],[self modelWith:3 and:listInfo.Color],[self modelWith:4 and:listInfo.Purity]];
+    [self setNakedDriDetailInfo:listInfo];
+}
+//改变裸石
+- (void)setNakedDriDetailInfo:(NakedDriSeaListInfo *)listInfo{
+    NSArray *infoArr = @[@"钻石",listInfo.Weight,[self modelWith:2 and:listInfo.Shape],
+                         [self modelWith:3 and:listInfo.Color],[self modelWith:4 and:listInfo.Purity]];
     NSArray *arr = self.mutArr[0];
     for (int i=0; i<arr.count; i++) {
         DetailTypeInfo *info = arr[i];
@@ -134,26 +139,6 @@ UITableViewDataSource,MWPhotoBrowserDelegate>
             self.proPrice = info.TrayModelPrice;
         }
     }
-    [self.tableView reloadData];
-}
-
-- (void)setBaseNakedDriSeaInfo{
-    if (!self.seaInfo) {
-        return;
-    }
-    NakedDriSeaListInfo *listInfo = self.seaInfo;
-    NSArray *infoArr = @[@"钻石",listInfo.Weight,[self modelWith:2 and:listInfo.Shape],
-        [self modelWith:3 and:listInfo.Color],[self modelWith:4 and:listInfo.Purity]];
-    NSArray *arr = self.mutArr[0];
-    for (int i=0; i<arr.count; i++) {
-        DetailTypeInfo *info = arr[i];
-        info.id = 1;
-        info.title = infoArr[i];
-    }
-    self.driCode = listInfo.CertCode;
-    self.driPrice = listInfo.Price;
-    self.driId = listInfo.id;
-    self.proNum = @"1";
     [self.tableView reloadData];
 }
 
@@ -282,54 +267,60 @@ UITableViewDataSource,MWPhotoBrowserDelegate>
     params[proId] = @(_proId);
     [BaseApi getGeneralData:^(BaseResponse *response, NSError *error) {
         if ([response.error intValue]==0) {
-            if ([YQObjectBool boolForObject:response.data[@"jewelStone"]]) {
-                [self addStoneWithDic:response.data[@"jewelStone"]];
+            [self changeCusProData:response.data];
+            if (self.seaInfo) {
+                [self setNakedDriDetailInfo:self.seaInfo];
+                return ;
             }
-            if ([YQObjectBool boolForObject:response.data[@"modelPuritys"]]) {
-                self.puritys = response.data[@"modelPuritys"];
-                if (self.puritys.count==1) {
-                    self.colorInfo = [DetailTypeInfo objectWithKeyValues:self.puritys[0]];
-                }
-            }
-            if ([YQObjectBool boolForObject:response.data[@"model"]]) {
-                DetailModel *modelIn = [DetailModel objectWithKeyValues:
-                                        response.data[@"model"]];
-                [self setupBaseListData:modelIn];
-                [self creatCusTomHeadView];
-                [self setupModelPur:response.data[@"model"]];
-            }
-            if ([YQObjectBool boolForObject:response.data[@"stoneType"]]) {
-                self.chooseArr = @[response.data[@"stoneType"],
-                                   response.data[@"stoneColor"],
-                                   response.data[@"stoneShape"],
-                                   response.data[@"stoneColor"],
-                                   response.data[@"stonePurity"]];
-            }
-            if ([YQObjectBool boolForObject:response.data[@"stoneSepData"]]) {
-                self.cou = 4;
-                self.stoneArr = [DetailStoneInfo objectArrayWithKeyValuesArray:response.data[@"stoneSepData"]];
-                for (DetailStoneInfo *info in self.stoneArr) {
-                    if ([info.ModeSeqno isEqualToString:self.modelInfo.ModeSeqno]) {
-                        info.isSel = YES;
-                    }
-                    self.ModeSeqno = self.modelInfo.ModeSeqno;
-                }
-            }
-            if ([YQObjectBool boolForObject:response.data[@"handSizeData"]]) {
-                NSMutableArray *mutA = [NSMutableArray new];
-                for (NSString *title in response.data[@"handSizeData"]) {
-                    [mutA addObject:@{@"title":title}];
-                }
-                self.handArr = mutA.copy;
-            }
-            if ([YQObjectBool boolForObject:response.data[@"remarks"]]) {
-                self.remakeArr = response.data[@"remarks"];
-            }
-            [self setBaseNakedDriSeaInfo];
             [self.tableView reloadData];
         }
-        [SVProgressHUD dismiss];
     } requestURL:regiUrl params:params];
+}
+#pragma mark -- 赋值相关数据
+- (void)changeCusProData:(NSDictionary *)data{
+    if ([YQObjectBool boolForObject:data[@"jewelStone"]]) {
+        [self addStoneWithDic:data[@"jewelStone"]];
+    }
+    if ([YQObjectBool boolForObject:data[@"modelPuritys"]]) {
+        self.puritys = data[@"modelPuritys"];
+        if (self.puritys.count==1) {
+            self.colorInfo = [DetailTypeInfo objectWithKeyValues:self.puritys[0]];
+        }
+    }
+    if ([YQObjectBool boolForObject:data[@"model"]]) {
+        DetailModel *modelIn = [DetailModel objectWithKeyValues:data[@"model"]];
+        self.proPrice = modelIn.price;
+        [self setupBaseListData:modelIn];
+        [self creatCusTomHeadView];
+        [self setupModelPur:data[@"model"]];
+    }
+    if ([YQObjectBool boolForObject:data[@"stoneType"]]) {
+        self.chooseArr = @[data[@"stoneType"],
+                           data[@"stoneColor"],
+                           data[@"stoneShape"],
+                           data[@"stoneColor"],
+                           data[@"stonePurity"]];
+    }
+    if ([YQObjectBool boolForObject:data[@"stoneSepData"]]) {
+        self.cou = 4;
+        self.stoneArr = [DetailStoneInfo objectArrayWithKeyValuesArray:data[@"stoneSepData"]];
+        for (DetailStoneInfo *info in self.stoneArr) {
+            if ([info.ModeSeqno isEqualToString:self.modelInfo.ModeSeqno]) {
+                info.isSel = YES;
+            }
+            self.ModeSeqno = self.modelInfo.ModeSeqno;
+        }
+    }
+    if ([YQObjectBool boolForObject:data[@"handSizeData"]]) {
+        NSMutableArray *mutA = [NSMutableArray new];
+        for (NSString *title in data[@"handSizeData"]) {
+            [mutA addObject:@{@"title":title}];
+        }
+        self.handArr = mutA.copy;
+    }
+    if ([YQObjectBool boolForObject:data[@"remarks"]]) {
+        self.remakeArr = data[@"remarks"];
+    }
 }
 
 - (void)setupBaseListData:(DetailModel *)modelIn{
@@ -652,6 +643,7 @@ UITableViewDataSource,MWPhotoBrowserDelegate>
             return listCell;
         }else{
             NewCustomProCell *proCell = [NewCustomProCell cellWithTableView:tableView];
+            proCell.isSelSto = _modelInfo.isCanSelectStone;
             proCell.titleStr = self.typeArr[index];
             proCell.list = self.mutArr[index];
             if (self.driCode) {
@@ -709,6 +701,10 @@ UITableViewDataSource,MWPhotoBrowserDelegate>
 }
 
 - (void)gotoNakedDriLib{
+    if (!_modelInfo.isCanSelectStone) {
+        [MBProgressHUD showError:@"该产品不能选主石"];
+        return;
+    }
     NSString *str;
     for (DetailStoneInfo *info in self.stoneArr) {
         if (info.isSel) {
@@ -729,6 +725,10 @@ UITableViewDataSource,MWPhotoBrowserDelegate>
 }
 #pragma mark -- 提交订单
 - (IBAction)addOrder:(id)sender {
+    if (!_modelInfo.isCanSelectStone&&_driId.length>0) {
+        [MBProgressHUD showError:@"该产品不能选裸钻"];
+        return;
+    }
     if ([self.proNum length]==0) {
         [MBProgressHUD showError:@"请选择件数"];
         return;

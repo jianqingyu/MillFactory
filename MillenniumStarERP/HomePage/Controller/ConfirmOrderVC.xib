@@ -11,7 +11,6 @@
                 <outlet property="bottomView" destination="kEy-eF-dz8" id="LKq-XT-mg3"/>
                 <outlet property="conBtn" destination="BRQ-i5-vYF" id="jFk-Se-lQr"/>
                 <outlet property="deposLab" destination="sfA-rF-Vtz" id="cFo-tF-oXY"/>
-                <outlet property="depositBtn" destination="vCh-oB-GPx" id="INq-7G-O1R"/>
                 <outlet property="priceLab" destination="Mx2-xI-2PL" id="StB-BA-nX9"/>
                 <outlet property="secondView" destination="ZuT-UA-CIP" id="RRE-Mq-AHh"/>
                 <outlet property="totleLab" destination="QBT-PV-lJx" id="Jwn-nP-frE"/>
@@ -81,19 +80,6 @@
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZuT-UA-CIP">
                             <rect key="frame" x="0.0" y="0.0" width="320" height="50"/>
                             <subviews>
-                                <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vCh-oB-GPx">
-                                    <rect key="frame" x="225" y="10" width="80" height="30"/>
-                                    <color key="backgroundColor" red="0.93725490199999995" green="0.51764705879999995" blue="0.36078431370000003" alpha="1" colorSpace="calibratedRGB"/>
-                                    <constraints>
-                                        <constraint firstAttribute="height" constant="30" id="pdZ-vk-wrm"/>
-                                        <constraint firstAttribute="width" constant="80" id="sCx-t7-IRH"/>
-                                    </constraints>
-                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                    <state key="normal" title="确认订单"/>
-                                    <connections>
-                                        <action selector="payPrice:" destination="-1" eventType="touchUpInside" id="4Zx-ui-mGF"/>
-                                    </connections>
-                                </button>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="定金:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sfA-rF-Vtz">
                                     <rect key="frame" x="10" y="27" width="28" height="15"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
@@ -109,12 +95,8 @@
                             </subviews>
                             <constraints>
                                 <constraint firstItem="QBT-PV-lJx" firstAttribute="top" secondItem="ZuT-UA-CIP" secondAttribute="top" constant="8" id="F7M-xY-GKC"/>
-                                <constraint firstItem="vCh-oB-GPx" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="QBT-PV-lJx" secondAttribute="trailing" constant="5" id="Hs6-uc-3Y7"/>
                                 <constraint firstItem="sfA-rF-Vtz" firstAttribute="leading" secondItem="ZuT-UA-CIP" secondAttribute="leading" constant="10" id="NUm-bR-hjh"/>
                                 <constraint firstItem="QBT-PV-lJx" firstAttribute="leading" secondItem="ZuT-UA-CIP" secondAttribute="leading" constant="10" id="Qo9-jN-cps"/>
-                                <constraint firstItem="vCh-oB-GPx" firstAttribute="centerY" secondItem="ZuT-UA-CIP" secondAttribute="centerY" id="QwJ-aP-VoS"/>
-                                <constraint firstItem="vCh-oB-GPx" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="sfA-rF-Vtz" secondAttribute="trailing" constant="5" id="jvJ-Yg-tRk"/>
-                                <constraint firstAttribute="trailing" secondItem="vCh-oB-GPx" secondAttribute="trailing" constant="15" id="qtA-jI-sxu"/>
                                 <constraint firstAttribute="bottom" secondItem="sfA-rF-Vtz" secondAttribute="bottom" constant="8" id="vb7-au-ZfF"/>
                             </constraints>
                         </view>

@@ -13,7 +13,6 @@
 #import "CustomEditTableCell.h"
 #import "CustomLastCell.h"
 #import "CusDetailHeadView.h"
-
 #import "DetailTextCustomView.h"
 #import "MWPhotoBrowser.h"
 #import "ETFoursquareImages.h"

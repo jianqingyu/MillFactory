@@ -48,13 +48,13 @@
         _titleStr = titleStr;
         self.titleLab.text = _titleStr;
         if ([_titleStr isEqualToString:@"主   石"]) {
-            self.nextBtn.hidden = NO;
             self.nextBtn.enabled = NO;
+            self.nextBtn.hidden = !_isSelSto;
         }else{
             self.nextBtn.enabled = YES;
             self.infoLab.hidden = _isSel;
             self.nextBtn.selected = _isSel;
-            self.nextBtn.hidden = YES;;
+            self.nextBtn.hidden = YES;
         }
     }
 }

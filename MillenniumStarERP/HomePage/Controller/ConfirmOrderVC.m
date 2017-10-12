@@ -37,7 +37,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *priceLab;
 @property (weak, nonatomic) IBOutlet UIView *bottomView;
 @property (weak, nonatomic) IBOutlet UIView *secondView;
-@property (weak, nonatomic) IBOutlet UIButton *depositBtn;
+//@property (weak, nonatomic) IBOutlet UIButton *depositBtn;
 @property (weak, nonatomic) IBOutlet UILabel *totleLab;
 @property (weak, nonatomic) IBOutlet UILabel *deposLab;
 @property (weak, nonatomic) UIButton *topBtn;
@@ -79,7 +79,6 @@
         self.title = @"订单详情";
         self.bottomView.hidden = YES;
         self.conBtn.hidden = YES;
-        self.depositBtn.hidden = YES;
         [self loadEditData];
         [self setupTableHeadView];
     }else{
@@ -345,8 +344,8 @@
             if ([YQObjectBool boolForObject:response.data]){
                 [self setupDataWithDict:response.data];
                 [self setupListDataWithDict:response.data[@"currentOrderlList"]];
-                BOOL isPay = [response.data[@"isNeetPay"]boolValue];
-                self.depositBtn.hidden = !isPay;
+//                BOOL isPay = [response.data[@"isNeetPay"]boolValue];
+//                self.depositBtn.hidden = !isPay;
                 [self.tableView reloadData];
             }
             [SVProgressHUD dismiss];

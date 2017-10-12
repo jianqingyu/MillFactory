@@ -75,6 +75,16 @@
         make.size.mas_equalTo(CGSizeMake(wid, wid/3));
     }];
     self.backImg = imageV;
+    
+    UILabel *lab = [UILabel new];
+    lab.textColor = CUSTOM_COLOR(40, 40, 40);
+    lab.font = [UIFont systemFontOfSize:14];
+    lab.text = appVer;
+    [self addSubview:lab];
+    [lab mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self).offset(20);
+        make.left.equalTo(self).offset(15);
+    }];
     //底部登录页面
     UIView *loginV = [[UIView alloc]init];
     loginV.backgroundColor = [UIColor clearColor];

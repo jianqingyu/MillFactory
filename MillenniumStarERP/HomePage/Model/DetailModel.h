@@ -19,9 +19,11 @@
 @property (nonatomic,copy)NSString *handSize;
 @property (nonatomic,copy)NSString *number;
 @property (nonatomic,assign)BOOL isSelfStone;
+@property (nonatomic,assign)BOOL isCanSelectStone;
 @property (nonatomic,strong)NSDictionary *stone;
 @property (nonatomic,strong)NSDictionary *stoneA;
 @property (nonatomic,strong)NSDictionary *stoneB;
 @property (nonatomic,strong)NSDictionary *stoneC;
 @property (nonatomic,copy)NSArray *pics;
+
 @end

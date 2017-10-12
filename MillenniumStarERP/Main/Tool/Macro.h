@@ -75,7 +75,7 @@
 /**信息条数通知*/
 #define NotificationList @"NotificationList"
 #define ListNum @"UserinfoList"
-
+#define appVer [NSString stringWithFormat:@"i %@ 002",[NSBundle mainBundle].infoDictionary[@"CFBundleShortVersionString"]]
 //默认图片
 #define DefaultImage [UIImage imageNamed:@"iosDefalut"]
 //iosDefalut anios
