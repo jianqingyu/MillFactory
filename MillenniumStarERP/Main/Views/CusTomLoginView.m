@@ -16,6 +16,7 @@
 @property (weak, nonatomic) ZBButten *codeBtn;
 @property (weak, nonatomic) UIImageView *backImg;
 @property (weak, nonatomic) UIView *logView;
+@property (weak, nonatomic) UIButton *noBtn;
 @property (copy, nonatomic) NSString *code;
 @end
 
@@ -60,6 +61,10 @@
     }
 }
 
+- (void)setNoLogin:(BOOL)noLogin{
+    self.noBtn.hidden = noLogin;
+}
+
 - (void)creatBaseView{
     CGFloat wid = MIN(SDevWidth, SDevHeight)*0.5;
     CGFloat loWid = MIN(SDevWidth, SDevHeight)*0.7;
@@ -85,6 +90,21 @@
         make.top.equalTo(self).offset(20);
         make.left.equalTo(self).offset(15);
     }];
+    
+    UIButton *TouBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    TouBtn.titleLabel.font = [UIFont systemFontOfSize:14];
+    TouBtn.backgroundColor = MAIN_COLOR;
+    [TouBtn setTitle:@"游客模式" forState:UIControlStateNormal];
+    [TouBtn addTarget:self action:@selector(touClick:)
+     forControlEvents:UIControlEventTouchUpInside];
+    [TouBtn setLayerWithW:3 andColor:BordColor andBackW:0.001];
+    [self addSubview:TouBtn];
+    [TouBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self).with.offset(20);
+        make.right.equalTo(self).offset(-15);
+        make.size.mas_equalTo(CGSizeMake(76, 26));
+    }];
+    self.noBtn = TouBtn;
     //底部登录页面
     UIView *loginV = [[UIView alloc]init];
     loginV.backgroundColor = [UIColor clearColor];
@@ -161,6 +181,7 @@
         make.right.equalTo(loginV).offset(0);
         make.height.mas_equalTo((fieH+heightMar+0.8));
     }];
+    
     UIImageView *image = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"ic_07"]];
     [view addSubview:image];
     [image mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -213,7 +234,6 @@
             [btn setbuttenfrontTitle:@"" backtitle:@"s后获取"];
             [btn addTarget:self action:@selector(getCode:)
                                   forControlEvents:UIControlEventTouchUpInside];
-            
             [view addSubview:btn];
             [btn mas_makeConstraints:^(MASConstraintMaker *make) {
                 make.top.equalTo(view).offset(heightMar);
@@ -276,6 +296,24 @@
     [self.passWordFie resignFirstResponder];
 }
 
+- (void)touClick:(UIButton *)sender{
+    if (![NetworkDetermineTool isExistenceNet]) {
+        [MBProgressHUD showError:@"网络断开、请联网"];
+        return;
+    }
+    [self resignViewResponder];
+    NSMutableDictionary *params = [NSMutableDictionary new];
+    params[@"userName"] = [AccountTool account].userName;
+    params[@"password"] = [AccountTool account].password;
+    params[@"phone"] = [AccountTool account].phone;
+    Account *account = [Account accountWithDict:params];
+    //自定义类型存储用NSKeyedArchiver
+    [AccountTool saveAccount:account];
+    if (self.btnBack) {
+        self.btnBack(1);
+    }
+}
+
 - (void)loginClick:(UIButton *)sender {
     if (![NetworkDetermineTool isExistenceNet]) {
         [MBProgressHUD showError:@"网络断开、请联网"];
@@ -297,6 +335,7 @@
             Account *account = [Account accountWithDict:params];
             //自定义类型存储用NSKeyedArchiver
             [AccountTool saveAccount:account];
+            self.codeField.text = @"";
             if (self.btnBack) {
                 self.btnBack(1);
             }

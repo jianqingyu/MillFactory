@@ -25,20 +25,57 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self loadHomeView];
+    [self createHomeView];
     [IQKeyboardManager sharedManager].shouldResignOnTouchOutside = YES;
 }
 
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
+    self.openUrl = @"";
     NSString *name = [AccountTool account].userName;
     NSString *password = [AccountTool account].password;
     self.loginView.nameFie.text = name;
     self.loginView.passWordFie.text = password;
+    if (_noLogin) {
+        return;
+    }
     [self loadNewVersion];
 }
+#pragma mark -- 加载登录页面
+- (void)createHomeView{
+    CusTomLoginView *loginV = [CusTomLoginView createLoginView];
+    loginV.noLogin = _noLogin;
+    [self.view addSubview:loginV];
+    self.loginView = loginV;
+    loginV.btnBack = ^(int staue){
+        if (staue==1) {
+            if (_noLogin) {
+                [self dismissViewControllerAnimated:YES completion:nil];
+                if (self.back) {
+                    self.back(YES);
+                }
+                return;
+            }
+            if (self.isVer) {
+                [MBProgressHUD showMessage:self.versionDic[@"message"]];
+                return;
+            }
+            [self changeHomeView];
+        }else if (staue==2){
+            [self registerClick];
+        }else{
+            [self forgotKeyClick];
+        }
+    };
+    [loginV mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.view).offset(0);
+        make.top.equalTo(self.view).offset(0);
+        make.right.equalTo(self.view).offset(0);
+        make.bottom.equalTo(self.view).offset(0);
+    }];
+}
 
-#pragma mark -- 检查新版本
+#pragma mark -- 加载登录页数据
 - (void)loadNewVersion{
     NSString *url = @"http://appapi2.fanerweb.com/api/Public/getUpdateVersionForYoour";
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
@@ -102,40 +139,11 @@
     }
 }
 
-- (void)loadHomeView{
-    CusTomLoginView *loginV = [CusTomLoginView createLoginView];
-    [self.view addSubview:loginV];
-    self.loginView = loginV;
-    loginV.btnBack = ^(int staue){
-        if (staue==1) {
-            if (_noLogin) {
-                [self dismissViewControllerAnimated:YES completion:nil];
-                return;
-            }
-            if (self.isVer) {
-                [MBProgressHUD showMessage:self.versionDic[@"message"]];
-                return;
-            }
-            [self changeHomeView];
-        }else if (staue==2){
-            [self registerClick];
-        }else{
-            [self forgotKeyClick];
-        }
-    };
-    [loginV mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self.view).offset(0);
-        make.top.equalTo(self.view).offset(0);
-        make.right.equalTo(self.view).offset(0);
-        make.bottom.equalTo(self.view).offset(0);
-    }];
-}
-
 - (void)changeHomeView{
     UIWindow *window = [UIApplication sharedApplication].keyWindow;
     window.rootViewController = [[MainTabViewController alloc]init];
 }
-
+#pragma mark -- 注册与忘记密码操作
 - (void)registerClick{
     RegisterViewController *regiVC = [[RegisterViewController alloc]init];
     MainNavViewController *naviVC = [[MainNavViewController alloc]initWithRootViewController:regiVC];

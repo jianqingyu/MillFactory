@@ -33,13 +33,13 @@
     int pageCount;
     int totalCount;//商品总数量
 }
-@property (weak, nonatomic) UITextField *searchFie;
-@property(strong,nonatomic) UICollectionView *rightCollection;
-@property (weak, nonatomic) IBOutlet UILabel *titleLab;
-@property (weak, nonatomic) IBOutlet UIButton *titleBtn;
-@property (weak, nonatomic) IBOutlet UILabel *orderNumLab;
-@property (weak, nonatomic) IBOutlet UIButton *hisBtn;
-@property (copy, nonatomic) NSString *keyWord;
+@property (weak,  nonatomic) UITextField *searchFie;
+@property (strong,nonatomic) UICollectionView *rightCollection;
+@property (weak,  nonatomic) IBOutlet UILabel *titleLab;
+@property (weak,  nonatomic) IBOutlet UIButton *titleBtn;
+@property (weak,  nonatomic) IBOutlet UILabel *orderNumLab;
+@property (weak,  nonatomic) IBOutlet UIButton *hisBtn;
+@property (copy,  nonatomic) NSString *keyWord;
 @property (nonatomic,assign) int index;
 @property (nonatomic,assign) int idxPage;
 @property (nonatomic,  weak) UIView *baView;
@@ -423,6 +423,10 @@
 #pragma mark - 信息查找
 //通过搜索关键词查找信息
 - (void)getCommodityData:(NSMutableDictionary *)params{
+    if ([AccountTool account].tokenKey.length==0) {
+        [self.rightCollection.header endRefreshing];
+        return;
+    }
     [SVProgressHUD show];
     self.view.userInteractionEnabled = NO;
     NSString *url = [NSString stringWithFormat:@"%@modelListPage",baseUrl];

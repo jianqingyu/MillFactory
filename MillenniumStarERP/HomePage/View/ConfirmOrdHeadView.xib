@@ -45,23 +45,12 @@
                                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tw9-4b-43O">
-                                            <rect key="frame" x="15" y="33" width="270" height="37"/>
-                                            <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="深圳千禧之星珠宝股份有限公司" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rmd-bi-R6e">
-                                                    <rect key="frame" x="0.0" y="10" width="210" height="18"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                            </subviews>
-                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                            <constraints>
-                                                <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="rmd-bi-R6e" secondAttribute="trailing" id="1yz-y0-85Y"/>
-                                                <constraint firstItem="rmd-bi-R6e" firstAttribute="centerY" secondItem="tw9-4b-43O" secondAttribute="centerY" id="bV4-ex-fLM"/>
-                                                <constraint firstItem="rmd-bi-R6e" firstAttribute="leading" secondItem="tw9-4b-43O" secondAttribute="leading" id="nW6-Cg-FhM"/>
-                                            </constraints>
-                                        </view>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="收货地址" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rmd-bi-R6e">
+                                            <rect key="frame" x="15" y="45" width="60" height="18"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7eE-Ld-v0u">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="80"/>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -74,19 +63,17 @@
                                     <constraints>
                                         <constraint firstItem="tKo-g9-2Y7" firstAttribute="leading" secondItem="MRW-Cr-U7Z" secondAttribute="trailing" constant="5" id="4eE-9i-8ZH"/>
                                         <constraint firstAttribute="bottom" secondItem="7eE-Ld-v0u" secondAttribute="bottom" id="7C9-Sq-VJs"/>
-                                        <constraint firstItem="tw9-4b-43O" firstAttribute="leading" secondItem="9XB-VR-c2T" secondAttribute="leading" constant="15" id="7he-SC-tbN"/>
+                                        <constraint firstItem="rmd-bi-R6e" firstAttribute="leading" secondItem="9XB-VR-c2T" secondAttribute="leading" constant="15" id="8XW-9P-HV5"/>
                                         <constraint firstItem="7eE-Ld-v0u" firstAttribute="top" secondItem="9XB-VR-c2T" secondAttribute="top" id="AdK-YV-dD9"/>
                                         <constraint firstAttribute="trailing" secondItem="nIT-uY-RTt" secondAttribute="trailing" constant="15" id="Bq9-Kb-tGg"/>
                                         <constraint firstItem="nIT-uY-RTt" firstAttribute="centerY" secondItem="9XB-VR-c2T" secondAttribute="centerY" id="EJF-0S-HJY"/>
                                         <constraint firstItem="445-de-yot" firstAttribute="leading" secondItem="tKo-g9-2Y7" secondAttribute="trailing" constant="10" id="HdL-3s-k2u"/>
                                         <constraint firstAttribute="trailing" secondItem="7eE-Ld-v0u" secondAttribute="trailing" id="ML3-TI-fOU"/>
-                                        <constraint firstItem="nIT-uY-RTt" firstAttribute="leading" secondItem="tw9-4b-43O" secondAttribute="trailing" constant="10" id="OZi-8i-T6e"/>
                                         <constraint firstItem="MRW-Cr-U7Z" firstAttribute="leading" secondItem="9XB-VR-c2T" secondAttribute="leading" constant="15" id="Ok8-T8-eAm"/>
                                         <constraint firstItem="tKo-g9-2Y7" firstAttribute="centerY" secondItem="MRW-Cr-U7Z" secondAttribute="centerY" id="RZ0-m7-cSk"/>
                                         <constraint firstAttribute="height" constant="80" id="SVF-9i-0GR"/>
                                         <constraint firstItem="445-de-yot" firstAttribute="centerY" secondItem="tKo-g9-2Y7" secondAttribute="centerY" id="T7N-Ai-2wu"/>
-                                        <constraint firstItem="tw9-4b-43O" firstAttribute="top" secondItem="tKo-g9-2Y7" secondAttribute="bottom" constant="5" id="bWo-S7-lv0"/>
-                                        <constraint firstAttribute="bottom" secondItem="tw9-4b-43O" secondAttribute="bottom" constant="10" id="l0Y-Mf-vRM"/>
+                                        <constraint firstItem="rmd-bi-R6e" firstAttribute="top" secondItem="445-de-yot" secondAttribute="bottom" constant="17" id="ZzM-fk-iLe"/>
                                         <constraint firstItem="7eE-Ld-v0u" firstAttribute="leading" secondItem="9XB-VR-c2T" secondAttribute="leading" id="m3a-Zf-G4K"/>
                                         <constraint firstItem="MRW-Cr-U7Z" firstAttribute="top" secondItem="9XB-VR-c2T" secondAttribute="top" constant="10" id="soK-Xh-qFD"/>
                                     </constraints>
@@ -351,7 +338,7 @@
                 <outletCollection property="allBtns" destination="RXY-Ef-cQD" id="yHj-sF-53O"/>
                 <outletCollection property="allBtns" destination="moX-Hf-9f6" id="8eE-Qu-SgV"/>
             </connections>
-            <point key="canvasLocation" x="519" y="263.5"/>
+            <point key="canvasLocation" x="445" y="324"/>
         </view>
     </objects>
     <resources>

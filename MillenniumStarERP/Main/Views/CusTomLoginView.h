@@ -11,6 +11,7 @@ typedef void (^loginClick)(int staue);
 @interface CusTomLoginView : UIView
 @property (weak, nonatomic) UITextField *nameFie;
 @property (weak, nonatomic) UITextField *passWordFie;
-+ (CusTomLoginView *)createLoginView;
+@property (nonatomic,assign)BOOL noLogin;
 @property (nonatomic,copy)loginClick btnBack;
++ (CusTomLoginView *)createLoginView;
 @end

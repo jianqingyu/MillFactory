@@ -17,10 +17,7 @@
                 params:(NSMutableDictionary*)params{
     params[@"QxVersion"] = version;
     [[RequestClient sharedClient] GET:requestURL parameters:params success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
-        BaseResponse*result = [[BaseResponse alloc]init];
-        result.error = responseObject[@"error"];
-        result.data = responseObject[@"data"];
-        result.message = responseObject[@"message"];
+        BaseResponse*result = [self resultWithDic:responseObject];
         callback(result,nil);
         [SVProgressHUD dismiss];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
@@ -35,10 +32,7 @@
 + (void)upData:(REQUEST_CALLBACK)callback URL:(NSString*)URL params:(NSMutableDictionary*)params{
     params[@"QxVersion"] = version;
     [[RequestClient sharedClient] GET:URL parameters:params success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
-        BaseResponse*result = [[BaseResponse alloc]init];
-        result.error = responseObject[@"error"];
-        result.data = responseObject[@"data"];
-        result.message = responseObject[@"message"];
+        BaseResponse*result = [self resultWithDic:responseObject];
         callback(result,nil);
         [SVProgressHUD dismiss];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
@@ -56,18 +50,13 @@
     params[@"QxVersion"] = version;
 //    [OrderNumTool NSLoginWithStr:requestURL andDic:params];
     [[RequestClient sharedClient] GET:requestURL parameters:params success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
-        BaseResponse*result = [[BaseResponse alloc]init];
-        result.error = responseObject[@"error"];
-        result.data = responseObject[@"data"];
-        result.message = responseObject[@"message"];
-        if ([result.error intValue]==2) {
-            UIViewController *vc = [ShowLoginViewTool getCurrentVC];
-            LoginViewController *login = [LoginViewController new];
-            login.noLogin = YES;
-            [vc presentViewController:login animated:YES completion:nil];
+        if ([responseObject[@"error"] intValue]==2) {
+            [MBProgressHUD showError:@"需要登录"];
+            [self gotoLoginView:callback requestURL:requestURL params:params];
             [SVProgressHUD dismiss];
             return ;
         }
+        BaseResponse*result = [self resultWithDic:responseObject];
         callback(result,nil);
         [SVProgressHUD dismiss];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
@@ -78,16 +67,27 @@
         }
     }];
 }
+
++ (void)gotoLoginView:(REQUEST_CALLBACK)callback requestURL:(NSString*)requestURL
+               params:(NSMutableDictionary*)params{
+    UIViewController *vc = [ShowLoginViewTool getCurrentVC];
+    LoginViewController *login = [LoginViewController new];
+    login.noLogin = YES;
+    login.back = ^(BOOL isYes){
+        params[@"tokenKey"] = [AccountTool account].tokenKey;
+        [self getNoLogGeneralData:^(BaseResponse *response, NSError *error) {
+            callback(response,nil);
+        } requestURL:requestURL params:params];
+    };
+    [vc presentViewController:login animated:YES completion:nil];
+}
 /*通用POST接口
  */
 + (void)postGeneralData:(REQUEST_CALLBACK)callback requestURL:(NSString*)requestURL
                                             params:(NSMutableDictionary*)params{
     params[@"QxVersion"] = version;
     [[RequestClient sharedClient] POST:requestURL parameters:params success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
-        BaseResponse*result = [[BaseResponse alloc]init];
-        result.error = responseObject[@"error"];
-        result.data = responseObject[@"data"];
-        result.message = responseObject[@"message"];
+        BaseResponse*result = [self resultWithDic:responseObject];
         callback(result,nil);
         [SVProgressHUD dismiss];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
@@ -103,10 +103,7 @@
 + (void)getNewVerData:(REQUEST_CALLBACK)callback requestURL:(NSString*)requestURL
                params:(NSMutableDictionary*)params{
     [[RequestClient sharedClient] GET:requestURL parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        BaseResponse*result = [[BaseResponse alloc]init];
-        result.error = responseObject[@"error"];
-        result.data = responseObject[@"data"];
-        result.message = responseObject[@"message"];
+        BaseResponse*result = [self resultWithDic:responseObject];
         callback(result,nil);
         [SVProgressHUD dismiss];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
@@ -117,6 +114,15 @@
         }
     }];
 }
+
++ (BaseResponse *)resultWithDic:(NSDictionary *)dic{
+    BaseResponse*result = [[BaseResponse alloc]init];
+    result.error = dic[@"error"];
+    result.data = dic[@"data"];
+    result.message = dic[@"message"];
+    return result;
+}
+
 //清楚队列
 + (void)cancelAllOperation{
     [[RequestClient sharedClient].operationQueue cancelAllOperations];

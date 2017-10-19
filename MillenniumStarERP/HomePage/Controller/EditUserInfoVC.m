@@ -40,15 +40,14 @@
     [super viewDidLoad];
     self.title = @"我的";
     self.mutDic = [NSMutableDictionary new];
-    NSString *url = @"https://www.pgyer.com/nufA";
-    NSString *str = [url stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-    self.shareDic = @{@"url":str,@"title":@"yoour钻戒",@"des":@"下载地址"};
+//    NSString *url = @"https://www.pgyer.com/nufA";
+//    NSString *str = [url stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+//    self.shareDic = @{@"url":str,@"title":@"yoour钻戒",@"des":@"下载地址"};
     [self setBaseViewData];
 }
 
 - (void)setBaseViewData{
-    self.textArr = @[@[@"用户名",@"修改头像"],@[@"设置",@"版本详情",@"修改密码",
-                            @"修改手机号码", @"管理地址",@"清理缓存",@"分享该应用"]];
+    self.textArr = @[@[@"用户名",@"修改头像"],@[@"设置",@"修改密码", @"管理地址",@"清理缓存"]];
     self.tableView = [[UITableView alloc]initWithFrame:CGRectZero style:UITableViewStyleGrouped];
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
@@ -232,35 +231,66 @@
         case 1:
             if (indexPath.row==0){
                 self.putView.hidden = NO;
-            }else if (indexPath.row==1) {
-                [MBProgressHUD showSuccess:@"功能暂未开放"];
-//                AppDownViewC *appVc = [[AppDownViewC alloc]init];
-//                [self.navigationController pushViewController:appVc animated:YES];
-            }else if (indexPath.row==2) {
+            }else if (indexPath.row==1){
                 PassWordViewController *passVc = [[PassWordViewController alloc]init];
                 passVc.title = @"修改密码";
                 passVc.isForgot = NO;
                 [self.navigationController pushViewController:passVc animated:YES];
-            }else if(indexPath.row==3){
-                [MBProgressHUD showSuccess:@"功能暂未开放"];
-//                EditPhoneNumVc *editNum = [EditPhoneNumVc new];
-//                [self.navigationController pushViewController:editNum animated:YES];
-            }else if(indexPath.row==4){
+            }else if(indexPath.row==2){
                 EditAddressVC *addVc = [EditAddressVC new];
                 [self.navigationController pushViewController:addVc animated:YES];
-            }else if(indexPath.row==5){
+            }else if(indexPath.row==3){
                 [self clearTmpPics];
-            }else{
-                [MBProgressHUD showSuccess:@"功能暂未开放"];
-//                UITableViewCell *cell = [self tableView:tableView
-//                                  cellForRowAtIndexPath:indexPath];
-//                [self setShare:cell];
             }
             break;
         default:
             break;
     }
 }
+
+//- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+//    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+//    switch (indexPath.section) {
+//        case 0:{
+//            if (indexPath.row==1) {
+//                UITableViewCell *cell = [self tableView:tableView
+//                                  cellForRowAtIndexPath:indexPath];
+//                [self creatUIAlertView:cell];
+//            }
+//        }
+//            break;
+//        case 1:
+//            if (indexPath.row==0){
+//                self.putView.hidden = NO;
+//            }else if (indexPath.row==1) {
+//                [MBProgressHUD showSuccess:@"功能暂未开放"];
+////                AppDownViewC *appVc = [[AppDownViewC alloc]init];
+////                [self.navigationController pushViewController:appVc animated:YES];
+//            }else if (indexPath.row==2) {
+//                PassWordViewController *passVc = [[PassWordViewController alloc]init];
+//                passVc.title = @"修改密码";
+//                passVc.isForgot = NO;
+//                [self.navigationController pushViewController:passVc animated:YES];
+//            }else if(indexPath.row==3){
+//                [MBProgressHUD showSuccess:@"功能暂未开放"];
+////                EditPhoneNumVc *editNum = [EditPhoneNumVc new];
+////                [self.navigationController pushViewController:editNum animated:YES];
+//            }else if(indexPath.row==4){
+//                EditAddressVC *addVc = [EditAddressVC new];
+//                [self.navigationController pushViewController:addVc animated:YES];
+//            }else if(indexPath.row==5){
+//                [self clearTmpPics];
+//            }else{
+//                [MBProgressHUD showSuccess:@"功能暂未开放"];
+////                UITableViewCell *cell = [self tableView:tableView
+////                                  cellForRowAtIndexPath:indexPath];
+////                [self setShare:cell];
+//            }
+//            break;
+//        default:
+//            break;
+//    }
+//}
 
 - (void)clearTmpPics{
     float tmpSize = [[SDImageCache sharedImageCache] getSize]/1024.0/1024.0;
@@ -269,19 +299,19 @@
     [MBProgressHUD showSuccess:clearCacheName];
 }
 
-- (void)setShare:(UITableViewCell *)cell{
-    //创建分享参数（必要）
-    NSMutableDictionary *shareParams = [NSMutableDictionary dictionary];
-    NSArray *arr = @[@(SSDKPlatformTypeSinaWeibo),
-                     @(SSDKPlatformTypeWechat),
-                     @(SSDKPlatformTypeQQ)];
-    [shareParams SSDKSetupShareParamsByText:self.shareDic[@"des"]
-                                     images:[UIImage imageNamed:@"iOSCode"]
-                                        url:[NSURL URLWithString:self.shareDic[@"url"]]
-                                      title:self.shareDic[@"title"]
-                                       type:SSDKContentTypeAuto];
-    [ShareSDK showShareActionSheet:cell items:arr shareParams:shareParams onShareStateChanged:nil];
-}
+//- (void)setShare:(UITableViewCell *)cell{
+//    //创建分享参数（必要）
+//    NSMutableDictionary *shareParams = [NSMutableDictionary dictionary];
+//    NSArray *arr = @[@(SSDKPlatformTypeSinaWeibo),
+//                     @(SSDKPlatformTypeWechat),
+//                     @(SSDKPlatformTypeQQ)];
+//    [shareParams SSDKSetupShareParamsByText:self.shareDic[@"des"]
+//                                     images:[UIImage imageNamed:@"iOSCode"]
+//                                        url:[NSURL URLWithString:self.shareDic[@"url"]]
+//                                      title:self.shareDic[@"title"]
+//                                       type:SSDKContentTypeAuto];
+//    [ShareSDK showShareActionSheet:cell items:arr shareParams:shareParams onShareStateChanged:nil];
+//}
 
 - (void)creatUIAlertView:(UITableViewCell *)cell{
     [NewUIAlertTool creatActionSheetPhoto:^{
