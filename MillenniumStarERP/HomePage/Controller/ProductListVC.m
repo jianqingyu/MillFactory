@@ -410,7 +410,9 @@
 
 - (NSMutableDictionary *)dictForLoadData{
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
-    params[@"tokenKey"] = [AccountTool account].tokenKey;
+    if ([AccountTool account].tokenKey.length>0) {
+        params[@"tokenKey"] = [AccountTool account].tokenKey;
+    }
     if (_keyWord.length>0) {
         params[@"keyword"] = _keyWord;
     }
@@ -423,13 +425,16 @@
 #pragma mark - 信息查找
 //通过搜索关键词查找信息
 - (void)getCommodityData:(NSMutableDictionary *)params{
+    NSString *url = @"";
     if ([AccountTool account].tokenKey.length==0) {
-        [self.rightCollection.header endRefreshing];
-        return;
+        url = @"modelListPagePreview";
+        params[@"pageNum"] = @8;
+    }else{
+        url = @"modelListPage";
     }
     [SVProgressHUD show];
     self.view.userInteractionEnabled = NO;
-    NSString *url = [NSString stringWithFormat:@"%@modelListPage",baseUrl];
+    NSString *netUrl = [NSString stringWithFormat:@"%@%@",baseUrl,url];
     [BaseApi getGeneralData:^(BaseResponse *response, NSError *error) {
         [self.rightCollection.header endRefreshing];
         [self.rightCollection.footer endRefreshing];
@@ -452,7 +457,7 @@
             }
             [SVProgressHUD dismiss];
         }
-    } requestURL:url params:params];
+    } requestURL:netUrl params:params];
 }
 //初始化数据
 - (void)setupDataWithData:(NSDictionary *)data{

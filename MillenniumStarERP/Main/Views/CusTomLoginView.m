@@ -17,6 +17,7 @@
 @property (weak, nonatomic) UIImageView *backImg;
 @property (weak, nonatomic) UIView *logView;
 @property (weak, nonatomic) UIButton *noBtn;
+@property (weak, nonatomic) UIButton *xBtn;
 @property (copy, nonatomic) NSString *code;
 @end
 
@@ -63,6 +64,7 @@
 
 - (void)setNoLogin:(BOOL)noLogin{
     self.noBtn.hidden = noLogin;
+    self.xBtn.hidden = !noLogin;
 }
 
 - (void)creatBaseView{
@@ -93,18 +95,31 @@
     
     UIButton *TouBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     TouBtn.titleLabel.font = [UIFont systemFontOfSize:14];
-    TouBtn.backgroundColor = MAIN_COLOR;
+    [TouBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     [TouBtn setTitle:@"游客模式" forState:UIControlStateNormal];
     [TouBtn addTarget:self action:@selector(touClick:)
      forControlEvents:UIControlEventTouchUpInside];
     [TouBtn setLayerWithW:3 andColor:BordColor andBackW:0.001];
     [self addSubview:TouBtn];
     [TouBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self).with.offset(20);
-        make.right.equalTo(self).offset(-15);
-        make.size.mas_equalTo(CGSizeMake(76, 26));
+        make.top.equalTo(lab.mas_bottom).with.offset(5);
+        make.left.equalTo(self).offset(15);
+        make.size.mas_equalTo(CGSizeMake(60, 26));
     }];
     self.noBtn = TouBtn;
+    
+    UIButton *cancel = [UIButton buttonWithType:UIButtonTypeCustom];
+    [cancel setBackgroundImage:[UIImage imageNamed:@"icon_close"]
+                                                 forState:UIControlStateNormal];
+    [cancel addTarget:self action:@selector(canClick:)
+                                  forControlEvents:UIControlEventTouchUpInside];
+    [self addSubview:cancel];
+    [cancel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self).with.offset(30);
+        make.right.equalTo(self).offset(-15);
+        make.size.mas_equalTo(CGSizeMake(20, 20));
+    }];
+    self.xBtn = cancel;
     //底部登录页面
     UIView *loginV = [[UIView alloc]init];
     loginV.backgroundColor = [UIColor clearColor];
@@ -301,6 +316,24 @@
         [MBProgressHUD showError:@"网络断开、请联网"];
         return;
     }
+    [self setAccountData];
+    if (self.btnBack) {
+        self.btnBack(1);
+    }
+}
+
+- (void)canClick:(UIButton *)sender{
+    if (![NetworkDetermineTool isExistenceNet]) {
+        [MBProgressHUD showError:@"网络断开、请联网"];
+        return;
+    }
+    [self setAccountData];
+    if (self.btnBack) {
+        self.btnBack(5);
+    }
+}
+
+- (void)setAccountData{
     [self resignViewResponder];
     NSMutableDictionary *params = [NSMutableDictionary new];
     params[@"userName"] = [AccountTool account].userName;
@@ -309,9 +342,6 @@
     Account *account = [Account accountWithDict:params];
     //自定义类型存储用NSKeyedArchiver
     [AccountTool saveAccount:account];
-    if (self.btnBack) {
-        self.btnBack(1);
-    }
 }
 
 - (void)loginClick:(UIButton *)sender {

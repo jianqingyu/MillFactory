@@ -9,8 +9,8 @@
 #import "LoginViewController.h"
 #import "CusTomLoginView.h"
 #import "IQKeyboardManager.h"
-#import "MainTabViewController.h"
 #import "MainNavViewController.h"
+#import "MainTabViewController.h"
 #import "RegisterViewController.h"
 #import "PassWordViewController.h"
 #import <LocalAuthentication/LocalAuthentication.h>
@@ -63,8 +63,10 @@
             [self changeHomeView];
         }else if (staue==2){
             [self registerClick];
-        }else{
+        }else if (staue==3){
             [self forgotKeyClick];
+        }else{
+            [self changeHomeView];
         }
     };
     [loginV mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -117,7 +119,7 @@
 
 - (void)authenticateUser{
     //初始化上下文对象
-    LAContext* context = [[LAContext alloc] init];
+    LAContext* context = [[LAContext alloc]init];
     //错误对象
     NSError* error = nil;
     NSString* result = @"通过验证指纹解锁应用";
